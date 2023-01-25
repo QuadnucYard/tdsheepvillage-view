@@ -9,12 +9,9 @@
     <el-form-item label="引狼到">
       <el-select v-model="form.mid2" clearable>
         <el-option label="无" value=""></el-option>
-        <el-option
-          v-for="t in allGamemaps"
-          :label="`${t.id} ${t.name}`"
-          :value="t.id"
-        /> </el-select
-    ></el-form-item>
+        <el-option v-for="t in allGamemaps" :label="`${t.id} ${t.name}`" :value="t.id" />
+      </el-select>
+    </el-form-item>
     <el-form-item label="该地图的狼">
       <el-tag
         v-for="item in formatWolfTag(mapDataObject.wolf_proportion)"
@@ -72,8 +69,11 @@
     </el-form-item>
 
     <wolf-hp-chart :hp-data="hpData" />
-    <wave-distrib-chart mid="m11" />
   </el-form>
+
+  <WaveTool :mid="form.mid" :mapMonsterData="mapMonsterData" />
+
+  <wave-distrib-chart mid="m11" />
 </template>
 
 <script setup lang="ts">
@@ -86,6 +86,7 @@ import { WaveData } from "@/tdsheep/command/map.js";
 import _ from "lodash";
 import WolfHpChart from "./components/WolfHpChart.vue";
 import WaveDistribChart from "./components/WaveDistribChart.vue";
+import WaveTool from "./components/WaveTool.vue";
 
 const allGamemaps = _.chain(GlobalData.$_map_Obj)
   .map((t, id) => _.extend(t, { id }))
@@ -121,7 +122,6 @@ const mapMonsterData = computed(() =>
 );
 const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.wid));
 
-
 const formatWolfTag = (wp: any) => {
   return wp.map((item: any) => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
@@ -153,8 +153,6 @@ const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.valu
 const hpData = computed(() =>
   mapMonsterData.value.map(t => ({ name: t.name, hp: t.getHpMax(monsterLevel.value, form.diff) }))
 );
-
-console.log(hpData.value)
 </script>
 
 <style lang="scss">
