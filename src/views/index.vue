@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane v-for="sec in sections" :label="sec.label" :name="sec.name"></el-tab-pane>
     </el-tabs>
-    <div class="content" v-if="loadComplete">
+    <div class="content">
       <router-view v-slot="{ Component }">
         <!-- <transition name="fade-transform" mode="out-in"> -->
           <keep-alive>
@@ -18,14 +18,10 @@
 
 <script setup lang="ts">
 import type { TabsPaneContext } from "element-plus";
-import { init } from "@/tdsheep/InitLoad.js";
 import { useRouter } from "vue-router";
 import { sections } from "@/router";
 
 const router = useRouter();
-
-const loadComplete = ref(false);
-init(() => (loadComplete.value = true));
 
 const activeName = ref("first");
 
