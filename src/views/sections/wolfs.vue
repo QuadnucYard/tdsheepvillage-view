@@ -33,20 +33,14 @@
         <div v-html="props.row.skills" style="margin-left: 2em"></div>
       </template>
     </el-table-column>
-    <!-- <el-table-column  label="skills" >
-      <template #default="scope">
-            <div v-html="scope.row.skills"></div>
-      </template>
-    </el-table-column> -->
   </el-table>
 </template>
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
 import { Monster } from "@/tdsheep/module/unit/Monster.js";
-import _ from "lodash";
+import _ from "lodash-es";
 import { formatHtml } from "@/utils/format";
-import type { TableColumnCtx } from "element-plus/es/components/table/src/table-column/defaults";
 
 interface RowData {
   id: string;
@@ -85,12 +79,7 @@ function getSkillHtml(_skill) {
   if (_skill.skillTag2) _htmlTextArr.push(formatHtml(_skill.skillTag2, _tagColor, false, "small"));
   if (_skill.skillTag3) _htmlTextArr.push(formatHtml(_skill.skillTag3, _tagColor, false, "small"));
   return _htmlTextArr.join("");
-  //return formatHtmlBr(_htmlTextArr);
 }
-
-const skillFormatter = (row: RowData, column: TableColumnCtx<RowData>) => {
-  return getSkillHtml(row.skills);
-};
 </script>
 
 <style lang="scss">

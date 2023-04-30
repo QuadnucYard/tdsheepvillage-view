@@ -1,6 +1,6 @@
 import data from "@/assets/sys_config.json";
 import lang from "@/assets/string_cn.xml?raw";
-import _ from "lodash";
+import _ from "lodash-es";
 import { isAlpha, compareNumber } from "@/utils";
 import X2JS from "x2js";
 

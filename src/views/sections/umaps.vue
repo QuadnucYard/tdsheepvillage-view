@@ -13,9 +13,9 @@
     style="width: 100%; font-size: 80%"
     class="testbox"
   >
-    <el-table-column prop="index" label="index" sortable align="center" fixed width="70"/>
-    <el-table-column prop="id" label="id" sortable align="center" fixed width="80"/>
-    <el-table-column prop="name" label="name" sortable align="center" fixed width="80"/>
+    <el-table-column prop="index" label="index" sortable align="center" fixed width="70" />
+    <el-table-column prop="id" label="id" sortable align="center" fixed width="80" />
+    <el-table-column prop="name" label="name" sortable align="center" fixed width="80" />
 
     <el-table-column prop="pass_score" label="scoreMax" sortable align="center" />
     <el-table-column label="hardnessFactor">
@@ -35,7 +35,7 @@
     />
     <el-table-column prop="pass_by" label="passBy" align="center">
       <template #default="props">
-        {{ props.row.pass_by.map((u: string) => GlobalData.$_map_Obj[u].name).join(", ")   }}
+        {{ props.row.pass_by.map((u: string) => GlobalData.$_map_Obj[u].name).join(", ") }}
       </template>
     </el-table-column>
     <el-table-column
@@ -70,9 +70,7 @@
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import _ from "lodash";
-import { formatHtml } from "@/utils/format";
-import type { TableColumnCtx } from "element-plus/es/components/table/src/table-column/defaults";
+import _ from "lodash-es";
 
 interface RowData {
   id: string;
@@ -81,23 +79,6 @@ interface RowData {
 }
 
 const allGamemaps = _.map(GlobalData.$_map_Obj, (t, k) => _.extend(t, { id: k }));
-// const allGamemaps = _.map(GlobalData.$Maps, (t, k) => k)
-//   .sort()
-//   .map(t => {
-//     let _wolf = new Monster(t, 0, 0);
-//     _wolf.initSkills();
-//     let _md = _wolf.monsterData;
-//     // .name , _md.speedBase, _md.population, _md.charm, _md.width, _md.height, _md.hpMaxA,  _md.hpMaxB, _md.hpMaxC,
-//     return {
-//       id: t,
-//       data: _md,
-//       skills: _.map(_wolf.skills, (t, k) => `<p>${getSkillHtml(t)}</p>`).join(""),
-//     };
-//   });
-
-// const skillFormatter = (row: RowData, column: TableColumnCtx<RowData>) => {
-//   return getSkillHtml(row.skills);
-// };
 
 const sortByNeedLevel = (a: { need_lev?: number }, b: { need_lev?: number }) => {
   let l1 = a.need_lev || 0,

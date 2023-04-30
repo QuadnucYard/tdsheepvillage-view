@@ -48,7 +48,7 @@
 import { generateWave } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 import { ElMessage } from "element-plus";
-import _ from "lodash";
+import _ from "lodash-es";
 
 const props = defineProps<{ mid: int; mapMonsterData: any }>();
 

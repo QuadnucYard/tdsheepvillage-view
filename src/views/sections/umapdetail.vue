@@ -83,7 +83,7 @@ import { Monster } from "@/tdsheep/module/unit/Monster.js";
 import { MonsterManager } from "@/tdsheep/command/unit.js";
 import { Wave } from "@/tdsheep/module/map/Wave.js";
 import { WaveData } from "@/tdsheep/command/map.js";
-import _ from "lodash";
+import _ from "lodash-es";
 import WolfHpChart from "./components/WolfHpChart.vue";
 import WaveDistribChart from "./components/WaveDistribChart.vue";
 import WaveTool from "./components/WaveTool.vue";

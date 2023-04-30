@@ -1,5 +1,5 @@
 import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import _ from "lodash";
+import _ from "lodash-es";
 
 export function generateWave(mid: int, reservation: int[] | null): string[] | null {
   const umap = GlobalData.$_map_Obj[mid];

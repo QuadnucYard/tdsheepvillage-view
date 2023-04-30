@@ -1,5 +1,5 @@
 import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import _ from "lodash";
+import _ from "lodash-es";
 
 const extractNames = (obj: any) =>
   _.mapValues(obj, v => {

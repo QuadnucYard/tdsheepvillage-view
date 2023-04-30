@@ -134,7 +134,7 @@ import { Tower } from "@/tdsheep/module/unit/Tower.js";
 import { GameMap } from "@/tdsheep/module/map/GameMap.js";
 import { GemItem } from "@/tdsheep/module/item.js";
 import { formatTimeSpan } from "@/utils/format";
-import _ from "lodash";
+import _ from "lodash-es";
 
 const form = reactive({
   isDefendMap: false,
