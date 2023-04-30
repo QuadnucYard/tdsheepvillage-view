@@ -1,7 +1,10 @@
 import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
 import _ from "lodash-es";
 
-export function generateWave(mid: int, reservation: int[] | null): string[] | null {
+export function generateWave(
+  mid: string,
+  reservation: int[] | null
+): [string[], [string, int][]] | null {
   const umap = GlobalData.$_map_Obj[mid];
   let pop = umap.pop_max;
   // console.log(pop);
@@ -9,7 +12,7 @@ export function generateWave(mid: int, reservation: int[] | null): string[] | nu
   const wolfPop: int[] = umap.wolf_proportion.map(t => GlobalData.$_wolfAtt_Obj[t[1]].pop);
   let wolfs: string[] = umap.wolf_proportion.map(t => t[1]);
   let n = wolfPop.length;
-  if (n == 0) return [];
+  if (n == 0) return [[], []];
 
   let mlist = <string[]>[]; // 狼组成
   let clist = new Array<int>(n).fill(0); // 各种狼数量
@@ -17,14 +20,15 @@ export function generateWave(mid: int, reservation: int[] | null): string[] | nu
     mlist = reservation.flatMap((t, i) => new Array(t).fill(wolfs[i]));
     clist = reservation;
     reservation.length = wolfPop.length;
-    pop -= _(wolfPop)
+    pop -= _.chain(wolfPop)
       .zip(reservation)
-      .sumBy(t => t[0]! * t[1]!);
+      .sumBy(t => t[0]! * t[1]!)
+      .value();
     if (pop < 0) {
       return null;
     }
   }
-  console.log(mlist, clist, pop);
+  // console.log(mlist, clist, pop);
 
   while (pop > 0) {
     while (n > 0 && pop < wolfPop[n - 1]) n--;
@@ -39,5 +43,5 @@ export function generateWave(mid: int, reservation: int[] | null): string[] | nu
     clist[k]++;
   }
 
-  return reservation ? _.shuffle(mlist) : mlist;
+  return [reservation ? _.shuffle(mlist) : mlist, _.zip(wolfs, clist) as [string, int][]];
 }

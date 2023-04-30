@@ -12,7 +12,7 @@
     <div>
       <p>
         <label>下表为预留量</label>
-        <el-button size="small">重置</el-button>
+        <el-button size="small" @click="resetReservation">重置</el-button>
       </p>
       <table>
         <tbody>
@@ -42,6 +42,7 @@
       <p>波：<el-input v-model="form.resultRaw" style="width: 600px" spellcheck="false"/></p>
       <p>波：<el-input v-model="form.result" style="width: 600px" spellcheck="false"/></p>
     </div>
+    <WolfNumberChart :data="wolfNumber" :max="10"/>
   </div>
 </template>
 
@@ -50,8 +51,9 @@ import { generateWave } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 import { ElMessage } from "element-plus";
 import _ from "lodash-es";
+import WolfNumberChart from "./WolfNumberChart.vue";
 
-const props = defineProps<{ mid: int; mapMonsterData: any }>();
+const props = defineProps<{ mid: string; mapMonsterData: any }>();
 
 const form = reactive({
   count: 0,
@@ -62,15 +64,24 @@ const form = reactive({
   resultRaw: "",
 });
 
+let wolfNumber = reactive<{ name: string; num: int; }[]>([]); 
+
+const resetReservation = ()=> {
+  form.reservation.fill(0);
+}
+
 const onGenerateWave = () => {
-  let result = generateWave(props.mid, form.reservation);
+  let result = generateWave(props.mid, [...form.reservation]);
   if (!result) {
     ElMessage.error("预留量不合法，请重新输入！");
     return;
   }
-  if (form.extra) result = _.shuffle(result.concat(form.extra.split(",").map(s => s.trim())));
-  form.resultRaw = `[${result.map(t => `"${t}"`).join(",")}]`;
-  form.result = tr(result).join(",");
+  let [mlist, clist] = result;
+  if (form.extra) mlist = _.shuffle(mlist.concat(form.extra.split(",").map(s => s.trim())));
+  form.resultRaw = `[${mlist.map(t => `"${t}"`).join(",")}]`;
+  form.result = tr(mlist).join(",");
+  wolfNumber = clist.map(t => ({ name: tr(t[0]!), num: t[1]! }));
+  form.count = _.sumBy(clist, t => t[1]);
 };
 </script>
 
