@@ -5,6 +5,7 @@
         <el-option v-for="t in allGamemaps" :label="`${t.id} ${t.name}`" :value="t.id" />
       </el-select>
       <el-tag effect="light"> 难度系数：{{ mapData.hardA }},{{ mapData.hardB }} </el-tag>
+      <el-tag effect="light"> Population：{{ mapData.populationMax }} </el-tag>
     </el-form-item>
     <el-form-item label="引狼到">
       <el-select v-model="form.mid2" clearable>

@@ -4,7 +4,7 @@ import _ from "lodash-es";
 export function generateWave(mid: int, reservation: int[] | null): string[] | null {
   const umap = GlobalData.$_map_Obj[mid];
   let pop = umap.pop_max;
-  console.log(pop);
+  // console.log(pop);
   const wolfProp: float[] = umap.wolf_proportion.map(t => t[0]);
   const wolfPop: int[] = umap.wolf_proportion.map(t => GlobalData.$_wolfAtt_Obj[t[1]].pop);
   let wolfs: string[] = umap.wolf_proportion.map(t => t[1]);

@@ -36,10 +36,11 @@
           v-model="form.extra"
           style="width: 580px"
           placeholder="多个请用半角逗号分隔"
+          spellcheck="false"
         />
       </p>
-      <p>波：<el-input v-model="form.resultRaw" style="width: 600px" /></p>
-      <p>波：<el-input v-model="form.result" style="width: 600px" /></p>
+      <p>波：<el-input v-model="form.resultRaw" style="width: 600px" spellcheck="false"/></p>
+      <p>波：<el-input v-model="form.result" style="width: 600px" spellcheck="false"/></p>
     </div>
   </div>
 </template>
@@ -62,12 +63,12 @@ const form = reactive({
 });
 
 const onGenerateWave = () => {
-  let result = generateWave(props.mid, null);
+  let result = generateWave(props.mid, form.reservation);
   if (!result) {
     ElMessage.error("预留量不合法，请重新输入！");
     return;
   }
-  result = _.shuffle(result.concat(form.extra.split(",").map(s => s.trim())));
+  if (form.extra) result = _.shuffle(result.concat(form.extra.split(",").map(s => s.trim())));
   form.resultRaw = `[${result.map(t => `"${t}"`).join(",")}]`;
   form.result = tr(result).join(",");
 };
