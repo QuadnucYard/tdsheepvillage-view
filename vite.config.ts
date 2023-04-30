@@ -66,9 +66,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        chunkFileNames: "static/js/[name].[hash].js",
-        entryFileNames: "static/js/[name].[hash].js",
-        assetFileNames: "static/[ext]/[name].[hash].[ext]",
+        chunkFileNames: "static/js/c-[name].[hash].js",
+        entryFileNames: "static/js/e-[name].[hash].js",
+        assetFileNames: "static/[ext]/a-[name].[hash].[ext]",
         manualChunks(id) {
           if (id.includes("node_modules")) {
             return id.toString().split("node_modules/")[1].split("/")[0];
