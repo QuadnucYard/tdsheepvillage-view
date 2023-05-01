@@ -1,122 +1,171 @@
 <template>
-  <div ref="main" style="width: 400px"></div>
+  <div class="chart-area">
+    <h2 style="text-align: center;">狼出现频率（按数量，供参考）</h2>
+    <div ref="main" style="width: 600px; height: 600px"></div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import * as echarts from "echarts/core";
+import wavegenFreq from "@/assets/wavegen_freq.json";
+import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
+import { accumulate, range, toString } from "@/utils";
+import { toApprecision } from "@/utils/format.ts";
+import { tr } from "@/utils/translate.ts";
+import { BarChart, BarSeriesOption, LineChart, LineSeriesOption } from "echarts/charts";
 import {
   GridComponent,
   GridComponentOption,
   TitleComponent,
+  TitleComponentOption,
+  ToolboxComponent,
   TooltipComponent,
+  TooltipComponentOption,
 } from "echarts/components";
-import { BarChart, BarSeriesOption } from "echarts/charts";
+import * as echarts from "echarts/core";
+import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import wavegenFreq from "@/assets/wavegen_freq.json";
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import { toApprecision } from "@/utils/format.ts";
-import { tr } from "@/utils/translate.ts";
-import { range, toString } from "@/utils";
+import _ from "lodash-es";
+
+echarts.use([
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  GridComponent,
+  BarChart,
+  LineChart,
+  CanvasRenderer,
+  UniversalTransition,
+]);
 
 const main = ref();
 let myChart: echarts.ECharts;
 
-const props = defineProps<{ mid: string }>();
+const props = withDefaults(defineProps<{ mid: string; height: number; width: number }>(), {
+  width: 600,
+  height: 600,
+});
 
-// watch(
-//   () => props.hpData,
-//   (hpData, old) => {
-//     myChart?.setOption({
-//       yAxis: { data: hpData.map(t => t.name) },
-//       series: [{ data: hpData.map(t => t.hp) }],
-//     });
-//   }
-// );
-
-// 生成dataset
-// let source= [
-//       ['product', '2012', '2013', '2014', '2015'],
-//       ['Matcha Latte', 41.1, 30.4, 65.1, 53.3],
-//       ['Milk Tea', 86.5, 92.1, 85.7, 83.1],
-//       ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4]
-//     ]
-let wolfs = wavegenFreq["m11"];
-let source: any[] = ["name"].concat(range(wolfs.all.length).map(toString));
-source = [source].concat([["all"].concat(wolfs.all.map(toString))]);
+let freqs = wavegenFreq["m11"];
+let source: any[] = ["name"].concat(range(freqs.all.length).map(toString));
+source = [source].concat([["all"].concat(freqs.all.map(toString))]);
 source = source.concat(
   GlobalData.$_map_Obj["m11"].wolf_proportion.map((t: any[], i: number) =>
-    [tr(t[1])].concat(wolfs.each[i])
+    [tr(t[1])].concat(freqs.each[i])
   )
 );
 console.log(source);
 
+interface Subfigure {
+  title: string;
+  pdf: number[];
+  cdf: number[];
+}
+
+const updateChart = () => {
+  const freqs = wavegenFreq[props.mid];
+  const names: string[] = [
+    GlobalData.$_map_Obj[props.mid].name,
+    ...GlobalData.$_map_Obj[props.mid].wolf_proportion.map(t => tr(t[1])),
+  ];
+  const xData = _.range(freqs.all.length);
+  const subfigures: Subfigure[] = _.zip(names, [freqs.all, ...freqs.each]).map((t, i) => ({
+    title: t[0]!,
+    pdf: t[1]!,
+    cdf: [...accumulate(t[1]!)],
+  }));
+  myChart.clear();
+  myChart.setOption({
+    tooltip: {
+      trigger: "axis",
+      valueFormatter: (value: any) => toApprecision(value, 6),
+    },
+    title: subfigures.map((f, i) => ({
+      text: f.title,
+      left: "center",
+      textVerticalAlign: "middle",
+      top: props.height * ((i + 0.5) / subfigures.length) - 5,
+      z: -1,
+      textStyle: { fontSize: (props.height / subfigures.length) * 0.4, color: "#ccc" },
+    })),
+    xAxis: subfigures.map((f, i) => ({
+      gridIndex: i,
+      type: "category",
+      axisTick: { alignWithLabel: true },
+      data: xData,
+    })),
+    yAxis: subfigures.flatMap((f, i) => [
+      {
+        gridIndex: i,
+        type: "value",
+        alignTicks: true,
+        axisLine: { show: true },
+        axisTick: { show: true, inside: true, length: 3 },
+      },
+      {
+        gridIndex: i,
+        type: "value",
+        position: "right",
+        min: 0,
+        max: 1,
+        interval: 0.2,
+        alignTicks: true,
+        axisLine: { show: true },
+        axisTick: { show: true, inside: true, length: 3 },
+      },
+    ]),
+    grid: subfigures.map((f, i) => ({
+      top: props.height * (i / subfigures.length) + 10,
+      bottom: props.height * (1 - (i + 1) / subfigures.length) + 20,
+    })),
+    series: subfigures.flatMap((f, i) => [
+      {
+        xAxisIndex: i,
+        yAxisIndex: i * 2,
+        type: "bar",
+        barWidth: "90%",
+        data: f.pdf,
+      },
+      {
+        xAxisIndex: i,
+        yAxisIndex: i * 2 + 1,
+        type: "line",
+        smooth: true,
+        data: f.cdf,
+      },
+    ]),
+  });
+};
+
+watch(() => props.mid, updateChart);
+
 onMounted(() => {
-  // type EChartsOption = echarts.ComposeOption<GridComponentOption | BarSeriesOption>;
-  // myChart = echarts.init(main.value);
-  // let option: EChartsOption;
-  // option = {
-  //   color: ["#92D050", "#94D8F6"],
-  //   title: {
-  //     left: "center",
-  //     textStyle: {
-  //       fontStyle: "normal",
-  //       fontFamily: "sans-serif",
-  //       fontSize: 14,
-  //     },
-  //   },
-  //   tooltip: {
-  //     //show: true,
-  //     formatter: params =>
-  //       params.marker + params.name + "&emsp;" + "<b>" + toApprecision(params.data, 6) + "</b>",
-  //   },
-  //   //legend: { show: false },
-  //   xAxis: {
-  //     type: "category",
-  //     axisTick: { alignWithLabel: true },
-  //   },
-  //   yAxis: [
-  //     {
-  //       name: "频率",
-  //       position: "left",
-  //       type: "value",
-  //       axisLine: {
-  //         show: true,
-  //         lineStyle: { width: 1, type: "solid" },
-  //       },
-  //       axisTick: {
-  //         show: true,
-  //         inside: true,
-  //         length: 3,
-  //         lineStyle: { width: 1, type: "solid" },
-  //       },
-  //     },
-  //     {
-  //       name: "分布频率",
-  //       position: "right",
-  //       type: "value",
-  //       axisLine: {
-  //         show: true,
-  //         lineStyle: { width: 1, type: "solid" },
-  //       },
-  //       axisTick: {
-  //         show: true,
-  //         inside: true,
-  //         length: 3,
-  //         lineStyle: { width: 1, type: "solid" },
-  //       },
-  //       splitLine: {
-  //         show: false,
-  //       },
-  //     },
-  //   ],
-  //   grid: { x1: 10, x2: 30, y: 10, y2: 20 },
-  //   series: [
-  //     { yAxisIndex: 0, type: "bar", barWidth: "90%" },
-  //     { yAxisIndex: 1, type: "line", smooth: true },
-  //   ],
-  // };
-  // option && myChart.setOption(option);
+  type EChartsOption = echarts.ComposeOption<
+    | TitleComponentOption
+    | TooltipComponentOption
+    | GridComponentOption
+    | BarSeriesOption
+    | LineSeriesOption
+  >;
+  myChart = echarts.init(main.value);
+  const option: EChartsOption = {
+    // color: ["#92D050", "#94D8F6"],
+  };
+  myChart.setOption(option);
+  updateChart();
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.chart-area {
+  position: absolute;
+  top: 60px;
+  right: 1em;
+  font-size: 0.8em;
+}
+
+@media only screen and (max-width: 1200px) {
+  .chart-area {
+    position: inherit;
+  }
+}
+</style>

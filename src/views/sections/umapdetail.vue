@@ -68,13 +68,10 @@
       <label>等级：{{ monsterLevel.toFixed(2) }}</label>
       <label>最大血量：{{ monsterHpMax }}</label>
     </el-form-item>
-
     <wolf-hp-chart :hp-data="hpData" />
   </el-form>
-
-  <WaveTool :mid="form.mid" :mapMonsterData="mapMonsterData" />
-
-  <wave-distrib-chart mid="m11" />
+  <wave-tool :mid="form.mid" :mapMonsterData="mapMonsterData" />
+  <wave-distrib-chart :mid="form.mid" :width="600" :height="600" />
 </template>
 
 <script setup lang="ts">

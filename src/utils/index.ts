@@ -28,3 +28,18 @@ export function range(start: number, end: number = 0) {
 }
 
 export const toString = (obj: any) => obj.toString();
+
+export function* enumerate<T>(a: Iterable<T>) {
+  let i = 0;
+  for (const x of a) {
+    yield [i++, x];
+  }
+}
+
+export function* accumulate(a: Iterable<number>) {
+  let s = 0;
+  for (const x of a) {
+    s += x;
+    yield s;
+  }
+}

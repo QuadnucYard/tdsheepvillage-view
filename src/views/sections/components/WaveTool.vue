@@ -1,5 +1,5 @@
 <template>
-  <div id="wave-tool">
+  <el-card id="wave-tool">
     <h3>波工具</h3>
     <el-button @click="onGenerateWave">随机生成波</el-button>
     <span>
@@ -43,7 +43,7 @@
       <p>波：<el-input v-model="form.result" style="width: 600px" spellcheck="false"/></p>
     </div>
     <WolfNumberChart :data="wolfNumber" :max="10"/>
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
@@ -85,4 +85,13 @@ const onGenerateWave = () => {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+#wave-tool {
+  margin-top: 20px;
+  max-width: 720px;
+
+  .el-button {
+    padding: 6px;
+  }
+}
+</style>
