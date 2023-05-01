@@ -16,6 +16,7 @@
     "sass": "^1.62.1",
     "unplugin-icons": "^0.15.3",
     "vue": "^3.2.47",
+    "vue-echarts": "^6.5.5",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0",
     "x2js": "^3.4.4"

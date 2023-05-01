@@ -149,7 +149,7 @@ const monsterLevel = computed(() => mapData2.value.getDifficultyLevel(form.score
 const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.value, form.diff));
 
 const hpData = computed(() =>
-  mapMonsterData.value.map(t => ({ name: t.name, hp: t.getHpMax(monsterLevel.value, form.diff) }))
+  mapMonsterData.value.map(t => ({ name: t.name, value: t.getHpMax(monsterLevel.value, form.diff) }))
 );
 </script>
 
