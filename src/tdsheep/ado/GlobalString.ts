@@ -1,0 +1,31 @@
+export class GlobalString {
+  public static SNS_ID_XN = "xn";
+  public static SNS_ID_QQ = "qq";
+  public static INDEX_TAG_1 = 1;
+  public static INDEX_TAG_2 = 2;
+  public static TOOLS_CARD_RMBBT = "rmbbt";
+  public static TOOLS_CARD_YBB = "ybb";
+  public static TOOLS_CARD_LQXFJ = "lqxfj";
+  public static TOOLS_CARD_DALIC = "dalic";
+  public static TOOLS_CARD_BAOXIANG = "baoxiang";
+  public static TOOLS_CARD_JINYANG = "za_jinyang";
+  public static TOOLS_CARD_SL = "sl";
+  public static TOOLS_CARD_DRWS = "drws";
+  public static TOOLS_CARD_TEXP = "texp_";
+  public static TOOLS_CARD_ZA = "za_";
+  public static TOOLS_CARD_TIEGAO = "tiegao";
+  public static TOOLS_CARD_JUZI = "juzi";
+  public static TOOLS_CARD_HAOJIAO = "haojiao";
+  public static TOOLS_CARD_ZHAIQU = "gem_";
+  public static TOOLS_CARD = "card";
+  public static TOOLS_GEM = "gem";
+  public static TOOLS_WC = "wc";
+  public static TOOLS_TAME = "tame";
+  public static TOOLS_SNARP = "snarp";
+  public static DATA_KEY_INDEX = "index";
+  public static DATA_KEY_CARD_ID = "card_id";
+  public static DATA_KEY_CARD_NAME = "card_name";
+  public static DATA_KEY_BAG_ID = "bag_id";
+  public static DATA_USER_WOLF_CYCLE = "wolf_cycle";
+  public static DATA_USER_WOLF_MAX = "wolf_max";
+}

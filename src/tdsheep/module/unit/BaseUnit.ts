@@ -1,6 +1,9 @@
-import { BaseDisplayModule } from "../BaseModule.js";
-import { MonsterSkill } from "../skill.js";
-import { TowerSkill } from "../skill.js";
+import { BaseUnitData } from "@/tdsheep/command/unit";
+import { BaseDisplayModule } from "../BaseModule";
+import { BaseSkill, MonsterSkill, SkillsPackage } from "../skill";
+import { TowerSkill } from "../skill";
+import type { Tower } from "./Tower";
+import type { Monster } from "./Monster";
 
 export class BaseUnit extends BaseDisplayModule {
   static SKILL_ID = "skid";
@@ -19,15 +22,9 @@ export class BaseUnit extends BaseDisplayModule {
   static AOE_SILENCE_RANGE = 1000;
   static AOE_SILENCE_TIME = 2;
   static INFO_HEIGHT = 20;
-  id;
-  subPosX;
-  subPosY;
-  height;
-  skills;
-  statuses;
-  effects;
-  m_buff;
-  m_shadow;
+
+  id: string = "";
+  skills: { [key: string]: BaseSkill } = {};
   tag;
 
   constructor() {
@@ -45,12 +42,11 @@ export class BaseUnit extends BaseDisplayModule {
     let k = undefined;
     let _skills = null;
     let _sp = null;
-    this.skills = new Object();
-    if (this.tag == "Monster") _skills = this.getAllSkills();
+    this.skills = {};
+    if (this.tag == "Monster") _skills = (this as Monster).getAllSkills();
     if (_skills == null) {
       _skills = this.data.skills;
     }
-    this.data.extSkills = _skills;
     if (_skills != null) {
       if (this.tag == "Monster") {
         for (let k = 0; k < _skills.length; k++) {
@@ -58,7 +54,7 @@ export class BaseUnit extends BaseDisplayModule {
             _skill = new MonsterSkill(
               _skills[k][BaseUnit.SKILL_ID],
               _skills[k][BaseUnit.SKILL_LEVEL],
-              this
+              this as Monster
             ).getSubClasses();
           } else {
             _skill = new MonsterSkill(k, _skills[k], this).getSubClasses();
@@ -71,22 +67,19 @@ export class BaseUnit extends BaseDisplayModule {
       if (_sp != null && _sp.skillsPackageData != null) {
         for (k of _sp.skillsPackageData.skillsList) {
           if (this.tag == "Tower") {
-            _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
+            _skill = new TowerSkill(k, _sp.level, this as Tower).getSubClasses();
           } else if (this.tag == "Monster") {
-            _skill = new MonsterSkill(k, _sp.level, this).getSubClasses();
+            _skill = new MonsterSkill(k, _sp.level, this as Tower).getSubClasses();
           }
-          this.skills[_skill.data.kindId] = _skill;
+          this.skills[_skill!.data.kindId] = _skill!;
         }
       }
     }
   }
 
-  initStatuses() {
-    this.statuses = new Object();
-    this.effects = new Object();
-  }
+  initStatuses() {}
 
   get data() {
-    return this.m_data;
+    return this.m_data as BaseUnitData;
   }
 }

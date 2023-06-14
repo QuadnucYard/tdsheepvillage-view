@@ -1,6 +1,6 @@
-import { TowerManager, TrapData, WallData } from "../../command/unit.js";
+import { TowerData, TowerManager, TrapData, WallData } from "../../command/unit";
 import { GlobalData } from "../../ado/GlobalData.js";
-import { BaseBuilding } from "./BaseBuilding.js";
+import { BaseBuilding } from "./BaseBuilding";
 import { GlobalDataGetValue } from "../../ado/GlobalDataGetValue.js";
 import {
   TowerSkill,
@@ -10,36 +10,27 @@ import {
   ChangeDamageSkill,
   ChangeRangeSkill,
   ChangeRateSkill,
-} from "../skill.js";
-import { TowerSkillData } from "../../command/skill.js";
-import { Bullet } from "./Bullet.js";
+} from "../skill";
+import { TowerSkillData } from "../../command/skill";
+import { Bullet } from "./Bullet";
 import { formatHtml } from "@/utils/format";
+import { GemItem } from "../item";
 
 export class Tower extends BaseBuilding {
-  static TOWER = "tower";
-  static GEM = "gem";
-  static LEVEL_BUBBLE = "levelBubble";
-  static RES_LEVEL_SECTION = 5;
-  static LEVEL_NAME = GlobalDataGetValue.getLanguageStr(2003);
-  static STATUS_READY = "statusReady";
-  static FRAME_REST = "rest";
-  static FRAME_READY = "ready";
-  static FRAME_FIRE = "fire";
-  m_dir;
-  castEvent;
-  m_cooldownNum;
-  target;
-  m_level;
-  upgradeLevel;
-  m_exp;
-  offer;
-  gem;
-  m_levelText;
-  m_gemComplete;
-  m_attackType;
-  slowf_tower = 1;
+  public static TOWER = "tower";
+  public static GEM = "gem";
+  public static LEVEL_BUBBLE = "levelBubble";
+  public static RES_LEVEL_SECTION = 5;
+  public static LEVEL_NAME = GlobalDataGetValue.getLanguageStr(2003);
+  public static STATUS_READY = "statusReady";
+  public static FRAME_REST = "rest";
+  public static FRAME_READY = "ready";
+  public static FRAME_FIRE = "fire";
+  public m_level: number = 0;
+  public gem: GemItem | null = null;
+  public m_attackType: string = "";
 
-  constructor(_dataId) {
+  constructor(_dataId: any) {
     super();
     this.tag = "Tower";
     this.m_data = TowerManager.getOnlyExample().getData(_dataId);
@@ -48,15 +39,12 @@ export class Tower extends BaseBuilding {
   }
 
   get towerData() {
-    return this.m_data;
+    return this.m_data as TowerData;
   }
 
   initTower() {
     this.initSkills();
     this.initStatuses();
-    this.statuses[WallData.KIND_DAMAGE] = 1;
-    this.statuses[WallData.KIND_RATE] = 1;
-    this.statuses[WallData.KIND_RANGE] = 1;
     this.initBuilding();
   }
 
@@ -65,9 +53,9 @@ export class Tower extends BaseBuilding {
     let _skill = null;
     let k = undefined;
     let _landform = null;
-    this.skills = new Object();
-    if (this.data.skillPackageId != "") {
-      _sp = new SkillsPackage(this.data.skillPackageId, this.data.skillPackageLevel);
+    this.skills = {};
+    if (this.towerData.skillPackageId != "") {
+      _sp = new SkillsPackage(this.towerData.skillPackageId, this.towerData.skillPackageLevel);
       if (_sp != null && _sp.skillsPackageData != null) {
         for (k of _sp.skillsPackageData.skillsList) {
           _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
@@ -80,17 +68,6 @@ export class Tower extends BaseBuilding {
       if (_sp != null && _sp.skillsPackageData != null) {
         for (k of _sp.skillsPackageData.skillsList) {
           _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
-          /*if(GameMap.currentMap.loadComplete)
-                    {
-                       _landform = GameMap.currentMap.gameMapData.landformMap[this.posX][this.posY] as Landform;
-                       if(_landform.data.level == LandformData.LEVEL_POISON)
-                       {
-                          if(_skill.data.kindId == TowerSkillData.KIND_POISON)
-                          {
-                             (_skill as PoisonSkill).poisonRate = 2 * (_skill as PoisonSkill).poisonRate;
-                          }
-                       }
-                    }*/
           this.skills[_skill.data.kindId] = _skill;
         }
       }
@@ -143,7 +120,7 @@ export class Tower extends BaseBuilding {
 
   buildValue(_level = -1) {
     if (_level == -1) _level = this.level;
-    return parseInt(
+    return Math.floor(
       this.towerData.buildValueA +
         this.towerData.buildValueB * _level +
         this.towerData.buildValueC * _level * _level
@@ -152,7 +129,7 @@ export class Tower extends BaseBuilding {
 
   buildCost(_level = -1) {
     if (_level == -1) _level = this.level;
-    return parseInt(
+    return Math.floor(
       this.towerData.buildCostA +
         this.towerData.buildCostB * _level +
         this.towerData.buildCostC * _level * _level
@@ -198,7 +175,7 @@ export class Tower extends BaseBuilding {
       _level = this.level;
     }
     if (this.skills[TowerSkillData.KIND_CHANGE_DAMAGE] instanceof ChangeDamageSkill) {
-      let _cds = this.skills[TowerSkillData.KIND_CHANGE_DAMAGE];
+      let _cds = this.skills[TowerSkillData.KIND_CHANGE_DAMAGE] as ChangeDamageSkill;
       if (_cds.isChangeBase()) {
         _damage = Math.round(
           (_cds.damageA + _cds.damageB * _level + _cds.damageC * _level * _level) *
@@ -221,14 +198,14 @@ export class Tower extends BaseBuilding {
           this.towerData.damageC * _level * _level
       );
     }
-    _damage = Math.ceil(_damage * this.statuses[WallData.KIND_DAMAGE]);
+    // _damage = Math.ceil(_damage * this.statuses[WallData.KIND_DAMAGE]);
     return Math.max(_damage, 0);
   }
 
   get range() {
     let _range = 0;
     if (this.skills[TowerSkillData.KIND_CHANGE_RANGE] instanceof ChangeRangeSkill) {
-      let _crs = this.skills[TowerSkillData.KIND_CHANGE_RANGE];
+      let _crs = this.skills[TowerSkillData.KIND_CHANGE_RANGE] as ChangeRangeSkill;
       if (_crs.isChangeBase()) {
         _range = _crs.range * _crs.rangeRate + _crs.rangeAdd;
       } else {
@@ -237,18 +214,18 @@ export class Tower extends BaseBuilding {
     } else {
       _range = this.towerData.range;
     }
-    if (_range > 0) {
+    /* if (_range > 0) {
       _range = Math.ceil(_range * this.statuses[WallData.KIND_RANGE]);
     } else {
       _range = Math.floor(_range * this.statuses[WallData.KIND_RANGE]);
-    }
+    } */
     return _range;
   }
 
   get rate() {
     let _rate = 0;
     if (this.skills[TowerSkillData.KIND_CHANGE_RATE] instanceof ChangeRateSkill) {
-      let _crs = this.skills[TowerSkillData.KIND_CHANGE_RATE];
+      let _crs = this.skills[TowerSkillData.KIND_CHANGE_RATE] as ChangeRateSkill;
       if (_crs.isChangeBase()) {
         _rate = Math.round(_crs.rate * _crs.rateRate);
       } else {
@@ -257,10 +234,11 @@ export class Tower extends BaseBuilding {
     } else {
       _rate = this.towerData.rate;
     }
-    return parseInt(Math.ceil(_rate * this.statuses[WallData.KIND_RATE]));
+    // _rate = Math.ceil(_rate * this.statuses[WallData.KIND_RATE]);
+    return _rate;
   }
 
-  setGem(_gem) {
+  setGem(_gem: GemItem) {
     this.gem = _gem;
     this.initSkills();
   }
@@ -271,7 +249,7 @@ export class Tower extends BaseBuilding {
     if (this.getBulletId() == "bullet100") {
       this.m_attackType = TrapData.EFFECT_TYPE_LIGHTNING;
     } else if (this.skills[TowerSkillData.KIND_ATTACK_RATE] instanceof AttackRateSkill) {
-      _attackRateSkill = this.skills[TowerSkillData.KIND_ATTACK_RATE];
+      _attackRateSkill = this.skills[TowerSkillData.KIND_ATTACK_RATE] as AttackRateSkill;
       if (_attackRateSkill.airRate <= 0) {
         this.m_attackType = TrapData.EFFECT_TYPE_FLOOR;
       } else if (_attackRateSkill.floorRate <= 0) {
@@ -288,7 +266,7 @@ export class Tower extends BaseBuilding {
   getBulletId() {
     let _changeBulletSkill = null;
     if (this.skills[TowerSkillData.KIND_CHANGE_BULLET] instanceof ChangeBulletSkill) {
-      _changeBulletSkill = this.skills[TowerSkillData.KIND_CHANGE_BULLET];
+      _changeBulletSkill = this.skills[TowerSkillData.KIND_CHANGE_BULLET] as ChangeBulletSkill;
       return _changeBulletSkill.bulletId;
     }
     return this.towerData.bulletId;

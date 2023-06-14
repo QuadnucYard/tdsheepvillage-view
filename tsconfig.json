@@ -16,7 +16,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "allowJS": true,
+    "allowJs": false,
     //"checkJs": true,
     "declaration": true
   },

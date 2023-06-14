@@ -40,4 +40,8 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 .content .el-form {
   max-width: 800px;
 }
+
+main {
+  margin: 0 2em;
+}
 </style>

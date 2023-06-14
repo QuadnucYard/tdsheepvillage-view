@@ -1,9 +1,10 @@
-import { BaseUnit } from "./BaseUnit.js";
+import { BaseUnit } from "./BaseUnit";
 import { GlobalData } from "../../ado/GlobalData.js";
 import { GlobalDataGetValue } from "../../ado/GlobalDataGetValue.js";
-import { MonsterManager } from "../../command/unit.js";
-import { GameMap } from "../map/GameMap.js";
+import { MonsterData, MonsterManager } from "../../command/unit";
+import { GameMap } from "../map/GameMap";
 import { GlobalString } from "../../ado/GlobalString.js";
+import { MonsterSkill } from "../skill";
 
 export class Monster extends BaseUnit {
   static MONSTER_SAY_ARRAY = [
@@ -18,43 +19,43 @@ export class Monster extends BaseUnit {
     GlobalDataGetValue.getLanguageStr(1258),
     GlobalDataGetValue.getLanguageStr(1259),
   ];
-  static MONSTER = "monster";
-  static FRAME_NAME_DEAD = "dead";
-  static STATUS_MOVE = "statusMove";
-  static RES_AIMING = "aiming";
-  static PATH_PATH = "pathPath";
-  static PHOTO_WIDTH = 66;
-  static PHOTO_HEIGHT = 64;
-  static PHOTO_ROUND = 50;
-  static PHOTO_SIZE = 800;
-  static WEIGHTILY_SIZE = 487500;
-  static CARD_RATIO = 2;
-  static CARD_WIDTH = 32;
-  static CARD_HEIGHT = 40;
-  static CARD_ROUND = 10;
-  static CARD_SIZE = 400;
-  static CARD_ROTATION = -10;
-  static ICON_RATIO = 1.5;
-  static ICON_WIDTH = 44;
-  static ICON_HEIGHT = 44;
-  static ICON_ROUND = 20;
-  static ICON_SIZE = 400;
-  static ICON_ROTATION = -10;
-  static PATH_NUM = 5;
-  static PATH_RATE = 0.01;
-  static RE_FIND_PATH_STEP = 2500;
-  index;
-  keyId;
-  m_level;
-  exp;
-  hp;
-  hpMax;
-  hpRate;
-  dowerSkills;
-  learnSkills;
+  public static MONSTER = "monster";
+  public static FRAME_NAME_DEAD = "dead";
+  public static STATUS_MOVE = "statusMove";
+  public static RES_AIMING = "aiming";
+  public static PATH_PATH = "pathPath";
+  public static PHOTO_WIDTH = 66;
+  public static PHOTO_HEIGHT = 64;
+  public static PHOTO_ROUND = 50;
+  public static PHOTO_SIZE = 800;
+  public static WEIGHTILY_SIZE = 487500;
+  public static CARD_RATIO = 2;
+  public static CARD_WIDTH = 32;
+  public static CARD_HEIGHT = 40;
+  public static CARD_ROUND = 10;
+  public static CARD_SIZE = 400;
+  public static CARD_ROTATION = -10;
+  public static ICON_RATIO = 1.5;
+  public static ICON_WIDTH = 44;
+  public static ICON_HEIGHT = 44;
+  public static ICON_ROUND = 20;
+  public static ICON_SIZE = 400;
+  public static ICON_ROTATION = -10;
+  public static PATH_NUM = 5;
+  public static PATH_RATE = 0.01;
+  public static RE_FIND_PATH_STEP = 2500;
+  public index: number = 0;
+  public keyId: string = "";
+  public m_level: number = 0;
+  public exp: number = 0;
+  public hp: number = 0;
+  public hpMax: number = 0;
+  public hpRate: number;
+  public dowerSkills: any[] | null = null;
+  public learnSkills: any[] | null = null;
 
   constructor(
-    _dataId,
+    _dataId: any,
     _level = 1,
     _difficulty = 1,
     _exp = 0,
@@ -80,7 +81,7 @@ export class Monster extends BaseUnit {
     this.updateSkills(_dowerSkills, _learnSkills);
   }
 
-  static newMonster(_dataObj) {
+  static newMonster(_dataObj: any) {
     let _wolf = null;
     if (_dataObj) {
       _wolf = new Monster(
@@ -95,25 +96,22 @@ export class Monster extends BaseUnit {
     return _wolf;
   }
 
-  conflictSkillList(_newSkill) {
-    let _conflictList = null;
-    let i = 0;
-    let j = 0;
-    let _kindNameList = [];
+  conflictSkillList(_newSkill: MonsterSkill) {
+    const _kindNameList = [];
     if (_newSkill == null) {
-      return _kindNameList;
+      return [];
     }
     let _conflict = GlobalData.$_conflict_skill_kind;
     let _newSkillKindId = _newSkill.data.kindId;
-    if (skills[_newSkillKindId]) {
+    if (this.skills[_newSkillKindId]) {
       _kindNameList.push(MonsterSkill.getKindName(_newSkillKindId));
     }
-    for (i = 0; i < _conflict.length; i++) {
-      _conflictList = _conflict[i];
+    for (let i = 0; i < _conflict.length; i++) {
+      const _conflictList = _conflict[i];
       if (_conflictList.indexOf(_newSkillKindId) != -1) {
-        for (j = 0; j < _conflictList.length; j++) {
+        for (let j = 0; j < _conflictList.length; j++) {
           if (_newSkillKindId != _conflictList[j]) {
-            if (skills[_conflictList[j]]) {
+            if (this.skills[_conflictList[j]]) {
               _kindNameList.push(MonsterSkill.getKindName(_conflictList[j]));
             }
           }
@@ -131,7 +129,7 @@ export class Monster extends BaseUnit {
     if (this.isTame) {
       _tampList = this.dowerSkills;
     } else {
-      _tampList = this.data.skills;
+      _tampList = this.monsterData.skills;
     }
     for (i = 0; i < _tampList.length; i++) {
       _skill = this.getSkillById(_tampList[i][BaseUnit.SKILL_ID]);
@@ -146,20 +144,21 @@ export class Monster extends BaseUnit {
     let i = 0;
     let _skill = null;
     let _skillsList = [];
-    for (i = 0; i < this.learnSkills.length; i++) {
-      _skill = this.getSkillById(this.learnSkills[i][BaseUnit.SKILL_ID]);
-      if (_skill) {
-        _skillsList.push(_skill);
+    if (this.learnSkills)
+      for (i = 0; i < this.learnSkills.length; i++) {
+        _skill = this.getSkillById(this.learnSkills[i][BaseUnit.SKILL_ID]);
+        if (_skill) {
+          _skillsList.push(_skill);
+        }
       }
-    }
     return _skillsList;
   }
 
-  getSkillById(_skillId) {
+  getSkillById(_skillId: string) {
     let k = undefined;
     let _skill = null;
-    for (k in skills) {
-      _skill = skills[k];
+    for (k in this.skills) {
+      _skill = this.skills[k];
       if (_skill.data.id == _skillId) {
         return _skill;
       }
@@ -180,8 +179,7 @@ export class Monster extends BaseUnit {
     }
   }
 
-  getAllSkills(_dowerSkills = null, _learnSkills = null) {
-    let i = 0;
+  getAllSkills(_dowerSkills: any[] | null = null, _learnSkills: any[] | null = null) {
     let _allSkills = [];
     if (!_dowerSkills) {
       _dowerSkills = this.dowerSkills;
@@ -189,15 +187,15 @@ export class Monster extends BaseUnit {
     if (!_learnSkills) {
       _learnSkills = this.learnSkills;
     }
-    if (this.isTame) {
-      for (i = 0; i < _dowerSkills.length; i++) {
+    if (this.isTame && _dowerSkills && _learnSkills) {
+      for (let i = 0; i < _dowerSkills.length; i++) {
         _allSkills.push(_dowerSkills[i]);
       }
-      for (i = 0; i < _learnSkills.length; i++) {
+      for (let i = 0; i < _learnSkills.length; i++) {
         _allSkills.push(_learnSkills[i]);
       }
     } else {
-      _allSkills = this.data.skills;
+      _allSkills = this.monsterData.skills;
     }
     return _allSkills;
   }
@@ -215,7 +213,7 @@ export class Monster extends BaseUnit {
     return _allSkillsScore;
   }
 
-  getSkillScore(_skillId, _skillLevel) {
+  getSkillScore(_skillId: string, _skillLevel: number): number {
     let _grade = null;
     let _powerObj = GlobalData.$_skill_grade_score;
     let _index = _skillId.indexOf("_");
@@ -255,7 +253,7 @@ export class Monster extends BaseUnit {
   set level(_level) {
     this.m_level = Math.max(Math.min(_level, this.levelMax), 0);
     if (GameMap.currentMap && GameMap.currentMap) {
-      this.hpMax = parseInt(
+      this.hpMax = Math.floor(
         (this.monsterData.hpMaxA +
           this.monsterData.hpMaxB * this.m_level +
           this.monsterData.hpMaxC * this.m_level * this.m_level) *
@@ -268,12 +266,12 @@ export class Monster extends BaseUnit {
   }
 
   refreshLevel() {
-    this.hpMax = parseInt(
+    this.hpMax = Math.floor(
       (this.monsterData.hpMaxA +
         this.monsterData.hpMaxB * this.m_level +
         this.monsterData.hpMaxC * this.m_level * this.m_level) *
         this.hpRate *
-        GameMap.currentMap.unkennelSoloDifficulty
+        1
     );
     if (this.hpMax <= 1) {
       this.hpMax = 1;
@@ -281,7 +279,7 @@ export class Monster extends BaseUnit {
   }
 
   get monsterData() {
-    return this.m_data;
+    return this.m_data as MonsterData;
   }
 
   get power() {
@@ -316,7 +314,9 @@ export class Monster extends BaseUnit {
     for (k in this.skills) {
       _skillList.push(this.skills[k]);
     }
-    _skillList.sort((a, b) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]);
+    _skillList.sort(
+      (a: any, b: any) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]
+    );
     for (i = 0; i < _skillList.length; i++) {
       _skill = _skillList[i];
       _info = _skill.skillInfo;

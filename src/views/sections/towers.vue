@@ -129,10 +129,10 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import { Tower } from "@/tdsheep/module/unit/Tower.js";
-import { GameMap } from "@/tdsheep/module/map/GameMap.js";
-import { GemItem } from "@/tdsheep/module/item.js";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { Tower } from "@/tdsheep/module/unit/Tower";
+import { GameMap } from "@/tdsheep/module/map/GameMap";
+import { GemItem } from "@/tdsheep/module/item";
 import { formatTimeSpan } from "@/utils/format";
 import _ from "lodash-es";
 

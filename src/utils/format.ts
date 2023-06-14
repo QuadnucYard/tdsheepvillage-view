@@ -4,7 +4,13 @@ export function toApprecision(num: number, digits: number) {
   return i == -1 || s1.length - i - 1 <= digits ? s1 : num.toFixed(digits).replace(/\.?0+$/, "");
 }
 
-export function formatHtml(_str: string, _color = 0, _b = false, _size = "14", _font = "") {
+export function formatHtml(
+  _str: string,
+  _color = 0,
+  _b = false,
+  _size: string | number = "14",
+  _font = ""
+) {
   return `<span style="color:#${_color.toString(16).padStart(6, "0")};${
     _b ? "font-weight:bold;" : ""
   }${_size ? `font-size:${_size};` : ""}${_font ? `font-family:${_font};` : ""}">${_str.replaceAll(

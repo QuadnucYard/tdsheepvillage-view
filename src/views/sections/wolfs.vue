@@ -39,17 +39,15 @@
             <span class="sk-info">{{ skill.skillInfo }}</span>
           </p>
         </div>
-        <!-- <div v-html="props.row.skills" style="margin-left: 2em"></div> -->
       </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import { Monster } from "@/tdsheep/module/unit/Monster.js";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { Monster } from "@/tdsheep/module/unit/Monster";
 import _ from "lodash-es";
-import { formatHtml } from "@/utils/format";
 
 interface RowData {
   id: string;
@@ -69,12 +67,6 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
       skills: Object.values(_wolf.skills),
     };
   });
-
-function getSkillSign(_skill) {
-  return !_skill.isDebuff
-    ? formatHtml("↑", 0xff0000, true, "", "monospace")
-    : formatHtml("↓", 0, true, "", "monospace");
-}
 </script>
 
 <style lang="scss" scoped>

@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import wavegenFreq from "@/assets/wavegen_freq.json";
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { accumulate, toString } from "@/utils";
 import { toApprecision } from "@/utils/format";
 import { tr } from "@/utils/translate";

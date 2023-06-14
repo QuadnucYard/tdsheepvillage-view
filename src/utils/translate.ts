@@ -1,4 +1,4 @@
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
 
 const extractNames = (obj: any) =>

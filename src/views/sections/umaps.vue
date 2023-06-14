@@ -47,29 +47,19 @@
         <el-tag
           v-for="w in formatWolfProp(props.row.wolf_proportion)"
           class="ml-2"
-          style="margin: 4px"
         >
           <sub>{{ w.prob }}</sub>
           {{ w.name }}
           <sup>{{ w.pop }}</sup>
         </el-tag>
-        <!-- {{ props.row.pass_by.map((u: string) => GlobalData.$_map_Obj[u].name).join(", ")   }} -->
       </template>
     </el-table-column>
-    <!-- <el-table-column label="size">
-      <el-table-column prop="data.width" label="width" sortable />
-      <el-table-column prop="data.height" label="height" sortable />
-    </el-table-column>
-    <el-table-column label="hpFactor">
-      <el-table-column prop="data.hpMaxA" label="a" sortable />
-      <el-table-column prop="data.hpMaxB" label="b" sortable />
-      <el-table-column prop="data.hpMaxC" label="c" sortable />
-    </el-table-column> -->
   </el-table>
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { MonsterManager } from "@/tdsheep/command/unit";
 import _ from "lodash-es";
 
 interface RowData {
@@ -86,13 +76,13 @@ const sortByNeedLevel = (a: { need_lev?: number }, b: { need_lev?: number }) => 
   return l1 - l2;
 };
 
-const formatWolfProp = wp => {
+const formatWolfProp = (wp: [number, string][]) => {
   return wp.map(item => {
-    let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
+    const _wolf = MonsterManager.getOnlyExample().getData(item[1]);
     return {
       prob: item[0],
-      name: _wolf["name"],
-      pop: _wolf["pop"],
+      name: _wolf.name,
+      pop: _wolf.population,
     };
   });
 };

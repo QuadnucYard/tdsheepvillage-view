@@ -87,9 +87,9 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
-import { GameMap } from "@/tdsheep/module/map/GameMap.js";
-import { MonsterManager } from "@/tdsheep/command/unit.js";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GameMap } from "@/tdsheep/module/map/GameMap";
+import { MonsterManager } from "@/tdsheep/command/unit";
 import _ from "lodash-es";
 import WolfHpChart from "./components/WolfHpChart.vue";
 import WaveDistribChart from "./components/WaveDistribChart.vue";
@@ -129,8 +129,8 @@ const mapMonsterData = computed(() =>
 );
 const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.wid));
 
-const formatWolfTag = (wp: any) => {
-  return wp.map((item: any) => {
+const formatWolfTag = (wp: [number, string][]) => {
+  return wp.map(item => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
     return {
       id: item[1],
@@ -168,7 +168,7 @@ const calcPKGold = (_level: float) => {
   return Math.round((2.0045 * mapData.value.populationMax + 3.7475) * Math.pow(_level, 2 / 3));
 };
 
-const calcPKExp =  (_level: float) => {
+const calcPKExp = (_level: float) => {
   return Math.round((0.2624 * mapData.value.populationMax + 6.5484) * Math.pow(_level, 2 / 3));
 };
 

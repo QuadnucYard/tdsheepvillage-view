@@ -1,7 +1,7 @@
-import { BaseItemData } from "./item.js";
-import { BaseData, BaseManager } from "./BaseData.js";
-import { GlobalData } from "../ado/GlobalData.js";
-import { GameMap } from "../module/map/GameMap.js";
+import { BaseItemData } from "./item";
+import { BaseData, BaseDisplayData, BaseManager } from "./BaseData";
+import { GlobalData } from "../ado/GlobalData";
+import { GameMap } from "../module/map/GameMap";
 
 export class BaseUnitData extends BaseItemData {
   static DATA_A = "a";
@@ -19,8 +19,7 @@ export class BaseUnitData extends BaseItemData {
   xGrid;
   yGrid;
 
-  constructor(_data) {
-    let k = undefined;
+  constructor(_data: any) {
     super(_data);
     this.skillPackageId = _data[BaseUnitData.DATA_SKILL_PACKAGE_ID];
     this.skillPackageLevel = _data[BaseUnitData.DATA_SKILL_PACKAGE_LEVEL];
@@ -28,7 +27,7 @@ export class BaseUnitData extends BaseItemData {
       this.skills = _data[BaseUnitData.DATA_SKILLS];
     } else if (_data[BaseUnitData.DATA_SKILLS] instanceof Object) {
       this.skills = [];
-      for (k in _data[BaseUnitData.DATA_SKILLS]) {
+      for (const k in _data[BaseUnitData.DATA_SKILLS]) {
         this.skills.push({
           skid: k,
           lev: _data[BaseUnitData.DATA_SKILLS][k],
@@ -49,25 +48,25 @@ export class BaseUnitData extends BaseItemData {
 }
 
 export class BuildingData extends BaseUnitData {
-  static DATA_BUILD_VALUE = "build_val";
-  static DATA_EXP_VALUE = "exp_val";
-  static DATA_CAMP_PRICE = "camp_price";
-  static DATA_CAMP_BUILD_VALUE = "camp_build_val";
-  static DATA_RANGE = "range";
-  static DATA_RATE = "rate";
-  static DATA_LIMIT_NUM = "limit_num";
-  m_buildValueA;
-  m_buildValueB;
-  m_buildValueC;
-  m_campPrice;
-  m_campBuildValueA;
-  m_campBuildValueB;
-  m_campBuildValueC;
-  range;
-  rate;
-  limitNum;
+  public static DATA_BUILD_VALUE = "build_val";
+  public static DATA_EXP_VALUE = "exp_val";
+  public static DATA_CAMP_PRICE = "camp_price";
+  public static DATA_CAMP_BUILD_VALUE = "camp_build_val";
+  public static DATA_RANGE = "range";
+  public static DATA_RATE = "rate";
+  public static DATA_LIMIT_NUM = "limit_num";
+  public m_buildValueA: number = 0;
+  public m_buildValueB: number = 0;
+  public m_buildValueC: number = 0;
+  public m_campPrice: [string, number] = ["", 0];
+  public m_campBuildValueA: number = 0;
+  public m_campBuildValueB: number = 0;
+  public m_campBuildValueC: number = 0;
+  public range: number;
+  public rate: number;
+  public limitNum: number;
 
-  constructor(_data = null) {
+  constructor(_data: any) {
     super(_data);
     if (_data[BuildingData.DATA_BUILD_VALUE]) {
       this.m_buildValueA = _data[BuildingData.DATA_BUILD_VALUE][BaseUnitData.DATA_A];
@@ -152,40 +151,40 @@ export class BuildingData extends BaseUnitData {
 }
 
 export class TrapData extends BuildingData {
-  static KIND_BLAST = "1";
-  static KIND_DAMAGE = "2";
-  static KIND_VERTIGO = "3";
-  static KIND_SLOW = "4";
-  static KIND_BEAT_BACK = "5";
-  static KIND_COLD_BULLET = "50";
-  static KIND_BULLET = "100";
-  static KIND_BULLET_RANDOM = "101";
-  static EFFECT_TYPE_FLOOR = "1";
-  static EFFECT_TYPE_AIR = "2";
-  static EFFECT_TYPE_ALL = "3";
-  static EFFECT_TYPE_LIGHTNING = "4";
-  static EFFECT_KIND_SINGLE = "1";
-  static EFFECT_KIND_MULTI = "2";
-  static DATA_VALUE_LIST = "value";
-  static DATA_EFFECT_TYPE = "effectType";
-  static DATA_EFFECT_KIND = "effectKind";
-  static DATA_EFFECT_RANGE = "effectRange";
-  static DATA_USE_NUM = "use_times";
-  static DATA_COLDDOWN = "colddown";
-  static DATA_DELAY = "delay";
-  static DATA_EFFECT = "effect";
-  valueList;
-  effectType;
-  effectKind;
-  effectRange;
-  useNum;
-  colddown;
-  delay;
-  attackEffectId;
+  public static KIND_BLAST = "1";
+  public static KIND_DAMAGE = "2";
+  public static KIND_VERTIGO = "3";
+  public static KIND_SLOW = "4";
+  public static KIND_BEAT_BACK = "5";
+  public static KIND_COLD_BULLET = "50";
+  public static KIND_BULLET = "100";
+  public static KIND_BULLET_RANDOM = "101";
+  public static EFFECT_TYPE_FLOOR = "1";
+  public static EFFECT_TYPE_AIR = "2";
+  public static EFFECT_TYPE_ALL = "3";
+  public static EFFECT_TYPE_LIGHTNING = "4";
+  public static EFFECT_KIND_SINGLE = "1";
+  public static EFFECT_KIND_MULTI = "2";
+  public static DATA_VALUE_LIST = "value";
+  public static DATA_EFFECT_TYPE = "effectType";
+  public static DATA_EFFECT_KIND = "effectKind";
+  public static DATA_EFFECT_RANGE = "effectRange";
+  public static DATA_USE_NUM = "use_times";
+  public static DATA_COLDDOWN = "colddown";
+  public static DATA_DELAY = "delay";
+  public static DATA_EFFECT = "effect";
+  public valueList: any[];
+  public effectType: string;
+  public effectKind: string;
+  public effectRange: number;
+  public useNum: number;
+  public colddown: number;
+  public delay: number;
+  public attackEffectId: string;
 
-  constructor(_data) {
+  constructor(_data: any) {
     super(_data);
-    typeId = BaseDisplayData.TYPE_TRAP_ITEM;
+    this.typeId = BaseDisplayData.TYPE_TRAP_ITEM;
     this.valueList = _data[TrapData.DATA_VALUE_LIST];
     this.effectType = _data[TrapData.DATA_EFFECT_TYPE];
     this.effectKind = _data[TrapData.DATA_EFFECT_KIND];
@@ -207,26 +206,27 @@ export class TrapData extends BuildingData {
     if (_data[TrapData.DATA_EFFECT_RANGE]) {
       this.effectRange = _data[TrapData.DATA_EFFECT_RANGE];
     } else {
-      this.effectRange = range;
+      this.effectRange = this.range;
     }
     this.attackEffectId = _data[TrapData.DATA_EFFECT];
   }
 }
 
 export class TowerData extends BuildingData {
-  m_buildCostA;
-  m_buildCostB;
-  m_buildCostC;
-  m_campBuildCostA;
-  m_campBuildCostB;
-  m_campBuildCostC;
-  damageA;
-  damageB;
-  damageC;
-  buffEffect;
-  levelMax;
+  public m_buildCostA: number;
+  public m_buildCostB: number;
+  public m_buildCostC: number;
+  public m_campBuildCostA: number;
+  public m_campBuildCostB: number;
+  public m_campBuildCostC: number;
+  public damageA: number;
+  public damageB: number;
+  public damageC: number;
+  public bulletId: string = "";
+  public buffEffect: number;
+  public levelMax: number;
 
-  constructor(_data) {
+  constructor(_data: any) {
     super(_data);
     this.m_buildCostA = _data["build_cost"]["a"];
     this.m_buildCostB = _data["build_cost"]["b"];
@@ -274,7 +274,7 @@ export class TowerData extends BuildingData {
 }
 
 export class TowerManager extends BaseManager {
-  static onlyExample = null;
+  static onlyExample: TowerManager;
 
   constructor() {
     super();
@@ -289,29 +289,27 @@ export class TowerManager extends BaseManager {
     return TowerManager.onlyExample;
   }
 
-  loadData(_data) {
-    let _d = undefined;
-    let k = undefined;
-    for (k in _data) {
-      _d = _data[k];
+  loadData(_data: any) {
+    for (const k in _data) {
+      const _d = _data[k];
       _d[BaseData.DATA_ID] = k;
       this.m_manager[k] = new TowerData(_data[k]);
     }
   }
 
-  getData(_id) {
-    return this.getDataById(_id);
+  getData(_id: string) {
+    return this.getDataById(_id) as TowerData;
   }
 }
 
 export class WallData extends BuildingData {
-  static KIND_DAMAGE = "damage";
-  static KIND_RATE = "rate";
-  static KIND_RANGE = "range";
-  static DATA_VALUE_LIST = "value";
-  valueList;
+  public static KIND_DAMAGE = "damage";
+  public static KIND_RATE = "rate";
+  public static KIND_RANGE = "range";
+  public static DATA_VALUE_LIST = "value";
+  public valueList: any[];
 
-  constructor(_data = null) {
+  constructor(_data: any) {
     super(_data);
     this.typeId = BaseDisplayData.TYPE_WALL;
     this.valueList = _data[WallData.DATA_VALUE_LIST];
@@ -319,32 +317,32 @@ export class WallData extends BuildingData {
 }
 
 export class BulletData extends BaseUnitData {
-  static SHAPE_COMMON = 0;
-  static SHAPE_DIRECTION = 1;
-  static SHAPE_ROLL = 2;
-  static DAMAGE_NULL = 0;
-  static DAMAGE_COMMON = 1;
-  static DAMAGE_PERFORATIVE = 2;
-  static DAMAGE_MAGICAL = 3;
-  static DAMAGE_SIEGE = 4;
-  static DAMAGE_MIXED = 5;
-  static FALL_ACC_SPEED_THRESHOLD = -7;
-  static DATA_SHAPE_MODE = "shapeMode";
-  static DATA_DAMAGE_MODE = "damageMode";
-  static DATA_RADII = "radii";
-  static DATA_SHADOW = "shadow";
-  static DATA_FALL_ACC_SPEED = "fallAcc";
-  static DATA_FLOOR_PATH_ID = "path";
-  static DATA_HIT_EFFECT_ID = "effect";
-  shapeMode;
-  damageMode;
-  radii;
-  shadow;
-  fallAccSpeed;
-  floorPathId;
-  hitEffectId;
+  public static SHAPE_COMMON = 0;
+  public static SHAPE_DIRECTION = 1;
+  public static SHAPE_ROLL = 2;
+  public static DAMAGE_NULL = 0;
+  public static DAMAGE_COMMON = 1;
+  public static DAMAGE_PERFORATIVE = 2;
+  public static DAMAGE_MAGICAL = 3;
+  public static DAMAGE_SIEGE = 4;
+  public static DAMAGE_MIXED = 5;
+  public static FALL_ACC_SPEED_THRESHOLD = -7;
+  public static DATA_SHAPE_MODE = "shapeMode";
+  public static DATA_DAMAGE_MODE = "damageMode";
+  public static DATA_RADII = "radii";
+  public static DATA_SHADOW = "shadow";
+  public static DATA_FALL_ACC_SPEED = "fallAcc";
+  public static DATA_FLOOR_PATH_ID = "path";
+  public static DATA_HIT_EFFECT_ID = "effect";
+  public shapeMode: number;
+  public damageMode: number;
+  public radii: number;
+  public shadow: number;
+  public fallAccSpeed: number;
+  public floorPathId: string;
+  public hitEffectId: string;
 
-  constructor(_data = null) {
+  constructor(_data: any) {
     super(_data);
     this.shapeMode = _data[BulletData.DATA_SHAPE_MODE];
     this.damageMode = _data[BulletData.DATA_DAMAGE_MODE];
@@ -361,7 +359,7 @@ export class BulletData extends BaseUnitData {
 }
 
 export class BulletManager extends BaseManager {
-  static onlyExample = null;
+  static onlyExample: BulletManager;
 
   constructor() {
     super();
@@ -376,62 +374,60 @@ export class BulletManager extends BaseManager {
     return BulletManager.onlyExample;
   }
 
-  loadData(_data) {
-    let _d = undefined;
-    let k = undefined;
-    for (k in _data) {
-      _d = _data[k];
+  loadData(_data: any) {
+    for (const k in _data) {
+      const _d = _data[k];
       _d[BaseData.DATA_ID] = k;
       this.m_manager[k] = new BulletData(_data[k]);
     }
   }
 
-  getData(_id) {
-    return this.getDataById(_id);
+  getData(_id: string) {
+    return this.getDataById(_id) as BulletData;
   }
 }
 
 export class MonsterData extends BaseUnitData {
-  static SPEAK_ENTER = 0;
-  static SPEAK_IDLE = 1;
-  static SPEAK_INJURY = 2;
-  static SPEAK_DIE = 3;
-  static SPEAK_INVADE = 4;
-  static SPEAK_CAST = 5;
-  static DEFENSE_NULL = 0;
-  static DEFENSE_LIGHT = 1;
-  static DEFENSE_COMMON = 2;
-  static DEFENSE_HEAVY = 3;
-  static DEFENSE_BUILDING = 4;
-  static DEFENSE_BOSS = 5;
-  static DEFENSE_HOLY = 6;
-  static DEFENSE_INVINCIBLE = 7;
-  static DATA_HP_MAX = "hp_factor";
-  static DATA_EXP_MAX = "explev";
-  static DATA_HP_MAX_A = "ha";
-  static DATA_HP_MAX_B = "hb";
-  static DATA_HP_MAX_C = "hc";
-  static DATA_SPEED_BASE = "speed";
-  static DATA_CHARM = "charm";
-  static DATA_HEIGHT = "height";
-  static DATA_WIDTH = "width";
-  static DATA_SPEAK_LIST = "speak";
-  static DATA_POPULATION = "pop";
-  hpMaxA;
-  hpMaxB;
-  hpMaxC;
-  expMaxA;
-  expMaxB;
-  expMaxC;
-  expMaxD;
-  speedBase;
-  charm;
-  height;
-  width;
-  speakList;
-  population;
+  public static SPEAK_ENTER = 0;
+  public static SPEAK_IDLE = 1;
+  public static SPEAK_INJURY = 2;
+  public static SPEAK_DIE = 3;
+  public static SPEAK_INVADE = 4;
+  public static SPEAK_CAST = 5;
+  public static DEFENSE_NULL = 0;
+  public static DEFENSE_LIGHT = 1;
+  public static DEFENSE_COMMON = 2;
+  public static DEFENSE_HEAVY = 3;
+  public static DEFENSE_BUILDING = 4;
+  public static DEFENSE_BOSS = 5;
+  public static DEFENSE_HOLY = 6;
+  public static DEFENSE_INVINCIBLE = 7;
+  public static DATA_HP_MAX = "hp_factor";
+  public static DATA_EXP_MAX = "explev";
+  public static DATA_HP_MAX_A = "ha";
+  public static DATA_HP_MAX_B = "hb";
+  public static DATA_HP_MAX_C = "hc";
+  public static DATA_SPEED_BASE = "speed";
+  public static DATA_CHARM = "charm";
+  public static DATA_HEIGHT = "height";
+  public static DATA_WIDTH = "width";
+  public static DATA_SPEAK_LIST = "speak";
+  public static DATA_POPULATION = "pop";
+  public hpMaxA: number;
+  public hpMaxB: number;
+  public hpMaxC: number;
+  public expMaxA: number = 0;
+  public expMaxB: number = 0;
+  public expMaxC: number = 0;
+  public expMaxD: number = 0;
+  public speedBase: number;
+  public charm: number;
+  public height: number;
+  public width: number;
+  public speakList: string[] | string[][] = [];
+  public population: number;
 
-  constructor(_data) {
+  constructor(_data: any) {
     super(_data);
     if (_data[MonsterData.DATA_HP_MAX]) {
       this.hpMaxA = _data[MonsterData.DATA_HP_MAX][BaseUnitData.DATA_A];
@@ -459,15 +455,14 @@ export class MonsterData extends BaseUnitData {
   }
 
   getSpeak(_period = 0) {
-    let _arr = null;
     if (this.speakList instanceof Array) {
       if (this.speakList.length > _period) {
         if (this.speakList[_period] instanceof String) {
           return this.speakList[_period];
         }
         if (this.speakList[_period] instanceof Array) {
-          _arr = this.speakList[_period];
-          return _arr[int(Math.random() * _arr.length)];
+          const _arr = this.speakList[_period];
+          return _arr[Math.floor(Math.random() * _arr.length)];
         }
       }
     }
@@ -512,13 +507,13 @@ export class MonsterData extends BaseUnitData {
     return false;
   }
 
-  getHpMax(_level, _hpRate = 1.0) {
+  getHpMax(_level: number, _hpRate = 1.0) {
     return Math.floor((this.hpMaxA + _level * (this.hpMaxB + _level * this.hpMaxC)) * _hpRate);
   }
 }
 
 export class MonsterManager extends BaseManager {
-  static onlyExample = null;
+  static onlyExample: MonsterManager;
 
   constructor() {
     super();
@@ -533,25 +528,21 @@ export class MonsterManager extends BaseManager {
     return MonsterManager.onlyExample;
   }
 
-  loadData(_data) {
-    let _d = undefined;
-    let k = undefined;
-    for (k in _data) {
-      _d = _data[k];
+  loadData(_data: any) {
+    for (const k in _data) {
+      const _d = _data[k];
       _d[BaseData.DATA_ID] = k;
       this.m_manager[k] = new MonsterData(_d);
     }
   }
 
-  getBossList(_monsterList) {
-    let i = 0;
-    let _monsterData = null;
-    let _bossList = [];
+  getBossList(_monsterList: string[]) {
+    const _bossList: string[] = [];
     if (!(_monsterList instanceof Array)) {
       return _bossList;
     }
-    for (i = 0; i < _monsterList.length; i++) {
-      _monsterData = this.getData(_monsterList[i]);
+    for (let i = 0; i < _monsterList.length; i++) {
+      const _monsterData = this.getData(_monsterList[i]);
       if (_monsterData) {
         if (_monsterData.isBoss) {
           _bossList.push(_monsterList[i]);
@@ -561,15 +552,13 @@ export class MonsterManager extends BaseManager {
     return _bossList;
   }
 
-  getRandomBossList(_monsterList) {
-    let i = 0;
-    let _monsterData = null;
-    let _bossList = [];
+  getRandomBossList(_monsterList: string[]) {
+    const _bossList: string[] = [];
     if (!(_monsterList instanceof Array)) {
       return _bossList;
     }
-    for (i = 0; i < _monsterList.length; i++) {
-      _monsterData = this.getData(_monsterList[i]);
+    for (let i = 0; i < _monsterList.length; i++) {
+      const _monsterData = this.getData(_monsterList[i]);
       if (_monsterData) {
         if (_monsterData.isRandomBoss) {
           _bossList.push(_monsterList[i]);
@@ -579,7 +568,7 @@ export class MonsterManager extends BaseManager {
     return _bossList;
   }
 
-  getData(_id) {
-    return this.getDataById(_id);
+  getData(_id: string) {
+    return this.getDataById(_id) as MonsterData;
   }
 }

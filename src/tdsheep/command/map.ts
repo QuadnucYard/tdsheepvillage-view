@@ -1,36 +1,36 @@
-import { BaseDisplayData } from "./BaseData.js";
-import { BaseManager } from "./BaseData.js";
-import { GlobalData } from "../ado/GlobalData.js";
-import { BaseData } from "./BaseData.js";
+import { BaseDisplayData } from "./BaseData";
+import { BaseManager } from "./BaseData";
+import { GlobalData } from "../ado/GlobalData";
+import { BaseData } from "./BaseData";
 
 export class GameMapData extends BaseDisplayData {
-  static DEFAULT_SCORE_MAX = 100;
-  static DEFAULT_POPULATION_MAX = 10;
-  static RULE_MULTICAST = 1;
-  static DATA_SCORE_MAX = "pass_score";
-  static DATA_POPULATION_MAX = "pop_max";
-  static DATA_HARD_A = "yield_val";
-  static DATA_HARD_B = "hard_ness";
-  static DATA_PASS_BY = "passBy";
-  static DATA_UNKENNEL_RATE = "interval";
-  static DATA_UNKENNEL_RULE = "interval_rule";
-  static DATA_BOSS_LIST = "boss";
-  static DATA_MONSTER_LIST = "wolf_proportion";
-  static DATA_TELEPORT_RULE = "teleport_rule";
-  static DATA_DEBUG = "debug";
+  public static DEFAULT_SCORE_MAX = 100;
+  public static DEFAULT_POPULATION_MAX = 10;
+  public static RULE_MULTICAST = 1;
+  public static DATA_SCORE_MAX = "pass_score";
+  public static DATA_POPULATION_MAX = "pop_max";
+  public static DATA_HARD_A = "yield_val";
+  public static DATA_HARD_B = "hard_ness";
+  public static DATA_PASS_BY = "passBy";
+  public static DATA_UNKENNEL_RATE = "interval";
+  public static DATA_UNKENNEL_RULE = "interval_rule";
+  public static DATA_BOSS_LIST = "boss";
+  public static DATA_MONSTER_LIST = "wolf_proportion";
+  public static DATA_TELEPORT_RULE = "teleport_rule";
+  public static DATA_DEBUG = "debug";
 
-  scoreMax;
-  populationMax;
-  hardA;
-  hardB;
-  passBy;
-  unkennelDelay;
-  unkennelRule;
-  bossList;
-  monsterList;
-  teleportRule;
+  public scoreMax: number;
+  public populationMax: number;
+  public hardA: number;
+  public hardB: number;
+  public passBy: string;
+  public unkennelDelay: number;
+  public unkennelRule: number;
+  public bossList: string[];
+  public monsterList: string[];
+  public teleportRule: number;
 
-  constructor(_data) {
+  constructor(_data: any) {
     super(_data);
 
     this.scoreMax = _data[GameMapData.DATA_SCORE_MAX]
@@ -46,19 +46,19 @@ export class GameMapData extends BaseDisplayData {
     this.unkennelRule = _data[GameMapData.DATA_UNKENNEL_RULE];
     this.bossList = _data[GameMapData.DATA_BOSS_LIST];
     this.monsterList = _data[GameMapData.DATA_MONSTER_LIST]
-      ? _data[GameMapData.DATA_MONSTER_LIST].map(t => t[1])
+      ? _data[GameMapData.DATA_MONSTER_LIST].map((t: any) => t[1])
       : [];
     this.teleportRule = _data[GameMapData.DATA_TELEPORT_RULE];
   }
 
-  getDifficultyLevel(_score) {
+  getDifficultyLevel(_score: number) {
     return Math.sqrt(this.hardA + this.hardB * _score);
   }
 }
 
 export class GameMapManager extends BaseManager {
   static DATA_COUNT = 6;
-  static onlyExample = null;
+  static onlyExample: GameMapManager;
 
   constructor() {
     super();
@@ -73,18 +73,16 @@ export class GameMapManager extends BaseManager {
     return GameMapManager.onlyExample;
   }
 
-  loadData(_data) {
-    let _d = undefined;
-    let k = undefined;
-    for (k in _data) {
-      _d = _data[k];
+  loadData(_data: any) {
+    for (const k in _data) {
+      const _d = _data[k];
       _d[BaseData.DATA_ID] = k;
       this.m_manager[k] = new GameMapData(_data[k]);
     }
   }
 
-  getData(_id) {
-    return this.getDataById(_id);
+  getData(_id: string) {
+    return this.getDataById(_id) as GameMapData;
   }
 }
 
@@ -103,15 +101,15 @@ export class WaveData {
   static DATA_UNKENNEL_DENSITY = "density";
   static DATA_UNKENNEL_SOLO = "solo";
   static DATA_UNKENNEL_RETURN = "return";
-  monsterList;
-  difficulty;
-  gift;
-  unkennelDensity;
-  unkennelSolo;
-  unkennelReturn;
-  tameList;
+  monsterList: any;
+  difficulty: number;
+  gift: any;
+  unkennelDensity: number;
+  unkennelSolo: number;
+  unkennelReturn: number;
+  tameList: any;
 
-  constructor(_data) {
+  constructor(_data: any) {
     if (_data instanceof Array) {
       this.tameList = _data;
     }
