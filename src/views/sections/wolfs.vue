@@ -14,23 +14,32 @@
     max-height="600"
     style="width: 100%; max-width: 1200px"
   >
-    <el-table-column prop="id" label="id" sortable />
+    <el-table-column prop="id" label="id" sortable :width="150" />
     <el-table-column prop="data.name" label="name" sortable />
     <el-table-column prop="data.speedBase" label="speedBase" sortable />
     <el-table-column prop="data.population" label="population" sortable />
-    <el-table-column prop="data.charm" label="charm" sortable />
+    <el-table-column prop="data.charm" label="charm" sortable :width="100" />
     <el-table-column label="size">
-      <el-table-column prop="data.width" label="width" sortable />
-      <el-table-column prop="data.height" label="height" sortable />
+      <el-table-column prop="data.width" label="width" sortable :width="100" />
+      <el-table-column prop="data.height" label="height" sortable :width="100" />
     </el-table-column>
     <el-table-column label="hpFactor">
-      <el-table-column prop="data.hpMaxA" label="a" sortable />
-      <el-table-column prop="data.hpMaxB" label="b" sortable />
-      <el-table-column prop="data.hpMaxC" label="c" sortable />
+      <el-table-column prop="data.hpMaxA" label="a" sortable :width="100" />
+      <el-table-column prop="data.hpMaxB" label="b" sortable :width="100" />
+      <el-table-column prop="data.hpMaxC" label="c" sortable :width="100" />
     </el-table-column>
     <el-table-column label="skills" type="expand" width="60">
       <template #default="props">
-        <div v-html="props.row.skills" style="margin-left: 2em"></div>
+        <div class="sk-list">
+          <p v-for="skill in props.row.skills">
+            <span v-if="skill.isDebuff" class="sk-debuff">↓</span>
+            <span v-else class="sk-buff">↑</span>
+            <span class="sk-name">{{ skill.name }}</span>
+            <span class="sk-id">[{{ skill.data.id }}]</span>
+            <span class="sk-info">{{ skill.skillInfo }}</span>
+          </p>
+        </div>
+        <!-- <div v-html="props.row.skills" style="margin-left: 2em"></div> -->
       </template>
     </el-table-column>
   </el-table>
@@ -57,7 +66,7 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
     return {
       id: t,
       data: _md,
-      skills: _.map(_wolf.skills, (t, k) => `<p>${getSkillHtml(t)}</p>`).join(""),
+      skills: Object.values(_wolf.skills),
     };
   });
 
@@ -82,13 +91,34 @@ function getSkillHtml(_skill) {
 }
 </script>
 
-<style lang="scss">
-.el-table__cell {
-  padding: 4px 0 !important;
-  p {
-    margin: 0;
-    font-size: 90%;
-    line-height: 1.2em;
+<style lang="scss" scoped>
+.sk-list {
+  margin-left: 2em;
+  span {
+    margin-right: 0.5em;
+  }
+  .sk-buff {
+    color: red;
+    font-weight: bold;
+    font-family: monospace;
+  }
+  .sk-debuff {
+    color: black;
+    font-weight: bold;
+    font-family: monospace;
+  }
+  .sk-name {
+    color: #000040;
+    font-weight: bold;
+  }
+  .sk-id {
+    color: #777;
+    font-weight: bold;
+    font-size: smaller;
+  }
+  .sk-info {
+    color: #333;
+    font-size: smaller;
   }
 }
 </style>

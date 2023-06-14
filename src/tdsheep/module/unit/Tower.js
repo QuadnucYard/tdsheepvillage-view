@@ -41,6 +41,7 @@ export class Tower extends BaseBuilding {
 
   constructor(_dataId) {
     super();
+    this.tag = "Tower";
     this.m_data = TowerManager.getOnlyExample().getData(_dataId);
     this.initTower();
     this.level = 1;

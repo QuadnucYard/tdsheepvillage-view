@@ -99,15 +99,6 @@ const formatWolfProp = wp => {
 </script>
 
 <style lang="scss">
-.el-table__cell {
-  padding: 4px 0 !important;
-  p {
-    margin: 0;
-    font-size: 90%;
-    line-height: 1.2em;
-  }
-}
-
 .testbox {
   .el-table--scrollable-x .el-table__body-wrapper {
     overflow: auto !important;
