@@ -68,6 +68,18 @@
       <label>等级：{{ monsterLevel.toFixed(2) }}</label>
       <label>最大血量：{{ monsterHpMax }}</label>
     </el-form-item>
+    <el-form-item>
+      <div class="space-x-4">
+        <span>银币(估计)：{{ calcPKGold(monsterLevel) }}</span>
+        <span>经验(估计)：{{ calcPKExp(monsterLevel) }}</span>
+        <span>这里采用估计公式 $y=(ap+b)\sqrt[3]{h_a+h_bx}$</span>
+      </div>
+      <div class="space-x-4">
+        <span>总银币(估计)：{{ calcAccumulative.gold }}</span>
+        <span>总经验(估计)：{{ calcAccumulative.exp }}</span>
+        <span>（假设每波+2且不引狼）</span>
+      </div>
+    </el-form-item>
     <wolf-hp-chart :hp-data="hpData" />
   </el-form>
   <wave-tool :mid="form.mid" :mapMonsterData="mapMonsterData" />
@@ -77,10 +89,7 @@
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData.js";
 import { GameMap } from "@/tdsheep/module/map/GameMap.js";
-import { Monster } from "@/tdsheep/module/unit/Monster.js";
 import { MonsterManager } from "@/tdsheep/command/unit.js";
-import { Wave } from "@/tdsheep/module/map/Wave.js";
-import { WaveData } from "@/tdsheep/command/map.js";
 import _ from "lodash-es";
 import WolfHpChart from "./components/WolfHpChart.vue";
 import WaveDistribChart from "./components/WaveDistribChart.vue";
@@ -149,8 +158,30 @@ const monsterLevel = computed(() => mapData2.value.getDifficultyLevel(form.score
 const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.value, form.diff));
 
 const hpData = computed(() =>
-  mapMonsterData.value.map(t => ({ name: t.name, value: t.getHpMax(monsterLevel.value, form.diff) }))
+  mapMonsterData.value.map(t => ({
+    name: t.name,
+    value: t.getHpMax(monsterLevel.value, form.diff),
+  }))
 );
+
+const calcPKGold = (_level: float) => {
+  return Math.round((2.0045 * mapData.value.populationMax + 3.7475) * Math.pow(_level, 2 / 3));
+};
+
+const calcPKExp =  (_level: float) => {
+  return Math.round((0.2624 * mapData.value.populationMax + 6.5484) * Math.pow(_level, 2 / 3));
+};
+
+const calcAccumulative = computed(() => {
+  let gold = 0;
+  let exp = 0;
+  for (let i = 0; i <= mapData.value.scoreMax; i += 2) {
+    let _level = Math.sqrt(mapData.value.hardA + mapData.value.hardB * i);
+    gold += calcPKGold(_level);
+    exp += calcPKExp(_level);
+  }
+  return { gold, exp };
+});
 </script>
 
 <style lang="scss">

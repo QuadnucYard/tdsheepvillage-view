@@ -75,20 +75,6 @@ function getSkillSign(_skill) {
     ? formatHtml("↑", 0xff0000, true, "", "monospace")
     : formatHtml("↓", 0, true, "", "monospace");
 }
-function getSkillHtml(_skill) {
-  const _tagColor = 0x4040f0;
-  let _htmlTextArr = [];
-
-  _htmlTextArr.push(
-    getSkillSign(_skill) + " " + formatHtml(_skill.name, 0x000040, true, "") + "&nbsp;"
-  );
-  _htmlTextArr.push(formatHtml(`[${_skill.data.id}] `, 0x777777, true, "smaller"));
-  _htmlTextArr.push(formatHtml(_skill.skillInfo, 0x333333, false, "smaller"));
-  if (_skill.skillTag1) _htmlTextArr.push(formatHtml(_skill.skillTag1, _tagColor, false, "small"));
-  if (_skill.skillTag2) _htmlTextArr.push(formatHtml(_skill.skillTag2, _tagColor, false, "small"));
-  if (_skill.skillTag3) _htmlTextArr.push(formatHtml(_skill.skillTag3, _tagColor, false, "small"));
-  return _htmlTextArr.join("");
-}
 </script>
 
 <style lang="scss" scoped>
