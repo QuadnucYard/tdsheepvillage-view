@@ -59,8 +59,8 @@ export class Monster extends BaseUnit {
     _level = 1,
     _difficulty = 1,
     _exp = 0,
-    _dowerSkills = null,
-    _learnSkills = null
+    _dowerSkills: any[] | null = null,
+    _learnSkills: any[] | null = null
   ) {
     super();
     this.tag = "Monster";
@@ -171,7 +171,7 @@ export class Monster extends BaseUnit {
     this.exp = _exp;
   }
 
-  updateSkills(_dowerSkills = null, _learnSkills = null) {
+  updateSkills(_dowerSkills: any[] | null = null, _learnSkills: any[] | null = null) {
     this.dowerSkills = _dowerSkills;
     this.learnSkills = _learnSkills;
     if (this.isTame) {

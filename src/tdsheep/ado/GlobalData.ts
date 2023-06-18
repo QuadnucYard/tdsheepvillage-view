@@ -3,6 +3,7 @@ import lang from "@/assets/string_cn.xml?raw";
 import _ from "lodash-es";
 import { isAlpha, compareNumber } from "@/utils";
 import X2JS from "x2js";
+import { GlobalDataGetValue } from "./GlobalDataGetValue";
 
 export class GlobalData {
   public static $Maps: any[];
@@ -248,6 +249,7 @@ export class GlobalData {
 
   GlobalData.$_global_properties = data.properties;
   GlobalData.$_skillAtt_Obj = data.skill;
+  GlobalDataGetValue.addObjAttribute_type_id(GlobalData.$_skillAtt_Obj);
   GlobalData.$_skillPackage_Obj = data.skill_package;
   GlobalData.$_map_Obj = data.umaps;
   GlobalData.$_tower_worth_factor = data["camp_system_simple"]["tower_worth_factor"];

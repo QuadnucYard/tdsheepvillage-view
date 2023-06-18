@@ -6,6 +6,7 @@ export const sections = [
   { name: "wolfs", label: "Wolfs" },
   { name: "umaps", label: "Umaps" },
   { name: "umapdetail", label: "Umap Detail" },
+  { name: "wolf-calc", label: "Wolf Calculation" },
 ];
 
 const routes: Array<RouteRecordRaw> = [
