@@ -1,0 +1,1 @@
+import{h as o}from"./c-unit.25af6ba0.js";import{v as n}from"./c-.pnpm.7f1b424d.js";const r=t=>n.mapValues(t,a=>{let e=a.name;return e.includes("^")?e.substring(e.indexOf("^")+1):e}),s=Object.assign({},r(o.$_map_Obj),r(o.$_wolfAtt_Obj),r(o.$_towerAtt_Obj));console.log("dict",s);function c(t){return typeof t=="string"?s[t]:t.map(a=>s[a])}export{c as t};
