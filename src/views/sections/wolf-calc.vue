@@ -102,7 +102,12 @@
         header-align="center"
         align="center"
       />
-      <el-table-column prop="info" label="Info" />
+      <el-table-column label="Info">
+        <template #default="scope">
+          <span>{{ scope.row.info }}</span>
+          <span class="sk-tag">{{ scope.row.tags }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <el-button @click="addRow">增加一行</el-button>
   </div>
@@ -151,6 +156,7 @@ interface SkillItem {
   levelMax: int;
   score: float;
   info: string;
+  tags: string;
 }
 
 const form = reactive({
@@ -178,6 +184,7 @@ const formatItem = (skill: MonsterSkill): SkillItem => {
     levelMax: skill.levelMax,
     score: skill.skillScore,
     info: skill.skillInfo,
+    tags: skill.skillTag1 + skill.skillTag2 + skill.skillTag3,
   });
 };
 const addRow = () => {
@@ -198,6 +205,7 @@ function updateSkillInit() {
   form.levelMax = _wolf.levelMax;
   form.tableData = _skills.map(s => formatItem(s));
   skillTableRef.value?.toggleAllSelection();
+  // handleSelectionChange(skillTableRef.value?.getSelectionRows());
   recalcPower();
 }
 function updateSkillInfo0(row: SkillItem) {
@@ -227,4 +235,8 @@ function recalcPower() {
 /* .cell .el-select .el-input {
   font-size: small !important;
 } */
+.sk-tag {
+  color: #4040f0;
+  font-size: small;
+}
 </style>

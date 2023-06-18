@@ -37,6 +37,9 @@
             <span class="sk-name">{{ skill.name }}</span>
             <span class="sk-id">[{{ skill.data.id }}]</span>
             <span class="sk-info">{{ skill.skillInfo }}</span>
+            <span v-if="skill.skillTag1" class="sk-tag">{{skill.skillTag1}}</span>
+            <span v-if="skill.skillTag2" class="sk-tag">{{skill.skillTag2}}</span>
+            <span v-if="skill.skillTag3" class="sk-tag">{{skill.skillTag3}}</span>
           </p>
         </div>
       </template>
@@ -67,6 +70,7 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
       skills: Object.values(_wolf.skills),
     };
   });
+  console.log(allMonsters)
 </script>
 
 <style lang="scss" scoped>
@@ -97,6 +101,11 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
   .sk-info {
     color: #333;
     font-size: smaller;
+  }
+
+  .sk-tag {
+    color: #4040F0;
+    font-size: small;
   }
 }
 </style>
