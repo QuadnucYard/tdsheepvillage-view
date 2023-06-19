@@ -13,11 +13,11 @@ export class GlobalDataGetValue {
     return GlobalData.$_global_systemMsg[_msgType][_msgId];
   }
 
-  static addObjAttribute_type_id(_obj) {
-    let i = null;
-    let j = null;
-    for (i in _obj) {
-      for (j in _obj[i]) {
+  static addObjAttribute_type_id(_obj: { [k1: string]: { [k2: string]: any } }): {
+    [k1: string]: { [k2: string]: any } | { type: string; id: string };
+  } {
+    for (const i in _obj) {
+      for (const j in _obj[i]) {
         _obj[i][j]["type"] = i.toString();
         _obj[i][j]["id"] = j.toString();
       }

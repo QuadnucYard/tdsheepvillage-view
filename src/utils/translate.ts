@@ -11,7 +11,8 @@ const dict = Object.assign(
   {},
   extractNames(GlobalData.$_map_Obj),
   extractNames(GlobalData.$_wolfAtt_Obj),
-  extractNames(GlobalData.$_towerAtt_Obj)
+  extractNames(GlobalData.$_towerAtt_Obj),
+  ...Object.values(GlobalData.$_global_properties).map(v => extractNames(v))
 );
 
 console.log("dict", dict);

@@ -248,6 +248,7 @@ export class GlobalData {
   GlobalData.$_global_language_str = x2js.xml2dom(lang);
 
   GlobalData.$_global_properties = data.properties;
+  GlobalDataGetValue.addObjAttribute_type_id(GlobalData.$_global_properties);
   GlobalData.$_skillAtt_Obj = data.skill;
   GlobalDataGetValue.addObjAttribute_type_id(GlobalData.$_skillAtt_Obj);
   GlobalData.$_skillPackage_Obj = data.skill_package;
