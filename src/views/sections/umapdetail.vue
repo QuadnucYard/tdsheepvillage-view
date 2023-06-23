@@ -15,7 +15,7 @@
     </el-form-item>
     <el-form-item label="该地图的狼">
       <el-tag
-        v-for="item in formatWolfTag(mapDataObject.wolf_proportion)"
+        v-for="item in formatWolfTag(mapDataObject.wolf_proportion as [number, MonsterId][])"
         type="success"
         class="mx-1 tag-button"
         effect="light"
@@ -26,9 +26,9 @@
         <sup>{{ item.pop }}</sup>
       </el-tag>
     </el-form-item>
-    <el-form-item label="随机 Boss">
+    <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject">
       <el-tag
-        v-for="item in formatRndBossTag(mapDataObject.random_boss)"
+        v-for="item in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
         type="success"
         class="mx-1 tag-button"
         effect="light"
@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import _ from "lodash-es";
@@ -114,8 +114,8 @@ const allMonsterOptions = _.chain(GlobalData.$_wolfAtt_Obj)
   .value();
 
 const form = reactive({
-  mid: "m1",
-  mid2: "",
+  mid: "m1" as MapId,
+  mid2: "" as MapId | "",
   wid: "dahuil",
   score: 0,
   diff: 1.0,
@@ -129,7 +129,7 @@ const mapMonsterData = computed(() =>
 );
 const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.wid));
 
-const formatWolfTag = (wp: [number, string][]) => {
+const formatWolfTag = (wp: [number, MonsterId][]) => {
   return wp.map(item => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
     return {
@@ -141,9 +141,9 @@ const formatWolfTag = (wp: [number, string][]) => {
   });
 };
 
-const formatRndBossTag = (rb: any) => {
+const formatRndBossTag = (rb: [number, MonsterId, string][]) => {
   if (!rb) return [];
-  return rb.map((item: any) => {
+  return rb.map((item) => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
     return {
       id: item[1],

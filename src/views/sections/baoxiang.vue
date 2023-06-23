@@ -10,13 +10,13 @@
         <template #default="scope">
           <ul v-if="scope.row.default_gift">
             <template v-for="(v, k) in scope.row.default_gift">
-              <li v-if="k == 'properties'">
+              <li v-if="String(k) == 'properties'">
                 <el-tag type="warning">{{ k }}</el-tag>
                 <ul class="ml-4">
                   <li v-for="(v2, k2) in v">
                     <el-tag>{{ k2 }}</el-tag>
                     <el-tag v-for="(v3, k3) in v2" type="info" :title="k3">
-                      {{ tr(k3) }}: {{ v3 }}
+                      {{ tr(String(k3)) }}: {{ v3 }}
                     </el-tag>
                   </li>
                 </ul>
@@ -60,7 +60,6 @@
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
-import { adjacentDifference } from "@/utils";
 import { tr } from "@/utils/translate";
 
 const baoxiangList = _.chain(GlobalData.$_global_properties.card)

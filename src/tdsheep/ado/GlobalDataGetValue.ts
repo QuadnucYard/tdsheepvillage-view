@@ -1,5 +1,15 @@
 import { GlobalData } from "./GlobalData";
 import { Tools } from "../utils/Tools";
+import _ from "lodash-es";
+
+export interface IEntity {
+  type: string;
+  id: string;
+}
+
+type Merge<T> = {
+  [P in keyof T]: T[P];
+};
 
 export class GlobalDataGetValue {
   static MANUAL_TAG_STR = "_@@A";
@@ -13,27 +23,20 @@ export class GlobalDataGetValue {
     return GlobalData.$_global_systemMsg[_msgType][_msgId];
   }
 
-  static addObjAttribute_type_id(_obj: { [k1: string]: { [k2: string]: any } }): {
-    [k1: string]: { [k2: string]: any } | { type: string; id: string };
-  } {
-    for (const i in _obj) {
-      for (const j in _obj[i]) {
-        _obj[i][j]["type"] = i.toString();
-        _obj[i][j]["id"] = j.toString();
-      }
-    }
-    return _obj;
+  static addObjAttribute_type_id<T extends object>(_obj: T) {
+    return _.mapValues(_obj, (t, i) => GlobalDataGetValue.addObjAttribute_type_id_one(t, i)) as {
+      [P in keyof T]: { [Q in keyof T[P]]: T[P][Q] & IEntity };
+    };
   }
 
-  static addObjAttribute_type_id_one(_obj, _type) {
-    let i = null;
-    let _newObj = {};
-    for (i in _obj) {
-      _newObj[i] = _obj[i];
-      _newObj[i]["type"] = _type;
-      _newObj[i]["id"] = i.toString();
-    }
-    return _newObj;
+  static addObjAttribute_type_id_one<T extends object>(_obj: T, _type: string) {
+    return _.mapValues(_obj, (t, i) => GlobalDataGetValue.add_type_id(t, _type, i)) as {
+      [P in keyof T]: T[P] & IEntity;
+    };
+  }
+
+  static add_type_id<T>(_obj: T, _type: string, _id: string): T & IEntity {
+    return { ..._obj, type: _type, id: _id };
   }
 
   static getLanguageStr(_id, ...args) {

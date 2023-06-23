@@ -146,12 +146,12 @@ const form = reactive({
   buildPower: 50,
 });
 
-const allTowers = _.map(GlobalData.$_towerAtt_Obj, (t, k) => [t["name"], k]);
+const allTowers = _.map(GlobalData.$_towerAtt_Obj, (t, k) => [t.name, k]);
 const allGems =
   _.chain(GlobalData.$_global_properties.gem)
   .toPairs()
-  .sortBy(t => Number(Math.abs(t[1]["index"])))
-  .map(t => [`${t[1]["name"]} [${t[1]["index"]}]`, t[0]])
+  .sortBy(t => Number(Math.abs(t[1].index)))
+  .map(t => [`${t[1].name} [${t[1].index}]`, t[0]])
   .value();
 
 const tower = computed(() => {
