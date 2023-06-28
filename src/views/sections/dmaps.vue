@@ -12,7 +12,15 @@
           <div v-if="props.row.waves" class="space-y-1">
             <div v-for="(v, k) in props.row.waves" class="space-x-1">
               <el-tag>{{ k }}</el-tag>
-              <el-tag v-for="x in v" type="info">{{ tr(x) }}</el-tag>
+              <el-tag
+                v-for="x in v"
+                :style="{
+                  color: `hsl(${hue(x)}, 40%, 40%)`,
+                  'background-color': `hsl(${hue(x)}, 80%, 90%)`,
+                  'border-color': `hsl(${hue(x)}, 50%, 80%)`,
+                }"
+                >{{ tr(x) }}</el-tag
+              >
             </div>
             <p v-for="skill in props.row.skills">
               <span v-if="skill.isDebuff" class="sk-debuff">↓</span>
@@ -34,12 +42,15 @@
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
+import { getHashCode } from "@/utils";
 import { tr } from "@/utils/translate";
 
 const tableData = _.sortBy(Object.values(GlobalData.dream_maps), "name").map(t => ({
   ...t,
   waves: GlobalData.dream_waves[t.id as keyof typeof GlobalData.dream_waves],
 }));
+
+const hue = (a: string) => (getHashCode(a) / 0xffff) * 360;
 </script>
 
 <style lang="scss" scoped>
