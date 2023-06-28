@@ -1,5 +1,7 @@
 import lang from "@/assets/string_cn.xml?raw";
 import data from "@/assets/sys_config.json";
+import ddata from "@/assets/dream_config.json";
+import dwaves from "@/assets/dream_waves.json";
 import { compareNumber, isAlpha } from "@/utils";
 import _ from "lodash-es";
 import X2JS from "x2js";
@@ -57,6 +59,9 @@ export const GlobalData = (function () {
     $_camp_create_mine_help_max: _pvp["create_mine_help_max"],
     $_camp_create_mine_help_friends_num: _pvp["create_mine_help_friends_num"],
     umapsById: sortedIds.map(k => [k, data.umaps[k]]),
+    dream_data: ddata,
+    dream_maps: GlobalDataGetValue.addObjAttribute_type_id_one(ddata["dmaps"], "dmaps"),
+    dream_waves: dwaves,
   };
 
   console.log("init", globalData.umapsById);
