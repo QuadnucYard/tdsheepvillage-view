@@ -15,9 +15,9 @@
               <el-tag
                 v-for="x in v"
                 :style="{
-                  color: `hsl(${hue(x)}, 40%, 40%)`,
-                  'background-color': `hsl(${hue(x)}, 80%, 90%)`,
-                  'border-color': `hsl(${hue(x)}, 50%, 80%)`,
+                  color: strHSl(x, 40, 40),
+                  'background-color': strHSl(x, 80, 90),
+                  'border-color': strHSl(x, 50, 80),
                 }"
                 >{{ tr(x) }}</el-tag
               >
@@ -42,15 +42,13 @@
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
-import { getHashCode } from "@/utils";
+import { strHSl } from "@/utils/colorful";
 import { tr } from "@/utils/translate";
 
 const tableData = _.sortBy(Object.values(GlobalData.dream_maps), "name").map(t => ({
   ...t,
   waves: GlobalData.dream_waves[t.id as keyof typeof GlobalData.dream_waves],
 }));
-
-const hue = (a: string) => (getHashCode(a) / 0xffff) * 360;
 </script>
 
 <style lang="scss" scoped>

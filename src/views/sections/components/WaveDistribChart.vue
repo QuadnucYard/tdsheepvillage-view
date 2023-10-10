@@ -7,8 +7,9 @@
 
 <script setup lang="ts">
 import wavegenFreq from "@/assets/wavegen_freq.json";
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { accumulate, toString } from "@/utils";
+import { strHSl } from "@/utils/colorful";
 import { toApprecision } from "@/utils/format";
 import { tr } from "@/utils/translate";
 import { BarChart, BarSeriesOption, LineChart, LineSeriesOption } from "echarts/charts";
@@ -19,7 +20,7 @@ import {
   TitleComponentOption,
   ToolboxComponent,
   TooltipComponent,
-  TooltipComponentOption,
+  TooltipComponentOption
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
@@ -38,7 +39,7 @@ echarts.use([
   UniversalTransition,
 ]);
 
-const props = withDefaults(defineProps<{ mid: string; height: number; width: number }>(), {
+const props = withDefaults(defineProps<{ mid: MapId; height: number; width: number }>(), {
   width: 600,
   height: 600,
 });
@@ -52,7 +53,7 @@ interface Subfigure {
 const freqs = computed(() => wavegenFreq[props.mid]);
 const names = computed<string[]>(() => [
   GlobalData.$_map_Obj[props.mid].name,
-  ...GlobalData.$_map_Obj[props.mid].wolf_proportion.map(t => tr(t[1])),
+  ...GlobalData.$_map_Obj[props.mid].wolf_proportion.map(t => tr(t[1] as string)),
 ]);
 const xData = computed(() => _.range(freqs.value.all.length));
 const subfigures = computed<Subfigure[]>(() =>
@@ -72,6 +73,7 @@ type EChartsOption = echarts.ComposeOption<
 >;
 
 const option = computed<EChartsOption>(() => ({
+  color: subfigures.value.flatMap(f => [strHSl(f.title, 70, 50), strHSl(f.title, 50, 80)]),
   tooltip: {
     trigger: "axis",
     valueFormatter: (value: any) => toApprecision(value, 6),
