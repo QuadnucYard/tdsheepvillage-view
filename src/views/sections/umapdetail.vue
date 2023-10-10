@@ -65,18 +65,30 @@
       </el-select>
     </el-form-item>
     <el-form-item>
-      <label>等级：{{ monsterLevel.toFixed(2) }}</label>
-      <label>最大血量：{{ monsterHpMax }}</label>
+      <div class="space-x-8">
+        <span>
+          等级：
+          <vue-latex :expression="`L(x)=\\sqrt{h_a + h_b x}=${monsterLevel.toFixed(2)}`" />
+        </span>
+        <span>最大血量：{{ monsterHpMax }}</span>
+      </div>
+    </el-form-item>
+    <el-form-item>
+      银币：
+      <vue-latex
+        :expression="`G(x) = (2+1.07p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKGold(monsterLevel)}`"
+      />
+    </el-form-item>
+    <el-form-item>
+      经验：
+      <vue-latex
+        :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKExp(monsterLevel)}`"
+      />
     </el-form-item>
     <el-form-item>
       <div class="space-x-4">
-        <span>银币(估计)：{{ calcPKGold(monsterLevel) }}</span>
-        <span>经验(估计)：{{ calcPKExp(monsterLevel) }}</span>
-        <span>这里采用估计公式 $y=(ap+b)\sqrt[3]{h_a+h_bx}$</span>
-      </div>
-      <div class="space-x-4">
-        <span>总银币(估计)：{{ calcAccumulative.gold }}</span>
-        <span>总经验(估计)：{{ calcAccumulative.exp }}</span>
+        <span>总银币：{{ calcAccumulative.gold }}</span>
+        <span>总经验：{{ calcAccumulative.exp }}</span>
         <span>（假设每波+2且不引狼）</span>
       </div>
     </el-form-item>
@@ -88,7 +100,7 @@
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
-import type {MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
+import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import _ from "lodash-es";
@@ -144,7 +156,7 @@ const formatWolfTag = (wp: [number, MonsterId][]) => {
 
 const formatRndBossTag = (rb: [number, MonsterId, string][]) => {
   if (!rb) return [];
-  return rb.map((item) => {
+  return rb.map(item => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
     return {
       id: item[1],
@@ -166,11 +178,13 @@ const hpData = computed(() =>
 );
 
 const calcPKGold = (_level: float) => {
-  return Math.round((2.0045 * mapData.value.populationMax + 3.7475) * Math.pow(_level, 2 / 3));
+  const p = mapData.value.populationMax;
+  return Math.round((2 + 1.07 * p) * Math.pow(_level / 0.39, 2 / 3));
 };
 
 const calcPKExp = (_level: float) => {
-  return Math.round((0.2624 * mapData.value.populationMax + 6.5484) * Math.pow(_level, 2 / 3));
+  const p = mapData.value.populationMax;
+  return Math.round((3.5 + 0.14 * p) * Math.pow(_level / 0.39, 2 / 3));
 };
 
 const calcAccumulative = computed(() => {

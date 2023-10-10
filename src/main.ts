@@ -10,8 +10,10 @@ import "tailwindcss/tailwind.css";
 
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
+import VueLatex from "vatex";
+
 const app = createApp(App);
-app.use(router).use(ElementPlus);
+app.use(router).use(ElementPlus).use(VueLatex);
 console.log(app);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
