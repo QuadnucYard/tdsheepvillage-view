@@ -87,7 +87,8 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import type {MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import _ from "lodash-es";
