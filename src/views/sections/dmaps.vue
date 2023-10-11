@@ -19,8 +19,10 @@
                   'background-color': strHSl(x, 80, 90),
                   'border-color': strHSl(x, 50, 80),
                 }"
-                >{{ tr(x) }}</el-tag
               >
+                {{ tr(x) }}
+              </el-tag>
+              <el-tag>{{ _.sumBy(v, (t: MonsterId) => getPop(t, 0)) }}</el-tag>
             </div>
             <p v-for="skill in props.row.skills">
               <span v-if="skill.isDebuff" class="sk-debuff">↓</span>
@@ -40,10 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
 import { strHSl } from "@/utils/colorful";
 import { tr } from "@/utils/translate";
+import { getPop } from "@/utils/game-utils";
 
 const tableData = _.sortBy(Object.values(GlobalData.dream_maps), "name").map(t => ({
   ...t,

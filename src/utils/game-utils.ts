@@ -1,5 +1,10 @@
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
+
+export function getPop(wid: MonsterId, bossAs?: int) {
+  const pop = GlobalData.$_wolfAtt_Obj[wid].pop;
+  return pop < 99 ? pop : bossAs ?? pop;
+}
 
 export function generateWave(
   mid: string,
@@ -9,7 +14,7 @@ export function generateWave(
   let pop = umap.pop_max;
   // console.log(pop);
   const wolfProp: float[] = umap.wolf_proportion.map(t => t[0]);
-  const wolfPop: int[] = umap.wolf_proportion.map(t => GlobalData.$_wolfAtt_Obj[t[1]].pop);
+  const wolfPop: int[] = umap.wolf_proportion.map(t => getPop(t[1]));
   let wolfs: string[] = umap.wolf_proportion.map(t => t[1]);
   let n = wolfPop.length;
   if (n == 0) return [[], []];
