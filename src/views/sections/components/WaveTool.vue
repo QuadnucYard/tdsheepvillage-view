@@ -47,13 +47,15 @@
 </template>
 
 <script setup lang="ts">
+import { MapId } from "@/tdsheep/ado/GlobalData";
+import { MonsterData } from "@/tdsheep/command/unit";
 import { generateWave } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 import { ElMessage } from "element-plus";
 import _ from "lodash-es";
 import WolfNumberChart from "./WolfNumberChart.vue";
 
-const props = defineProps<{ mid: string; mapMonsterData: any }>();
+const props = defineProps<{ mid: MapId; mapMonsterData: MonsterData[] }>();
 
 const form = reactive({
   count: 0,

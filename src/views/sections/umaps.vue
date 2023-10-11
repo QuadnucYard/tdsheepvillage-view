@@ -35,7 +35,7 @@
     />
     <el-table-column prop="pass_by" label="passBy" align="center">
       <template #default="props">
-        {{ props.row.pass_by.map((u: string) => GlobalData.$_map_Obj[u].name).join(", ") }}
+        {{ props.row.pass_by.map((u: MapId) => GlobalData.$_map_Obj[u].name).join(", ") }}
       </template>
     </el-table-column>
     <el-table-column
@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import _ from "lodash-es";
 
