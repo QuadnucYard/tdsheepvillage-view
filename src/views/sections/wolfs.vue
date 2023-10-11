@@ -31,7 +31,7 @@
     <el-table-column label="skills" type="expand" width="60">
       <template #default="props">
         <div class="sk-list">
-          <p v-for="skill in props.row.skills">
+          <p v-for="skill in props.row.skills" :key="skill.data.id">
             <span v-if="skill.isDebuff" class="sk-debuff">↓</span>
             <span v-else class="sk-buff">↑</span>
             <span class="sk-name">{{ skill.name }}</span>

@@ -2,7 +2,7 @@
   <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
       <el-select v-model="form.mid">
-        <el-option v-for="t in allGamemaps" :label="`${t.id} ${t.name}`" :value="t.id" />
+        <el-option v-for="t in allGamemaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
       </el-select>
       <el-tag effect="light"> 难度系数：{{ mapData.hardA }},{{ mapData.hardB }} </el-tag>
       <el-tag effect="light"> Population：{{ mapData.populationMax }} </el-tag>
@@ -10,12 +10,13 @@
     <el-form-item label="引狼到">
       <el-select v-model="form.mid2" clearable>
         <el-option label="无" value=""></el-option>
-        <el-option v-for="t in allGamemaps" :label="`${t.id} ${t.name}`" :value="t.id" />
+        <el-option v-for="t in allGamemaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
       </el-select>
     </el-form-item>
     <el-form-item label="该地图的狼">
       <el-tag
         v-for="item in formatWolfTag(mapDataObject.wolf_proportion as [number, MonsterId][])"
+        :key="item.id"
         type="success"
         class="mx-1 tag-button"
         effect="light"
@@ -29,6 +30,7 @@
     <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject">
       <el-tag
         v-for="item in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
+        :key="item.id"
         type="success"
         class="mx-1 tag-button"
         effect="light"

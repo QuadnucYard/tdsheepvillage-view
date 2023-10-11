@@ -9,13 +9,13 @@
       <el-table-column label="data">
         <template #default="scope">
           <ul v-if="scope.row.default_gift">
-            <template v-for="(v, k) in scope.row.default_gift">
+            <template v-for="(v, k) in scope.row.default_gift" :key="k">
               <li v-if="String(k) == 'properties'">
                 <el-tag type="warning">{{ k }}</el-tag>
                 <ul class="ml-4">
-                  <li v-for="(v2, k2) in v">
+                  <li v-for="(v2, k2) in v" :key="k2">
                     <el-tag>{{ k2 }}</el-tag>
-                    <el-tag v-for="(v3, k3) in v2" type="info" :title="k3">
+                    <el-tag v-for="(v3, k3) in v2" :key="k3" type="info" :title="k3">
                       {{ tr(String(k3)) }}: {{ v3 }}
                     </el-tag>
                   </li>
@@ -28,7 +28,7 @@
             </template>
           </ul>
           <ul v-if="scope.row.data">
-            <template v-for="u in scope.row.data">
+            <template v-for="u in scope.row.data" :key="u[0]">
               <li v-if="u[1] == 'invite_score'">
                 <el-tag type="success">{{ u[0] }}</el-tag>
                 <el-tag type="warning">{{ u[1] }}</el-tag>
@@ -38,11 +38,11 @@
                 <el-tag type="success">{{ u[0] }}</el-tag>
                 <el-tag type="warning">{{ u[1] }}</el-tag>
                 <ul class="ml-4">
-                  <li v-for="v in u[2]">
+                  <li v-for="v in u[2]" :key="v[0]">
                     <el-tag type="success">{{ v[0] }}</el-tag>
                     <el-tag type="warning">{{ v[1] }}</el-tag>
                     <el-tag>
-                      <el-tag v-for="s in v[2]" :title="s" type="info">
+                      <el-tag v-for="s in v[2]" :title="s" type="info" :key="s">
                         {{ tr(s) }}
                       </el-tag>
                     </el-tag>

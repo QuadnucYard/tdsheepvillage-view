@@ -17,10 +17,10 @@
       <table>
         <tbody>
           <tr>
-            <td v-for="item in mapMonsterData">{{ item.name }}</td>
+            <td v-for="item in mapMonsterData" :key="item.id">{{ item.name }}</td>
           </tr>
           <tr>
-            <td v-for="(item, i) in mapMonsterData">
+            <td v-for="(item, i) in mapMonsterData" :key="item.id">
               <el-input-number
                 v-model="form.reservation[i]"
                 size="small"

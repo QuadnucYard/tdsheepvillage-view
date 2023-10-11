@@ -10,10 +10,11 @@
       <el-table-column label="waves" type="expand" width="80">
         <template #default="props">
           <div v-if="props.row.waves" class="space-y-1">
-            <div v-for="(v, k) in props.row.waves" class="space-x-1">
+            <div v-for="(v, k) in props.row.waves" :key="k" class="space-x-1">
               <el-tag>{{ k }}</el-tag>
               <el-tag
                 v-for="x in v"
+                :key="x"
                 :style="{
                   color: strHSl(x, 40, 40),
                   'background-color': strHSl(x, 80, 90),
@@ -24,16 +25,6 @@
               </el-tag>
               <el-tag>{{ _.sumBy(v, (t: MonsterId) => getPop(t, 0)) }}</el-tag>
             </div>
-            <p v-for="skill in props.row.skills">
-              <span v-if="skill.isDebuff" class="sk-debuff">↓</span>
-              <span v-else class="sk-buff">↑</span>
-              <span class="sk-name">{{ skill.name }}</span>
-              <span class="sk-id">[{{ skill.data.id }}]</span>
-              <span class="sk-info">{{ skill.skillInfo }}</span>
-              <span v-if="skill.skillTag1" class="sk-tag">{{ skill.skillTag1 }}</span>
-              <span v-if="skill.skillTag2" class="sk-tag">{{ skill.skillTag2 }}</span>
-              <span v-if="skill.skillTag3" class="sk-tag">{{ skill.skillTag3 }}</span>
-            </p>
           </div>
         </template>
       </el-table-column>

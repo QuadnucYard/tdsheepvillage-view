@@ -7,7 +7,7 @@
       <el-col :span="12">
         <el-form-item label="塔">
           <el-select v-model="form.towerId">
-            <el-option v-for="[t, k] in allTowers" :label="t" :value="k" />
+            <el-option v-for="[t, k] in allTowers" :key="k" :label="t" :value="k" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -15,7 +15,7 @@
         <el-form-item label="宝石">
           <el-select v-model="form.gemId">
             <el-option label="无" value=""></el-option>
-            <el-option v-for="[t, k] in allGems" :label="t" :value="k" />
+            <el-option v-for="[t, k] in allGems" :key="k" :label="t" :value="k" />
           </el-select>
         </el-form-item>
       </el-col>

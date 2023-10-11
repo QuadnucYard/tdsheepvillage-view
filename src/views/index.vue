@@ -1,7 +1,7 @@
 <template>
   <main>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane v-for="sec in sections" :label="sec.label" :name="sec.name"></el-tab-pane>
+      <el-tab-pane v-for="sec in sections" :key="sec.name" :label="sec.label" :name="sec.name"></el-tab-pane>
     </el-tabs>
     <div class="content">
       <router-view v-slot="{ Component }">

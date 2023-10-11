@@ -46,6 +46,7 @@
       <template #default="props">
         <el-tag
           v-for="w in formatWolfProp(props.row.wolf_proportion)"
+          :key="w.prob"
           class="ml-2"
         >
           <sub>{{ w.prob }}</sub>
