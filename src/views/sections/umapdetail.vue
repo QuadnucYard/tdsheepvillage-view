@@ -49,7 +49,7 @@
       </el-tag>
     </el-form-item>
     <el-form-item label="进度">
-      <el-input-number v-model="form.score" :min="0" :max="mapData2.scoreMax" />
+      <el-input-number v-model="form.score" :min="0" />
       <el-tag effect="light" class="tag-button" @click="form.score = mapData2.scoreMax">
         通关进度：{{ mapData2.scoreMax }}
       </el-tag>
