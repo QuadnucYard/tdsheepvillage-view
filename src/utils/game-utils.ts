@@ -6,6 +6,10 @@ export function getPop(wid: MonsterId, bossAs?: int): int {
   return pop < 99 ? pop : bossAs ?? pop;
 }
 
+export function getTotalPop(wolfs: MonsterId[], bossAs: int = 1): int {
+  return _.sumBy(wolfs, (t: MonsterId) => getPop(t, bossAs));
+}
+
 export function generateWave(
   mid: MapId,
   reservation: int[] | null

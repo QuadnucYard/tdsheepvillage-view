@@ -9,6 +9,7 @@ export const sections = [
   { name: "dmaps", label: "Dream Maps" },
   { name: "wolf-calc", label: "Wolf Calculation" },
   { name: "baoxiang", label: "Baoxiang Properties" },
+  { name: "dream-design", label: "Dream Design" },
 ];
 
 const routes: Array<RouteRecordRaw> = [

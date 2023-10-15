@@ -25,7 +25,7 @@ export const GlobalData = (function () {
     $_map_Obj: data.umaps,
     $_towerAtt_Obj: data.building.tower,
     $_bulletAtt_Obj: data.bullet,
-    $_wolfAtt_Obj: data.wolfs,
+    $_wolfAtt_Obj: GlobalDataGetValue.addObjAttribute_type_id_one(data.wolfs, "wolf"),
     $_wallAtt_Obj: data.building["wall"],
     $_barrierAtt_Obj: data.barrier,
     $_level_up_gift: data.level_up_gift,

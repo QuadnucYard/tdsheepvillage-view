@@ -32,7 +32,7 @@ export default defineConfig({
   plugins: [
     viteCompression(),
 
-    vue(),
+    vue({ script: { defineModel: true } }),
 
     AutoImport({
       // Auto import functions from Vue, e.g. ref, reactive, toRef...
