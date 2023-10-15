@@ -25,12 +25,11 @@
             :class="{ primary: scope.row.popFixed }"
           />
           <el-button
-            :icon="Refresh"
+            :icon="scope.row.popFixed ? Unlock : Lock"
             circle
             size="small"
             class="m-0.5"
-            :disabled="!scope.row.popFixed"
-            @click="refreshPopu(scope.row, true)"
+            @click="scope.row.popFixed ? refreshPopu(scope.row, true) : (scope.row.popFixed = true)"
           />
         </template>
       </el-table-column>
@@ -62,7 +61,7 @@ import "element-plus/es/components/autocomplete/style/css";
 import { getTotalPop } from "@/utils/game-utils";
 import DreamWaveEditor from "./components/DreamWaveEditor.vue";
 import useClipboard from "vue-clipboard3";
-import { Refresh } from "@element-plus/icons-vue";
+import { Lock, Unlock } from "@element-plus/icons-vue";
 
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
