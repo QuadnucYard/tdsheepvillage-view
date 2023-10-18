@@ -1,24 +1,33 @@
 <template>
-  <v-chart class="chart" :option="option" />
+  <v-chart class="chart" :option="option" :style="{ width: `${width}px`, height: `${height}px` }" />
 </template>
 
 <script setup lang="ts">
-import * as echarts from "echarts/core";
-import {
-  GridComponent,
-  GridComponentOption,
-  TitleComponent,
-  TooltipComponent,
-} from "echarts/components";
-import { BarChart, BarSeriesOption } from "echarts/charts";
-import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
+import * as echarts from "echarts/core";
+import { BarChart } from "echarts/charts";
+import { TitleComponent, TooltipComponent, GridComponent } from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+import type { ComposeOption } from "echarts/core";
+import type { BarSeriesOption } from "echarts/charts";
+import type {
+  TitleComponentOption,
+  TooltipComponentOption,
+  GridComponentOption,
+} from "echarts/components";
+import { strHSl } from "@/utils/colorful";
 
-echarts.use([GridComponent, TitleComponent, TooltipComponent, BarChart, CanvasRenderer]);
+echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 
-const props = defineProps<{ hpData: { name: string; value: number }[] }>();
+type EChartsOption = ComposeOption<
+  TitleComponentOption | TooltipComponentOption | GridComponentOption | BarSeriesOption
+>;
 
-type EChartsOption = echarts.ComposeOption<GridComponentOption | BarSeriesOption>;
+const props = withDefaults(
+  defineProps<{ hpData: { name: string; value: number }[]; width?: number; height?: number }>(),
+  { width: 600, height: 200 }
+);
+
 const option = computed<EChartsOption>(() => ({
   color: ["#00A2E8"],
   title: {
@@ -57,13 +66,11 @@ const option = computed<EChartsOption>(() => ({
     showBackground: true,
     backgroundStyle: { color: "rgba(180, 180, 180, 0.2)" },
     data: props.hpData.map(t => t.value),
+    itemStyle: {
+      color: function (params) {
+        return strHSl(params.name, 80, 45);
+      },
+    },
   },
 }));
 </script>
-
-<style lang="scss" scoped>
-.chart {
-  width: 600px;
-  height: 200px;
-}
-</style>

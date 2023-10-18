@@ -70,4 +70,5 @@ export const GlobalData = (function () {
 })();
 
 export type MapId = keyof typeof GlobalData.$_map_Obj;
+export type DreamMapId = keyof typeof GlobalData.dream_maps;
 export type MonsterId = keyof typeof GlobalData.$_wolfAtt_Obj;

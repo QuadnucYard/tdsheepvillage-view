@@ -10,6 +10,19 @@ export function getTotalPop(wolfs: MonsterId[], bossAs: int = 1): int {
   return _.sumBy(wolfs, (t: MonsterId) => getPop(t, bossAs));
 }
 
+export function calcPKGold(level: float, pop: int) {
+  return Math.round((2 + 1.07 * pop) * Math.pow(level / 0.39, 2 / 3));
+}
+
+export function calcPKExp(level: float, pop: int) {
+  return Math.round((3.5 + 0.14 * pop) * Math.pow(level / 0.39, 2 / 3));
+}
+
+export function calcDreamExp(score: float, pop: int) {
+  const _opt = GlobalData.dream_data.dm_opt_cfg.tower_sum_exp;
+  return Math.round(pop * Math.pow(score, _opt.power) * _opt.popu + _opt.p);
+}
+
 export function generateWave(
   mid: MapId,
   reservation: int[] | null
