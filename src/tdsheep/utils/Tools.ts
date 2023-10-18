@@ -1,21 +1,16 @@
+import { GlobalData } from "../ado/GlobalData";
+import { GlobalDataGetValue } from "../ado/GlobalDataGetValue";
+
+type uint = int;
+
 export class Tools {
   static DEFAULT = "default";
 
-  static check_A_has_B(_a, _b) {
-    if (_a != null && _b != null) {
-      if (_a.contains(_b)) {
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
-
-  static formatTime(_timeNum, isChinese = false) {
-    let _timerS = _timeNum % 60;
-    let _timerM = Math.floor(_timeNum / 60) % 60;
-    let _timerH = Math.floor(_timeNum / 3600);
-    let _str = "";
+  public static formatTime(_timeNum: number, isChinese: boolean = false): string {
+    let _timerS: int = _timeNum % 60;
+    let _timerM: int = Math.floor(_timeNum / 60) % 60;
+    let _timerH: int = Math.floor(_timeNum / 3600);
+    let _str: string = "";
     if (isChinese) {
       if (_timerH > 0) {
         _str = _timerH.toString() + GlobalDataGetValue.getLanguageStr(21);
@@ -45,12 +40,12 @@ export class Tools {
     return _str;
   }
 
-  static formatTime_day(_timeNum) {
-    let _timerHs = Math.floor(_timeNum / 3600);
-    let _day = Math.floor(_timerHs / 24);
-    let _timerM = Math.ceil(_timeNum / 60) % 60;
-    let _timerH = _timerHs % 24;
-    let _str = "";
+  public static formatTime_day(_timeNum: number): string {
+    let _timerHs: int = Math.floor(_timeNum / 3600);
+    let _day: int = Math.floor(_timerHs / 24);
+    let _timerM: int = Math.ceil(_timeNum / 60) % 60;
+    let _timerH: int = _timerHs % 24;
+    let _str: string = "";
     if (_day > 0) {
       _str = _day.toString() + GlobalDataGetValue.getLanguageStr(20);
     }
@@ -63,10 +58,10 @@ export class Tools {
     return _str;
   }
 
-  static formatTime_M(_timeNum, isChinese = false) {
-    let _timerM = Math.floor(_timeNum / 60) % 60;
-    let _timerH = Math.floor(_timeNum / 3600);
-    let _str = "";
+  public static formatTime_M(_timeNum: number, isChinese: boolean = false): string {
+    let _timerM: int = Math.floor(_timeNum / 60) % 60;
+    let _timerH: int = Math.floor(_timeNum / 3600);
+    let _str: string = "";
     if (isChinese) {
       if (_timerH > 0) {
         _str = _timerH.toString() + GlobalDataGetValue.getLanguageStr(21);
@@ -86,48 +81,40 @@ export class Tools {
     return _str;
   }
 
-  static isAllEmbed(_str) {
-    let i = 0;
-    let _char = null;
-    let _embed = GlobalData.EMBED;
-    for (i = 0; i < _str.length; i++) {
-      _char = _str.charAt(i);
-      if (_embed.indexOf(_char) == -1) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  static getElementNum(_obj) {
-    let k = undefined;
-    let _num = 0;
+  public static getElementNum(_obj: any): int {
+    let k: any = undefined;
+    let _num: int = 0;
     for (k in _obj) {
       _num++;
     }
     return _num;
   }
 
-  static randomElement(_obj) {
-    let k = undefined;
-    let _num = 0;
-    let _max = Tools.getElementNum(_obj);
-    let _random = Math.floor(Math.random() * _max);
-    for (k in _obj) {
-      _num++;
+  public static randomElement(_obj: any): any {
+    let k: any = undefined;
+    let _num: int = 0;
+    let _max: int = Tools.getElementNum(_obj);
+    let _random: int = Math.floor(Math.random() * _max);
+    for (k of _obj) {
       if (_num == _random) {
         return k;
       }
+      _num++;
     }
     return null;
   }
 
-  static formatHtmlText_normal(_str, _lineMax = 10, _color = 3355443, _font = "") {
+  public static formatHtmlText_normal(
+    _str: string,
+    _lineMax: int = 10,
+    _color: uint = 3355443,
+    _font: string = ""
+  ): string {
     return Tools.formatHtmlText(_str, _color, false, 14, _font, _lineMax);
   }
 
-  static getSimpleNumStr(_num, _char_w = false) {
-    let _str = null;
+  public static getSimpleNumStr(_num: int, _char_w: boolean = false): string {
+    let _str: string;
     if (_num > 10000) {
       _str = !!_char_w
         ? GlobalDataGetValue.getLanguageStr(116)
@@ -137,37 +124,12 @@ export class Tools {
     return String(_num);
   }
 
-  static getValueByIndex(_index, _srcData) {
-    let k = undefined;
-    let _minMax = null;
-    for (k in _srcData) {
-      if (k != Tools.DEFAULT) {
-        _minMax = Tools.getIDPos(k);
-        if (_index >= _minMax.x && _index <= _minMax.y) {
-          return _srcData[k];
-        }
-      }
-    }
-    if (_srcData[Tools.DEFAULT] != null) {
-      return _srcData[Tools.DEFAULT];
-    }
-    return 1;
-  }
-
-  static getIDPos(_id) {
-    let _index = _id.indexOf("_");
-    let _pos = new Point();
-    _pos.x = int(_id.slice(0, _index));
-    _pos.y = int(_id.slice(_index + 1, _id.length));
-    return _pos;
-  }
-
-  static fillSpace(_srcStr, _lineMax = 10, _isFront = true) {
-    let _codeNum = 0;
-    let i = 0;
-    let _code = 0;
-    let _allCodeNum = 0;
-    let _str = "";
+  public static fillSpace(_srcStr: string, _lineMax: int = 10, _isFront: boolean = true): string {
+    let _codeNum: int = 0;
+    let i: int = 0;
+    let _code: uint = 0;
+    let _allCodeNum: int = 0;
+    let _str: string = "";
     for (i = 0; i < _srcStr.length; i++) {
       _code = _srcStr.charCodeAt(i);
       if (_code >= 32 && _code <= 126) {
@@ -188,22 +150,19 @@ export class Tools {
     return _str;
   }
 
-  static formatHtmlText(
-    _str,
-    _color = 3355443,
-    _b = false,
-    _size = 14,
-    _font = "",
-    _lineMax = 12,
-    _exception = null
-  ) {
-    let _msg_group = "";
-    let _char = "";
-    let _lastStr = "";
-    let _colorStr = "#" + _color.toString(16);
-    if (_font == "") {
-      _font = "SimHei";
-    }
+  public static formatHtmlText(
+    _str: string,
+    _color: uint = 3355443,
+    _b: boolean = false,
+    _size: int = 14,
+    _font: string = "",
+    _lineMax: int = 12,
+    _exception: Array = null
+  ): string {
+    let _msg_group: string = "";
+    let _char: string = "";
+    let _lastStr: string = "";
+    let _colorStr: string = "#" + _color.toString(16);
     if (_lineMax < 1000) {
       _msg_group = _str;
       _lastStr = Tools.formatLine(_msg_group, "\n", _lineMax * 2, _exception);
@@ -236,9 +195,14 @@ export class Tools {
     );
   }
 
-  static getLine(_length = 40, _code = "=", _align = "", _size = 5) {
-    let i = 0;
-    let _str = "";
+  public static getLine(
+    _length: int = 40,
+    _code: string = "=",
+    _align: string = "",
+    _size: int = 5
+  ): string {
+    let i: int = 0;
+    let _str: string = "";
     if (_code == "") {
       _code = "=";
     }
@@ -251,22 +215,27 @@ export class Tools {
     return HtmlTextFormat.format(_str, _align, 6316128, _size);
   }
 
-  static formatHtmlTextBr(_arr, _align = "left") {
-    let _msg = "";
-    for (let i = 0; i < _arr.length; i++) {
+  public static formatHtmlTextBr(_arr: Array, _align: string = "left"): string {
+    let _msg: string = "";
+    for (let i: int = 0; i < _arr.length; i++) {
       _msg += '<P ALIGN="' + _align + '">' + _arr[i] + "</P>";
     }
     return _msg;
   }
 
-  static formatLine(_srcStr, _insertStr = "\n", _lineMax = 16, _exception = null) {
-    let _checkNum = 0;
-    let _codeNum = 0;
-    let _code = 0;
-    let _char = null;
-    let _str = "";
-    let _tempStr = "";
-    let _lineNum = 0;
+  public static formatLine(
+    _srcStr: string,
+    _insertStr: string = "\n",
+    _lineMax: int = 16,
+    _exception: Array = null
+  ): string {
+    let _checkNum: int = 0;
+    let _codeNum: int = 0;
+    let _code: uint = 0;
+    let _char: string = null;
+    let _str: string = "";
+    let _tempStr: string = "";
+    let _lineNum: int = 0;
     if (_exception == null) {
       _exception = [];
     }
@@ -298,26 +267,31 @@ export class Tools {
     return _str;
   }
 
-  static clearLine(_srcStr) {
+  public static clearLine(_srcStr: string): string {
     _srcStr = _srcStr.replace("\n", "");
     _srcStr = _srcStr.replace("<br>", "");
     return _srcStr.replace("</br>", "");
   }
 
-  static isHtml(_str) {
-    let i = _str.indexOf("<");
-    let j = _str.indexOf(">");
+  public static isHtml(_str: string): boolean {
+    let i: int = _str.indexOf("<");
+    let j: int = _str.indexOf(">");
     if (i != -1 && j != -1 && i < j) {
       return true;
     }
     return false;
   }
 
-  static insertStr(_srcStr, _insertStr = "\n", _spaceNum = 4, _loopMax = 1) {
-    let _str = "";
-    let _tempStr = "";
-    let _checkNum = 0;
-    let _loopNum = 0;
+  public static insertStr(
+    _srcStr: string,
+    _insertStr: string = "\n",
+    _spaceNum: int = 4,
+    _loopMax: int = 1
+  ): string {
+    let _str: string = "";
+    let _tempStr: string = "";
+    let _checkNum: int = 0;
+    let _loopNum: int = 0;
     if (_loopMax <= 0) {
       _loopMax = int.MAX_VALUE;
     }
@@ -336,40 +310,37 @@ export class Tools {
     return _str + _srcStr.substr(_loopNum * _spaceNum);
   }
 
-  static getGlobalAttValue_byID(_globalAttName, _id = 0) {
+  public static getGlobalAttValue_byID(_globalAttName: any, _id: int = 0): any {
     return _globalAttName["id_" + _id];
   }
 
-  static imgLoadByHtmlTxt(_txtF, _imgURL, _w = 50, _h = 50) {
-    try {
-      if (_imgURL == "" || _imgURL == null || _imgURL.length < 9) {
-        Tools.imgLoadByHtmlTxt(_txtF, GlobalData.$_urlMaterial + GlobalData.$_user_default_headurl);
-      } else {
-        _txtF.htmlText =
-          '<img src="' +
-          _imgURL +
-          '" hspace="0" vspace="0" width="' +
-          _w +
-          '" height="' +
-          _h +
-          '" />';
+  public static setObjAttributeValue(_data: any, _dataArr: Array, _attName: string): any {
+    for (let i: int = 0; i < _dataArr.length; i++) {
+      _data[_dataArr[i][_attName]] = _dataArr[i];
+    }
+    return _data;
+  }
+
+  public static getObjAttributeValue(_data: any, _attName: string): any {
+    return _data[_attName] == null && _data[_attName] == undefined ? null : _data[_attName];
+  }
+
+  public static isNullAndUndefined(_obj: any): boolean {
+    return _obj == null || _obj == undefined ? Boolean(true) : Boolean(false);
+  }
+
+  public static isNullForArray(_arr: Array): boolean {
+    if (_arr != null) {
+      if (_arr.length > 0) {
+        return false;
       }
-    } catch (e) {
-      trace("error have img url");
-      Tools.imgLoadByHtmlTxt(_txtF, GlobalData.$_urlMaterial + GlobalData.$_user_default_headurl);
     }
+    return true;
   }
 
-  static nameFormat(_name) {
-    if (_name == null || _name.length == 0) {
-      return GlobalDataGetValue.getDataProfileTxt(GlobalData.$_user_default_name);
-    }
-    return GlobalDataGetValue.getDataProfileTxt(_name);
-  }
-
-  static addObjectNewAtt(_obj, _newObj) {
-    let i = null;
-    if (!this.Tools.isNullAndUndefined(_newObj)) {
+  public static addObjectNewAtt(_obj: any, _newObj: any): any {
+    let i: any = null;
+    if (!Tools.isNullAndUndefined(_newObj)) {
       for (i in _newObj) {
         _obj[i] = _newObj[i];
       }
@@ -377,7 +348,7 @@ export class Tools {
     return _obj;
   }
 
-  static isSameDate(_a, _b) {
+  public static isSameDate(_a: Date, _b: Date): boolean {
     if (!_a || !_b) {
       return false;
     }
@@ -391,8 +362,8 @@ export class Tools {
     return false;
   }
 
-  static getRandom(_min, _max) {
-    let _temp = 0;
+  public static getRandom(_min: int, _max: int): int {
+    let _temp: int = 0;
     if (_min == _max) {
       return _min;
     }
@@ -405,55 +376,17 @@ export class Tools {
     return Math.floor(_min + Math.random() * _temp);
   }
 
-  static clone(_obj) {
-    let _copier = new ByteArray();
-    _copier.writeObject(_obj);
-    _copier.position = 0;
-    return _copier.readObject();
-  }
-
-  static replaceString(_srcStr, _findStr, _placeStr) {
-    let reg = new RegExp(_findStr, "g");
+  public static replaceString(_srcStr: string, _findStr: string, _placeStr: string): string {
+    let reg: RegExp = new RegExp(_findStr, "g");
     return _srcStr.replace(reg, _placeStr);
   }
 
-  static getDateSecond(_date) {
+  public static getDateSecond(_date: Date): number {
     return Math.floor(_date.getTime() * 0.001);
   }
 
-  static drawRoundRectFun(_w, _h, _r, _color = 16777215, _alpha = 1) {
-    let _txtBg = new Sprite();
-    _txtBg.graphics.beginFill(_color, _alpha);
-    _txtBg.graphics.drawRoundRect(0, 0, _w, _h, _r, _r);
-    _txtBg.graphics.endFill();
-    return _txtBg;
-  }
-
-  static strIsNULL(_str) {
-    trace("*******Tools.strIsNULL******", _str == null, _str);
-    if (_str == "" || _str == null || _str == undefined) {
-      return true;
-    }
-    return false;
-  }
-
-  static isTrueClass_self(_obj, _className = "") {
-    let _b = false;
-    if (String(getQualifiedClassName(_obj)).split("::")[1] == _className) {
-      _b = true;
-    }
-    return _b;
-  }
-
-  static copyObject(_objectToCopy) {
-    let _stream = new ByteArray();
-    _stream.writeObject(_objectToCopy);
-    _stream.position = 0;
-    return _stream.readObject();
-  }
-
-  static isNoChildrenInArr(_arr) {
-    let _b = false;
+  public static isNoChildrenInArr(_arr: Array): boolean {
+    let _b: boolean = false;
     if (_arr != null) {
       if (_arr.length > 0) {
         _b = false;
@@ -466,10 +399,10 @@ export class Tools {
     return _b;
   }
 
-  static isNoChildrenInObj(_obj) {
-    let _num = 0;
-    let i = null;
-    let _b = true;
+  public static isNoChildrenInObj(_obj: any): boolean {
+    let _num: int = 0;
+    let i: any = null;
+    let _b: boolean = true;
     if (_obj) {
       _num = 0;
       for (i in _obj) {
@@ -482,25 +415,18 @@ export class Tools {
     return _b;
   }
 
-  static strMaxLength(_str, _length = 5) {
-    if (GlobalData.$_snsId == "aima") {
-      return _str.substr(0, 15);
-    }
-    return _str.substr(0, _length);
-  }
-
-  static toString(obj, _step = 0, _isTranslate = false) {
-    let i = 0;
-    let j = 0;
-    let k = null;
-    let _regExp = null;
-    let resultStr = "";
+  public static toString(obj: any, _step: int = 0, _isTranslate: boolean = false): string {
+    let i: int = 0;
+    let j: int = 0;
+    let k: any = null;
+    let _regExp: RegExp = null;
+    let resultStr: string = "";
     _step++;
     if (obj == null) {
       return "null";
     }
-    let type = typeof obj;
-    let num = 0;
+    let type: any = typeof obj;
+    let num: int = 0;
     switch (type) {
       case "number":
         return obj.toString() + "";
@@ -508,7 +434,7 @@ export class Tools {
         return '"' + obj + '"';
       case "object":
         if (obj instanceof Array) {
-          num = this.Tools.getElementNum(obj);
+          num = Tools.getElementNum(obj);
           if (num > 1) {
             if (_step > 1) {
               resultStr += "\n";
@@ -525,7 +451,7 @@ export class Tools {
                 resultStr += "\t";
               }
             }
-            resultStr += Tools.toString(obj[i], _step);
+            resultStr += toString(obj[i], _step);
             resultStr += ",";
           }
           if (num > 0) {
@@ -539,9 +465,9 @@ export class Tools {
           }
           resultStr += "]";
         } else if (obj instanceof Date) {
-          resultStr = "new Date(" + obj.getTime() + ")";
+          resultStr = "new Date(" + (obj as Date).getTime() + ")";
         } else {
-          num = this.Tools.getElementNum(obj);
+          num = Tools.getElementNum(obj);
           if (num > 1) {
             if (_step > 1) {
               resultStr += "\n";
@@ -584,14 +510,7 @@ export class Tools {
     return resultStr;
   }
 
-  static randomArray(_sArr) {
-    _sArr.sort(function () {
-      return Math.random() > 0.5 ? -1 : 1;
-    });
-    return _sArr;
-  }
-
-  static getTodayEndUTCTime(_nowDate) {
+  public static getTodayEndUTCTime(_nowDate: Date): Date {
     return new Date(
       _nowDate.getUTCFullYear(),
       _nowDate.getUTCMonth(),
@@ -602,39 +521,16 @@ export class Tools {
     );
   }
 
-  static idToOpenId(_id, _snsId = "") {
-    let _length = 0;
-    let i = 0;
-    if (_snsId == "") {
-      _snsId = GlobalString.SNS_ID_QQ;
-    }
-    if (!isNaN(Number(_id)) && _snsId == GlobalString.SNS_ID_QQ) {
-      _id = Number(_id).toString(16);
-      _id = _id.toUpperCase();
-      _length = _id.length;
-      for (i = 0; i < 32 - _length; i++) {
-        _id = "0" + _id;
-      }
-    }
-    return _id;
-  }
-
-  static openIdToId(_id, _snsId = "") {
-    if (_snsId == "") {
-      _snsId = GlobalString.SNS_ID_QQ;
-    }
-    if (_snsId == GlobalString.SNS_ID_QQ) {
-      _id = parseInt(_id, 16).toString(10);
-    }
-    return _id;
-  }
-
-  static replaceAllBySplit(_strSource, _strReplaceFrom, _strRepalceTo) {
+  public static replaceAllBySplit(
+    _strSource: string,
+    _strReplaceFrom: string,
+    _strRepalceTo: string
+  ): string {
     return _strSource == null ? null : _strSource.split(_strReplaceFrom).join(_strRepalceTo);
   }
 
-  static formatNumberToString(_num) {
-    let _str = null;
+  public static formatNumberToString(_num: int): string {
+    let _str: string;
     if (_num >= 1000 && _num <= 9999) {
       _num = Math.floor(_num * 0.001);
       _str = _num.toString() + "千";
@@ -645,54 +541,5 @@ export class Tools {
       _str = _num.toString();
     }
     return _str;
-  }
-
-  static formatFriendList(_arr1, _arr2) {
-    let i = 0;
-    if (_arr1 == null) {
-      return [];
-    }
-    let myUID = GlobalData.$_GAME_userData.uid;
-    if (_arr2 == null) {
-      _arr2 = [];
-    }
-    let _arr = _arr1.concat();
-    for (let m = 0; m < _arr.length; m++) {
-      if (myUID == _arr[m].uid) {
-        _arr.splice(m, 1);
-      }
-    }
-    for (let j = 0; j < _arr2.length; j++) {
-      for (i = _arr.length - 1; i >= 0; i--) {
-        if (_arr[i].uid == _arr2[j]) {
-          _arr.splice(i, 1);
-        }
-      }
-    }
-    return _arr;
-  }
-
-  static getFriendUID(_arr) {
-    if (_arr == null) {
-      return [];
-    }
-    let _array = [];
-    for (let i = 0; i < _arr.length; i++) {
-      _array.push(_arr[i]["uid"]);
-    }
-    return _array;
-  }
-
-  static get_snsid_pf() {
-    if (
-      GlobalData.$_snsId == "th" ||
-      GlobalData.$_snsId == "aima" ||
-      GlobalData.$_referer == "tapp" ||
-      GlobalData.$_snsId == "mbga" ||
-      GlobalData.$_referer == "3366"
-    ) {
-      return true;
-    }
-    return false;
   }
 }
