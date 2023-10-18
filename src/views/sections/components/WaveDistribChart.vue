@@ -26,6 +26,7 @@ import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import _ from "lodash-es";
+import VChart from "vue-echarts";
 
 echarts.use([
   TitleComponent,
