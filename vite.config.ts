@@ -49,7 +49,7 @@ export default defineConfig({
         IconsResolver({ prefix: "Icon" }),
       ],
 
-      dts: path.resolve(pathSrc, "auto-imports.d.ts"),
+      dts: "src/auto-imports.d.ts",
     }),
 
     Components({
