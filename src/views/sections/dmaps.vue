@@ -10,21 +10,30 @@
       <el-table-column label="waves" type="expand" width="80">
         <template #default="props">
           <div v-if="props.row.waves" class="space-y-1">
-            <div v-for="(v, k) in props.row.waves" :key="k" class="space-x-1">
-              <el-tag>{{ k }}</el-tag>
-              <el-tag
-                v-for="x in v"
-                :key="x"
-                :style="{
-                  color: strHSl(x, 40, 40),
-                  'background-color': strHSl(x, 80, 90),
-                  'border-color': strHSl(x, 50, 80),
-                }"
-              >
-                {{ tr(x) }}
-              </el-tag>
-              <el-tag>{{ _.sumBy(v, (t: MonsterId) => getPop(t, 0)) }}</el-tag>
-            </div>
+            <table>
+              <tr v-for="(v, k) in props.row.waves" :key="k">
+                <td>
+                  <el-tag>{{ k }}</el-tag>
+                </td>
+                <td class="space-x-0.5">
+                  <el-tag
+                    v-for="x in v"
+                    :key="x"
+                    :style="{
+                      color: strHSl(x, 40, 40),
+                      'background-color': strHSl(x, 80, 90),
+                      'border-color': strHSl(x, 50, 80),
+                    }"
+                  >
+                    {{ tr(x) }}
+                  </el-tag>
+                </td>
+                <td>
+                  <el-tag>{{ props.row.popu[k] }}</el-tag>
+                </td>
+              </tr>
+            </table>
+            <div v-for="(v, k) in props.row.waves" :key="k" class="space-x-1"></div>
           </div>
         </template>
       </el-table-column>
@@ -33,15 +42,22 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
 import { strHSl } from "@/utils/colorful";
 import { tr } from "@/utils/translate";
 import { getPop } from "@/utils/game-utils";
 
+type DreamMapId = keyof typeof GlobalData.dream_maps;
+
 const tableData = _.sortBy(Object.values(GlobalData.dream_maps), "name").map(t => ({
   ...t,
-  waves: GlobalData.dream_waves[t.id as keyof typeof GlobalData.dream_waves],
+  ...GlobalData.dream_waves[t.id as DreamMapId],
+  waves: Object.assign(
+    {},
+    GlobalData.dream_waves[t.id as DreamMapId].wolf,
+    GlobalData.dream_waves[t.id as DreamMapId].boss
+  ),
 }));
 </script>
 
