@@ -12,7 +12,6 @@ import {
 } from "echarts/components";
 import { BarChart, BarSeriesOption } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
-import VChart from "vue-echarts";
 
 echarts.use([GridComponent, TitleComponent, TooltipComponent, BarChart, CanvasRenderer]);
 

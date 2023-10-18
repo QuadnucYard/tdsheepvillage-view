@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import VChart from "vue-echarts";
 import * as echarts from "echarts/core";
 import { BarChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent, GridComponent } from "echarts/components";
