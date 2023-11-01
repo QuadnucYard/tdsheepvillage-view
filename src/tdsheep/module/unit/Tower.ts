@@ -17,25 +17,27 @@ import { formatHtml } from "@/utils/format";
 import { GemItem } from "../item";
 
 export class Tower extends BaseBuilding {
-  public static TOWER = "tower";
-  public static GEM = "gem";
-  public static LEVEL_BUBBLE = "levelBubble";
-  public static RES_LEVEL_SECTION = 5;
-  public static LEVEL_NAME = GlobalDataGetValue.getLanguageStr(2003);
-  public static STATUS_READY = "statusReady";
-  public static FRAME_REST = "rest";
-  public static FRAME_READY = "ready";
-  public static FRAME_FIRE = "fire";
+  public static readonly TOWER = "tower";
+  public static readonly GEM = "gem";
   public m_level: number = 0;
   public gem: GemItem | null = null;
   public m_attackType: string = "";
 
-  constructor(_dataId: any) {
+  constructor(_dataId: string | null) {
     super();
     this.tag = "Tower";
-    this.m_data = TowerManager.getOnlyExample().getData(_dataId);
-    this.initTower();
+    if (_dataId) {
+      this.m_data = TowerManager.getOnlyExample().getData(_dataId);
+      this.initTower();
+    }
     this.level = 1;
+  }
+
+  static fromData(_data: TowerData) {
+    const tower = new Tower(null);
+    tower.m_data = _data;
+    tower.initTower();
+    return tower;
   }
 
   get towerData() {
@@ -44,30 +46,29 @@ export class Tower extends BaseBuilding {
 
   initTower() {
     this.initSkills();
-    this.initStatuses();
-    this.initBuilding();
+    // this.initStatuses();
+    // this.initBuilding();
   }
 
-  initSkills() {
-    let _sp = null;
-    let _skill = null;
-    let k = undefined;
-    let _landform = null;
+  override initSkills() {
     this.skills = {};
     if (this.towerData.skillPackageId != "") {
-      _sp = new SkillsPackage(this.towerData.skillPackageId, this.towerData.skillPackageLevel);
+      const _sp = new SkillsPackage(
+        this.towerData.skillPackageId,
+        this.towerData.skillPackageLevel
+      );
       if (_sp != null && _sp.skillsPackageData != null) {
-        for (k of _sp.skillsPackageData.skillsList) {
-          _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
+        for (const k of _sp.skillsPackageData.skillsList) {
+          const _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
           this.skills[_skill.data.kindId] = _skill;
         }
       }
     }
     if (this.gem) {
-      _sp = this.gem.gemData.getSkillPackage(this.data.id);
+      const _sp = this.gem.gemData.getSkillPackage(this.data.id);
       if (_sp != null && _sp.skillsPackageData != null) {
-        for (k of _sp.skillsPackageData.skillsList) {
-          _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
+        for (const k of _sp.skillsPackageData.skillsList) {
+          const _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
           this.skills[_skill.data.kindId] = _skill;
         }
       }
@@ -75,14 +76,14 @@ export class Tower extends BaseBuilding {
         delete this.skills[TowerSkillData.KIND_DIVIDED_ATTACK];
       }
     }
-    this.updateAttackType();
+    // this.updateAttackType();
   }
 
   get color() {
     if (this.gem != null) {
       return this.gem.gemData.color;
     }
-    return 6316128;
+    return 0x606060;
   }
 
   get level() {
@@ -97,7 +98,7 @@ export class Tower extends BaseBuilding {
   }
 
   get ability() {
-    var _gemLevel = this.gemLevel;
+    const _gemLevel = this.gemLevel;
     if (this.towerData.isMagicTower) {
       if (_gemLevel == 0) {
         return 0;
@@ -108,10 +109,10 @@ export class Tower extends BaseBuilding {
   }
 
   get power() {
-    let _level = this.level;
-    let _paramList = GlobalData.$_tower_worth_factor;
-    let _gemLevel = this.gemLevel;
-    let _valueCost = this.valueCostConst(_level);
+    const _level = this.level;
+    const _paramList = GlobalData.$_tower_worth_factor;
+    const _gemLevel = this.gemLevel;
+    const _valueCost = this.valueCostConst(_level);
     return Math.round(
       (_valueCost + Math.pow(_gemLevel, _paramList[0]) * _paramList[1]) *
         (_paramList[2] + _gemLevel / _paramList[3])
@@ -138,7 +139,7 @@ export class Tower extends BaseBuilding {
 
   valueCost(_level = -1) {
     if (_level == -1) _level = this.level;
-    let _value =
+    const _value =
       _level * this.towerData.buildCostA +
       ((_level * _level + _level) / 2) * this.towerData.buildCostB +
       ((_level * _level * _level + (_level * _level * 3) / 2 + _level / 2) / 3) *
@@ -152,7 +153,7 @@ export class Tower extends BaseBuilding {
 
   valueCostConst(_level = -1) {
     if (_level == -1) _level = this.level;
-    let _value =
+    const _value =
       _level * this.towerData.buildCostAConst +
       ((_level * _level + _level) / 2) * this.towerData.buildCostBConst +
       ((_level * _level * _level + (_level * _level * 3) / 2 + _level / 2) / 3) *
@@ -241,22 +242,6 @@ export class Tower extends BaseBuilding {
   setGem(_gem: GemItem) {
     this.gem = _gem;
     this.initSkills();
-  }
-
-  updateAttackType() {
-    let _attackRateSkill = null;
-    this.m_attackType = TrapData.EFFECT_TYPE_ALL;
-    if (this.getBulletId() == "bullet100") {
-      this.m_attackType = TrapData.EFFECT_TYPE_LIGHTNING;
-    } else if (this.skills[TowerSkillData.KIND_ATTACK_RATE] instanceof AttackRateSkill) {
-      _attackRateSkill = this.skills[TowerSkillData.KIND_ATTACK_RATE] as AttackRateSkill;
-      if (_attackRateSkill.airRate <= 0) {
-        this.m_attackType = TrapData.EFFECT_TYPE_FLOOR;
-      } else if (_attackRateSkill.floorRate <= 0) {
-        this.m_attackType = TrapData.EFFECT_TYPE_AIR;
-      }
-    }
-    return this.m_attackType;
   }
 
   newBullet() {

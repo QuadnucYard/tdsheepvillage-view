@@ -15,8 +15,6 @@ export class BaseBuilding extends BaseUnit {
     return this.buildingData.range;
   }
 
-  initBuilding() {}
-
   get skillInfo() {
     let k = undefined;
     let i = 0;

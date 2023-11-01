@@ -3,10 +3,10 @@ import { BaseManager } from "./BaseData";
 import { GlobalData } from "../ado/GlobalData";
 
 export class BaseSkillData extends BaseDisplayData {
-  static TYPE_TOWER_SKILL = "typeTowerSkill";
-  static TYPE_MONSTER_SKILL = "typeMonsterSkill";
-  static DATA_PARAMETER = "params";
-  static DATA_LEVELS = "levels";
+  static readonly TYPE_TOWER_SKILL = "typeTowerSkill";
+  static readonly TYPE_MONSTER_SKILL = "typeMonsterSkill";
+  static readonly DATA_PARAMETER = "params";
+  static readonly DATA_LEVELS = "levels";
   parameter;
   levels;
 
@@ -36,33 +36,33 @@ export class BaseSkillData extends BaseDisplayData {
 }
 
 export class TowerSkillData extends BaseSkillData {
-  static KIND_AURA = "Aura";
-  static KIND_CHANGE_BULLET = "Bultype";
-  static KIND_CHANGE_DAMAGE = "ChangeDam";
-  static KIND_CHANGE_RATE = "ChangeRate";
-  static KIND_CHANGE_RANGE = "ChangeRange";
-  static KIND_FIELD_ATTACK = "ALLAP";
-  static KIND_DIVIDED_ATTACK = "DivAP";
-  static KIND_SCATTER_ATTACK = "ScaAP";
-  static KIND_COMBO_ATTACK = "ComAP";
-  static KIND_GUIDED_BULLET = "GuidedBul";
-  static KIND_ATTACK_RATE = "AttackRate";
-  static KIND_AOE_ATTACK = "AoeAP";
-  static KIND_THROUGHOUT_ATTACK = "ThoAP";
-  static KIND_BOUNCE_ATTACK = "BouAP";
-  static KIND_FLOAT_DAMAGE = "FloatDam";
-  static KIND_CRIT = "Crit";
-  static KIND_REDUCED_DEFENSE = "RedDef";
-  static KIND_POISON = "Poison";
-  static KIND_SLOW = "Slow";
-  static KIND_BURN_COLD = "BC";
-  static KIND_BEAT_BACK = "Beat";
-  static KIND_SILENCE = "Silence";
-  static KIND_VERTIGO = "Vertigo";
-  static KIND_INTIMIDATE = "Intimidate";
-  static KIND_CUSS = "Cuss";
-  static KIND_BURN = "Burn";
-  static KIND_COLD = "Cold";
+  static readonly KIND_AURA = "Aura";
+  static readonly KIND_CHANGE_BULLET = "Bultype";
+  static readonly KIND_CHANGE_DAMAGE = "ChangeDam";
+  static readonly KIND_CHANGE_RATE = "ChangeRate";
+  static readonly KIND_CHANGE_RANGE = "ChangeRange";
+  static readonly KIND_FIELD_ATTACK = "ALLAP";
+  static readonly KIND_DIVIDED_ATTACK = "DivAP";
+  static readonly KIND_SCATTER_ATTACK = "ScaAP";
+  static readonly KIND_COMBO_ATTACK = "ComAP";
+  static readonly KIND_GUIDED_BULLET = "GuidedBul";
+  static readonly KIND_ATTACK_RATE = "AttackRate";
+  static readonly KIND_AOE_ATTACK = "AoeAP";
+  static readonly KIND_THROUGHOUT_ATTACK = "ThoAP";
+  static readonly KIND_BOUNCE_ATTACK = "BouAP";
+  static readonly KIND_FLOAT_DAMAGE = "FloatDam";
+  static readonly KIND_CRIT = "Crit";
+  static readonly KIND_REDUCED_DEFENSE = "RedDef";
+  static readonly KIND_POISON = "Poison";
+  static readonly KIND_SLOW = "Slow";
+  static readonly KIND_BURN_COLD = "BC";
+  static readonly KIND_BEAT_BACK = "Beat";
+  static readonly KIND_SILENCE = "Silence";
+  static readonly KIND_VERTIGO = "Vertigo";
+  static readonly KIND_INTIMIDATE = "Intimidate";
+  static readonly KIND_CUSS = "Cuss";
+  static readonly KIND_BURN = "Burn";
+  static readonly KIND_COLD = "Cold";
 
   constructor(_data: any) {
     super(_data);
@@ -71,62 +71,62 @@ export class TowerSkillData extends BaseSkillData {
 }
 
 export class MonsterSkillData extends BaseSkillData {
-  static EVENT_RED = 1;
-  static EVENT_YELLOW = 2;
-  static EVENT_GREEN = 3;
-  static EVENT_FULL = 4;
-  static EVENT_INTIMIDATE = 20;
-  static EVENT_VERTIGO = 21;
-  static EVENT_SILENCE = 22;
-  static EVENT_SLOW = 23;
-  static EVENT_REDUCED_DEFENSE = 24;
-  static EVENT_POISON = 25;
-  static EVENT_BURN = 26;
-  static EVENT_COLD = 27;
-  static EVENT_HIT = 40;
-  static EVENT_CRIT = 41;
-  static EVENT_BEAT_BACK = 42;
-  static EVENT_FRIENT_DIE = 43;
-  static EVENT_DIE = 44;
-  static KIND_FLY = "fly";
-  static KIND_AIRBORNE = "airborne";
-  static KIND_ISOLATION = "isolation";
-  static KIND_RELIVE = "revive";
-  static KIND_SUICIDE = "burst";
-  static KIND_REINCARNATE = "reborn";
-  static KIND_SLOWF = "slowf";
-  static KIND_RESIST_FIRE = "resistFire";
-  static KIND_RESIST_FROST = "resistFrost";
-  static KIND_RESIST_POISON = "resistPoison";
-  static KIND_RESIST_SLOW = "resistSlow";
-  static KIND_RESIST_BEAT = "resistBeat";
-  static KIND_RESIST_SILENCE = "resistSilence";
-  static KIND_RESIST_VERTIGO = "resistVertigo";
-  static KIND_RESIST_CRIT = "resistCrit";
-  static KIND_RESIST_LIGHT = "resistLight";
-  static KIND_RESIST_INTIMIDATE = "resistIntimidate";
-  static KIND_WEAK_FIRE = "weakFire";
-  static KIND_WEAK_FROST = "weakFrost";
-  static KIND_WEAK_POISON = "weakPoison";
-  static KIND_WEAK_SLOW = "weakSlow";
-  static KIND_WEAK_BEAT = "weakBeat";
-  static KIND_WEAK_SILENCE = "weakSilence";
-  static KIND_WEAK_VERTIGO = "weakVertigo";
-  static KIND_WEAK_CRIT = "weakCrit";
-  static KIND_WEAK_LIGHT = "weakLight";
-  static KIND_WEAK_INTIMIDATE = "weakIntimidate";
-  static KIND_RESIST_STRSMOOTH = "strsmooth";
-  static KIND_RUN = "sprint";
-  static KIND_MIRROR = "divide";
-  static KIND_SUMMON = "summon";
-  static KIND_CLOUD = "cloud";
-  static KIND_CURE = "massTreatment";
-  static KIND_BLINK = "blink";
-  static KIND_HIDE = "invisible";
-  static KIND_SHIELD = "shield";
-  static KIND_SNEER = "taunt";
-  static KIND_TRANSFORM = "morph";
-  static KIND_LINKS = "links";
+  static readonly EVENT_RED = 1;
+  static readonly EVENT_YELLOW = 2;
+  static readonly EVENT_GREEN = 3;
+  static readonly EVENT_FULL = 4;
+  static readonly EVENT_INTIMIDATE = 20;
+  static readonly EVENT_VERTIGO = 21;
+  static readonly EVENT_SILENCE = 22;
+  static readonly EVENT_SLOW = 23;
+  static readonly EVENT_REDUCED_DEFENSE = 24;
+  static readonly EVENT_POISON = 25;
+  static readonly EVENT_BURN = 26;
+  static readonly EVENT_COLD = 27;
+  static readonly EVENT_HIT = 40;
+  static readonly EVENT_CRIT = 41;
+  static readonly EVENT_BEAT_BACK = 42;
+  static readonly EVENT_FRIENT_DIE = 43;
+  static readonly EVENT_DIE = 44;
+  static readonly KIND_FLY = "fly";
+  static readonly KIND_AIRBORNE = "airborne";
+  static readonly KIND_ISOLATION = "isolation";
+  static readonly KIND_RELIVE = "revive";
+  static readonly KIND_SUICIDE = "burst";
+  static readonly KIND_REINCARNATE = "reborn";
+  static readonly KIND_SLOWF = "slowf";
+  static readonly KIND_RESIST_FIRE = "resistFire";
+  static readonly KIND_RESIST_FROST = "resistFrost";
+  static readonly KIND_RESIST_POISON = "resistPoison";
+  static readonly KIND_RESIST_SLOW = "resistSlow";
+  static readonly KIND_RESIST_BEAT = "resistBeat";
+  static readonly KIND_RESIST_SILENCE = "resistSilence";
+  static readonly KIND_RESIST_VERTIGO = "resistVertigo";
+  static readonly KIND_RESIST_CRIT = "resistCrit";
+  static readonly KIND_RESIST_LIGHT = "resistLight";
+  static readonly KIND_RESIST_INTIMIDATE = "resistIntimidate";
+  static readonly KIND_WEAK_FIRE = "weakFire";
+  static readonly KIND_WEAK_FROST = "weakFrost";
+  static readonly KIND_WEAK_POISON = "weakPoison";
+  static readonly KIND_WEAK_SLOW = "weakSlow";
+  static readonly KIND_WEAK_BEAT = "weakBeat";
+  static readonly KIND_WEAK_SILENCE = "weakSilence";
+  static readonly KIND_WEAK_VERTIGO = "weakVertigo";
+  static readonly KIND_WEAK_CRIT = "weakCrit";
+  static readonly KIND_WEAK_LIGHT = "weakLight";
+  static readonly KIND_WEAK_INTIMIDATE = "weakIntimidate";
+  static readonly KIND_RESIST_STRSMOOTH = "strsmooth";
+  static readonly KIND_RUN = "sprint";
+  static readonly KIND_MIRROR = "divide";
+  static readonly KIND_SUMMON = "summon";
+  static readonly KIND_CLOUD = "cloud";
+  static readonly KIND_CURE = "massTreatment";
+  static readonly KIND_BLINK = "blink";
+  static readonly KIND_HIDE = "invisible";
+  static readonly KIND_SHIELD = "shield";
+  static readonly KIND_SNEER = "taunt";
+  static readonly KIND_TRANSFORM = "morph";
+  static readonly KIND_LINKS = "links";
 
   constructor(_data: any) {
     super(_data);
@@ -176,9 +176,9 @@ export class MonsterSkillData extends BaseSkillData {
 
 export class SkillManager extends BaseManager {
   static onlyExample: SkillManager;
-  static TOWER_SKILL = "towerSkill";
-  static MONSTER_SKILL = "monsterSkill";
-  static TRAP_SKILL = "trapSkill";
+  static readonly TOWER_SKILL = "towerSkill";
+  static readonly MONSTER_SKILL = "monsterSkill";
+  static readonly TRAP_SKILL = "trapSkill";
 
   constructor() {
     super();
@@ -212,7 +212,7 @@ export class SkillManager extends BaseManager {
 }
 
 export class SkillsPackageData extends BaseData {
-  static DATA_SKILLS_LIST = "skills";
+  static readonly DATA_SKILLS_LIST = "skills";
   skillsList;
 
   constructor(_data: any) {

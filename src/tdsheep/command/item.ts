@@ -90,10 +90,10 @@ export class GemData extends BaseItemData {
   public static DATA_COLOR_INDEX = "color";
   public static SKILL_PACKAGE_ID = "id";
   public static SKILL_PACKAGE_LEVEL = "lv";
-  public gemLevel;
-  public towerSkillPackage;
-  public nextLevelId;
-  public colorIndex;
+  public gemLevel: int;
+  public towerSkillPackage: any;
+  public nextLevelId: string;
+  public colorIndex: int;
 
   constructor(_data: any) {
     super(_data);

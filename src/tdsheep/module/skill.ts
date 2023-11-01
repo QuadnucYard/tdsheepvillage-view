@@ -43,6 +43,7 @@ export class BaseSkill extends BaseModule {
   }
 
   get skillInfo() {
+    console.log(this, this.m_updateFunction);
     if (this.m_updateFunction != null) {
       this.m_updateFunction();
     }
@@ -66,7 +67,12 @@ export class TowerSkill extends BaseSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level);
     this.tower = _tower;
-    this.m_data.typeId = BaseSkillData.TYPE_TOWER_SKILL;
+  }
+
+  static create(_data: TowerSkillData, _level: number, _tower: Tower) {
+    const _towerSkill = new TowerSkill("", _level, _tower);
+    _towerSkill.m_data = _data;
+    return _towerSkill;
   }
 
   shouldTransferBullet() {

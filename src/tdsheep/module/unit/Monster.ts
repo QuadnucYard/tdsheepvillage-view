@@ -7,7 +7,7 @@ import { GlobalString } from "../../ado/GlobalString.js";
 import { MonsterSkill } from "../skill";
 
 export class Monster extends BaseUnit {
-  static MONSTER_SAY_ARRAY = [
+  static readonly MONSTER_SAY_ARRAY = [
     GlobalDataGetValue.getLanguageStr(1250),
     GlobalDataGetValue.getLanguageStr(1251),
     GlobalDataGetValue.getLanguageStr(1252),
@@ -19,31 +19,31 @@ export class Monster extends BaseUnit {
     GlobalDataGetValue.getLanguageStr(1258),
     GlobalDataGetValue.getLanguageStr(1259),
   ];
-  public static MONSTER = "monster";
-  public static FRAME_NAME_DEAD = "dead";
-  public static STATUS_MOVE = "statusMove";
-  public static RES_AIMING = "aiming";
-  public static PATH_PATH = "pathPath";
-  public static PHOTO_WIDTH = 66;
-  public static PHOTO_HEIGHT = 64;
-  public static PHOTO_ROUND = 50;
-  public static PHOTO_SIZE = 800;
-  public static WEIGHTILY_SIZE = 487500;
-  public static CARD_RATIO = 2;
-  public static CARD_WIDTH = 32;
-  public static CARD_HEIGHT = 40;
-  public static CARD_ROUND = 10;
-  public static CARD_SIZE = 400;
-  public static CARD_ROTATION = -10;
-  public static ICON_RATIO = 1.5;
-  public static ICON_WIDTH = 44;
-  public static ICON_HEIGHT = 44;
-  public static ICON_ROUND = 20;
-  public static ICON_SIZE = 400;
-  public static ICON_ROTATION = -10;
-  public static PATH_NUM = 5;
-  public static PATH_RATE = 0.01;
-  public static RE_FIND_PATH_STEP = 2500;
+  public static readonly MONSTER = "monster";
+  public static readonly FRAME_NAME_DEAD = "dead";
+  public static readonly STATUS_MOVE = "statusMove";
+  public static readonly RES_AIMING = "aiming";
+  public static readonly PATH_PATH = "pathPath";
+  public static readonly PHOTO_WIDTH = 66;
+  public static readonly PHOTO_HEIGHT = 64;
+  public static readonly PHOTO_ROUND = 50;
+  public static readonly PHOTO_SIZE = 800;
+  public static readonly WEIGHTILY_SIZE = 487500;
+  public static readonly CARD_RATIO = 2;
+  public static readonly CARD_WIDTH = 32;
+  public static readonly CARD_HEIGHT = 40;
+  public static readonly CARD_ROUND = 10;
+  public static readonly CARD_SIZE = 400;
+  public static readonly CARD_ROTATION = -10;
+  public static readonly ICON_RATIO = 1.5;
+  public static readonly ICON_WIDTH = 44;
+  public static readonly ICON_HEIGHT = 44;
+  public static readonly ICON_ROUND = 20;
+  public static readonly ICON_SIZE = 400;
+  public static readonly ICON_ROTATION = -10;
+  public static readonly PATH_NUM = 5;
+  public static readonly PATH_RATE = 0.01;
+  public static readonly RE_FIND_PATH_STEP = 2500;
   public index: number = 0;
   public keyId: string = "";
   public m_level: number = 0;
@@ -96,18 +96,32 @@ export class Monster extends BaseUnit {
     return _wolf;
   }
 
+  override initSkills() {
+    this.skills = {};
+    const _skills = this.getAllSkills() ?? this.data.skills;
+    if (_skills != null) {
+      for (const _sk of _skills) {
+        const _skill = new MonsterSkill(
+          _sk[BaseUnit.SKILL_ID],
+          _sk[BaseUnit.SKILL_LEVEL],
+          this
+        ).getSubClasses();
+        this.skills[_skill.data.kindId] = _skill;
+      }
+    }
+  }
+
   conflictSkillList(_newSkill: MonsterSkill) {
     const _kindNameList = [];
     if (_newSkill == null) {
       return [];
     }
-    let _conflict = GlobalData.$_conflict_skill_kind;
-    let _newSkillKindId = _newSkill.data.kindId;
+    const _conflict = GlobalData.$_conflict_skill_kind;
+    const _newSkillKindId = _newSkill.data.kindId;
     if (this.skills[_newSkillKindId]) {
       _kindNameList.push(MonsterSkill.getKindName(_newSkillKindId));
     }
-    for (let i = 0; i < _conflict.length; i++) {
-      const _conflictList = _conflict[i];
+    for (const _conflictList of _conflict) {
       if (_conflictList.indexOf(_newSkillKindId) != -1) {
         for (let j = 0; j < _conflictList.length; j++) {
           if (_newSkillKindId != _conflictList[j]) {
@@ -119,39 +133,6 @@ export class Monster extends BaseUnit {
       }
     }
     return _kindNameList;
-  }
-
-  getDowerSkillsList() {
-    let i = 0;
-    let _skill = null;
-    let _tampList = null;
-    let _skillsList = [];
-    if (this.isTame) {
-      _tampList = this.dowerSkills;
-    } else {
-      _tampList = this.monsterData.skills;
-    }
-    for (i = 0; i < _tampList.length; i++) {
-      _skill = this.getSkillById(_tampList[i][BaseUnit.SKILL_ID]);
-      if (_skill) {
-        _skillsList.push(_skill);
-      }
-    }
-    return _skillsList;
-  }
-
-  getLearnSkillsList() {
-    let i = 0;
-    let _skill = null;
-    let _skillsList = [];
-    if (this.learnSkills)
-      for (i = 0; i < this.learnSkills.length; i++) {
-        _skill = this.getSkillById(this.learnSkills[i][BaseUnit.SKILL_ID]);
-        if (_skill) {
-          _skillsList.push(_skill);
-        }
-      }
-    return _skillsList;
   }
 
   getSkillById(_skillId: string) {
@@ -298,40 +279,18 @@ export class Monster extends BaseUnit {
 
   initMonster() {
     this.initMonsterSkills();
-    this.initStatuses();
+    // this.initStatuses();
   }
 
   get skillInfo() {
-    let k = undefined;
-    let i = 0;
-    let _skill = null;
-    let _info = null;
-    let _skillInfo = "";
     if (this.skills == null) {
-      return _skillInfo;
+      return "";
     }
-    let _skillList = [];
-    for (k in this.skills) {
-      _skillList.push(this.skills[k]);
-    }
+    const _skillList = Object.values(this.skills);
     _skillList.sort(
       (a: any, b: any) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]
     );
-    for (i = 0; i < _skillList.length; i++) {
-      _skill = _skillList[i];
-      _info = _skill.skillInfo;
-      console.log(_info, _skill.skillTag1, _skill.skillTag2, _skill.skillTag3, _skill.level);
-      if (_info != "") {
-        _skillInfo += _info;
-      }
-      //console.log(_skillInfo)
-    }
-    //console.log(_skillInfo, _skillInfo.slice(0, _skillInfo.length - 1))
-    /*if (_skillInfo.length > 0) {
-            _skillInfo = _skillInfo.slice(0, _skillInfo.length - 1);
-        }*/
-    //console.log(_skillInfo)
-    return _skillInfo;
+    return _skillList.map(t => t.skillInfo).join("");
   }
 
   get isTame() {

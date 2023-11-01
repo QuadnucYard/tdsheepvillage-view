@@ -3,8 +3,6 @@ import { BaseUnit } from "./BaseUnit";
 import { TrapData } from "../../command/unit";
 
 export class Bullet extends BaseUnit {
-  public static MAX_LIFE_FRAME = 50;
-  public static MAX_HEIGHT = 5000;
   public damage: number = 0;
   public range: number = 0;
   public attackType: string;
