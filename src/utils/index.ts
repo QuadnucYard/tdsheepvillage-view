@@ -43,3 +43,8 @@ export function* accumulate(a: Iterable<number>) {
     yield s;
   }
 }
+
+export function getStep(x: number) {
+  if (x === 0) return 1;
+  return Math.pow(10, Math.floor(Math.log10(x)));
+}

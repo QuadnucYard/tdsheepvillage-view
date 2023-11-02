@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row :gutter="20">
     <el-col :span="12">
       <tower-data-form :tower="tower" />
     </el-col>
@@ -7,7 +7,7 @@
       <tower-info :tower="tower" />
     </el-col>
   </el-row>
-  <tower-skill-table :tower="tower" />
+  <tower-skill-table :tower="tower" class="mt-2"/>
 </template>
 
 <script setup lang="ts">

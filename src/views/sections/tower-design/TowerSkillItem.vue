@@ -18,6 +18,7 @@
           v-model="(modelValue.params[i] as number)"
           size="small"
           controls-position="right"
+          :step="getStep(p)"
           style="width: 100px"
         />
       </template>
@@ -26,10 +27,11 @@
 </template>
 
 <script setup lang="ts">
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { TowerSkillData } from "@/tdsheep/command/skill";
 import { TowerSkill } from "@/tdsheep/module/skill";
 import { Tower } from "@/tdsheep/module/unit/Tower";
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { getStep } from "@/utils";
 
 const props = defineProps<{ tower: Tower }>();
 const modelValue = defineModel<{ kindId: string; params: (number | string)[] }>({
