@@ -12,12 +12,11 @@
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { TowerData } from "@/tdsheep/command/unit";
 import { Tower } from "@/tdsheep/module/unit/Tower";
-import _ from "lodash-es";
-import TowerSkillTable from "./tower-design/TowerSkillTable.vue";
 import TowerDataForm from "./tower-design/TowerDataForm.vue";
 import TowerInfo from "./tower-design/TowerInfo.vue";
-import { TowerData } from "@/tdsheep/command/unit";
+import TowerSkillTable from "./tower-design/TowerSkillTable.vue";
 
 const tower = reactive(new Tower(null));
 tower.m_data = new TowerData(GlobalData.$_towerAtt_Obj.shaota);

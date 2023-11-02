@@ -616,10 +616,7 @@ export class FloatDamageSkill extends TowerSkill {
 export class GuidedBulletSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
-    // this.m_skillInfo = "";
-    this.m_updateFunction = () => {
-      this.m_skillInfo = this.guideInfo;
-    };
+    this.m_skillInfo = "";
   }
 
   get guideRatio() {

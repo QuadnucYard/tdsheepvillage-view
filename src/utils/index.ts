@@ -46,5 +46,8 @@ export function* accumulate(a: Iterable<number>) {
 
 export function getStep(x: number) {
   if (x === 0) return 1;
-  return Math.pow(10, Math.floor(Math.log10(x)));
+  x = Math.abs(x);
+  if (x % 1 === 0) return Math.pow(10, Math.floor(Math.log10(x)));
+  const s = x.toString();
+  return Math.pow(10, s.indexOf(".") - s.length + 1);
 }

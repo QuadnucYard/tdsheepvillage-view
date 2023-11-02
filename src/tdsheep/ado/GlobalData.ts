@@ -36,6 +36,7 @@ export const GlobalData = (function () {
     compareNumber(parseMapId(k1), parseMapId(k2))
   ) as (keyof typeof data.umaps)[];
 
+  const buildings = addObjAttribute_type_id(data.building);
   const skills = addObjAttribute_type_id(data.skill);
   const globalData = {
     $_global_language_str: x2js.xml2dom(lang),
@@ -43,10 +44,10 @@ export const GlobalData = (function () {
     $_skillAtt_Obj: skills,
     $_skillPackage_Obj: data.skill_package,
     $_map_Obj: data.umaps,
-    $_towerAtt_Obj: data.building.tower,
+    $_towerAtt_Obj: buildings.tower,
     $_bulletAtt_Obj: data.bullet,
     $_wolfAtt_Obj: addObjAttribute_type_id_one(data.wolfs, "wolf"),
-    $_wallAtt_Obj: data.building["wall"],
+    $_wallAtt_Obj: buildings.wall,
     $_barrierAtt_Obj: data.barrier,
     $_level_up_gift: data.level_up_gift,
     $_pass_map_gift: data.pass_map_gift,
