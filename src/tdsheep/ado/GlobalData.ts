@@ -5,27 +5,47 @@ import dwaves from "@/assets/dream_waves.json";
 import { compareNumber, isAlpha } from "@/utils";
 import _ from "lodash-es";
 import X2JS from "x2js";
-import { GlobalDataGetValue } from "./GlobalDataGetValue";
+
+interface IEntity {
+  type: string;
+  id: string;
+}
+
+function addObjAttribute_type_id<T extends object>(_obj: T) {
+  return _.mapValues(_obj, (t, i) => addObjAttribute_type_id_one(t as any, i)) as {
+    [P in keyof T]: { [Q in keyof T[P]]: T[P][Q] & IEntity };
+  };
+}
+
+function addObjAttribute_type_id_one<T extends object>(_obj: T, _type: string) {
+  return _.mapValues(_obj, (t, i) => add_type_id(t, _type, i)) as {
+    [P in keyof T]: T[P] & IEntity;
+  };
+}
+
+function add_type_id<T>(_obj: T, _type: string, _id: string): T & IEntity {
+  return { ..._obj, type: _type, id: _id };
+}
 
 export const GlobalData = (function () {
   const x2js = new X2JS();
   let _pvp = data["camp_system_simple"];
 
-  const parseMapId = (s: string) =>
-    parseInt(/(?<=m).+(?=[A-Z]*)/.exec(isAlpha(s[s.length - 1]) ? s : s + "A")![0], 36);
+  const parseMapId = (s: string) => parseInt(/(?<=m).+(?=[A-Z]*)/.exec(isAlpha(s[s.length - 1]) ? s : s + "A")![0], 36);
   const sortedIds = Object.keys(data.umaps).sort((k1, k2) =>
     compareNumber(parseMapId(k1), parseMapId(k2))
   ) as (keyof typeof data.umaps)[];
 
+  const skills = addObjAttribute_type_id(data.skill);
   const globalData = {
     $_global_language_str: x2js.xml2dom(lang),
-    $_global_properties: GlobalDataGetValue.addObjAttribute_type_id(data.properties),
-    $_skillAtt_Obj: GlobalDataGetValue.addObjAttribute_type_id(data.skill),
+    $_global_properties: addObjAttribute_type_id(data.properties),
+    $_skillAtt_Obj: skills,
     $_skillPackage_Obj: data.skill_package,
     $_map_Obj: data.umaps,
     $_towerAtt_Obj: data.building.tower,
     $_bulletAtt_Obj: data.bullet,
-    $_wolfAtt_Obj: GlobalDataGetValue.addObjAttribute_type_id_one(data.wolfs, "wolf"),
+    $_wolfAtt_Obj: addObjAttribute_type_id_one(data.wolfs, "wolf"),
     $_wallAtt_Obj: data.building["wall"],
     $_barrierAtt_Obj: data.barrier,
     $_level_up_gift: data.level_up_gift,
@@ -60,8 +80,12 @@ export const GlobalData = (function () {
     $_camp_create_mine_help_friends_num: _pvp["create_mine_help_friends_num"],
     umapsById: sortedIds.map(k => [k, data.umaps[k]]),
     dream_data: ddata,
-    dream_maps: GlobalDataGetValue.addObjAttribute_type_id_one(ddata["dmaps"], "dmaps"),
+    dream_maps: addObjAttribute_type_id_one(ddata["dmaps"], "dmaps"),
     dream_waves: dwaves,
+    skillTemplates: _.chain(Object.values(skills.towerSkill))
+      .groupBy(t => t.kindId)
+      .mapValues(t => ({ id: t[0].id, params: t[0].params }))
+      .value(),
   };
 
   console.log("init", globalData.umapsById);

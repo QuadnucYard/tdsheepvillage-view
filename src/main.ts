@@ -3,10 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 
 import ElementPlus from "element-plus";
-import "element-plus/theme-chalk/src/message.scss";
 
-import "./styles/index.scss";
 import "tailwindcss/tailwind.css";
+import "element-plus/theme-chalk/src/message.scss";
+import "./styles/index.scss";
 
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 

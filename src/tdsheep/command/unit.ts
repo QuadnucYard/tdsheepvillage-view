@@ -239,6 +239,7 @@ export class TowerData extends BuildingData {
     this.damageC = _data["damage"]["c"];
     this.buffEffect = _data["buffEffect"];
     this.levelMax = _data["lev_max"];
+    this.bulletId = _data["bId"];
   }
 
   get buildCostA() {

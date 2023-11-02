@@ -11,6 +11,7 @@ export const sections = [
   { name: "wolf-calc", label: "Wolf Calculation" },
   { name: "baoxiang", label: "Baoxiang Properties" },
   { name: "dream-design", label: "Dream Design" },
+  { name: "tower-design", label: "Tower Design" },
 ];
 
 const routes: Array<RouteRecordRaw> = [

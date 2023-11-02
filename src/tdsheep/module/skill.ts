@@ -1,16 +1,20 @@
-import { BaseModule } from "./BaseModule";
+import { formatHtml } from "@/utils/format";
 import { GlobalData } from "../ado/GlobalData";
 import { GlobalDataGetValue } from "../ado/GlobalDataGetValue";
-import { BaseSkillData, SkillsPackageData, SkillsPackageManager } from "../command/skill";
-import { SkillManager } from "../command/skill";
-import { TowerSkillData } from "../command/skill";
-import { Position } from "../utils/Position";
 import { EffectData } from "../command/effect";
-import { MonsterSkillData } from "../command/skill";
+import {
+  BaseSkillData,
+  MonsterSkillData,
+  SkillManager,
+  SkillsPackageData,
+  SkillsPackageManager,
+  TowerSkillData,
+} from "../command/skill";
 import { MonsterData, MonsterManager } from "../command/unit";
+import { Position } from "../utils/Position";
+import { BaseModule } from "./BaseModule";
 import type { Monster } from "./unit/Monster";
 import type { Tower } from "./unit/Tower";
-import { formatHtml } from "@/utils/format";
 
 export class BaseSkill extends BaseModule {
   public level: number = 0;
@@ -43,7 +47,6 @@ export class BaseSkill extends BaseModule {
   }
 
   get skillInfo() {
-    console.log(this, this.m_updateFunction);
     if (this.m_updateFunction != null) {
       this.m_updateFunction();
     }
@@ -158,18 +161,20 @@ export class TowerSkill extends BaseSkill {
 }
 
 export class AoeAttackSkill extends TowerSkill {
-  static DEFAULT_RADII = 0;
-  static DEFAULT_NEXT_EFFECT_RATE = 0;
-  static MAX_NEXT_EFFECT_RATE = 1;
+  static readonly DEFAULT_RADII = 0;
+  static readonly DEFAULT_NEXT_EFFECT_RATE = 0;
+  static readonly MAX_NEXT_EFFECT_RATE = 1;
 
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1050;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3001,
-      this.radiiInfo,
-      Position.toPercentage(this.nextEffectRate)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3001,
+        this.radiiInfo,
+        Position.toPercentage(this.nextEffectRate)
+      );
+    };
   }
 
   get radii() {
@@ -206,17 +211,19 @@ export class AttackRateSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1040;
-    let _floorRate = this.floorRate;
-    let _airRate = this.airRate;
-    if (_floorRate <= 0 && _airRate > 0) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3029);
-    } else if (_airRate <= 0 && _floorRate > 0) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3028);
-    } else if (_floorRate != 1) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3030, Position.toPercentage(_floorRate));
-    } else if (_airRate != 1) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3031, Position.toPercentage(_airRate));
-    }
+    this.m_updateFunction = () => {
+      let _floorRate = this.floorRate;
+      let _airRate = this.airRate;
+      if (_floorRate <= 0 && _airRate > 0) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3029);
+      } else if (_airRate <= 0 && _floorRate > 0) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3028);
+      } else if (_floorRate != 1) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3030, Position.toPercentage(_floorRate));
+      } else if (_airRate != 1) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3031, Position.toPercentage(_airRate));
+      }
+    };
   }
 
   get floorRate() {
@@ -229,12 +236,14 @@ export class AttackRateSkill extends TowerSkill {
 }
 
 export class AuraSkill extends TowerSkill {
-  static DEFAULT_RADII = 1000;
+  static readonly DEFAULT_RADII = 1000;
 
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1500;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3002);
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3002);
+    };
   }
 
   get spId() {
@@ -251,26 +260,25 @@ export class AuraSkill extends TowerSkill {
 }
 
 export class BeatBackSkill extends TowerSkill {
-  static SHIFT_TIME = 0.2;
-  static DEFAULT_CHANCES = 0;
-  static DEFAULT_BEAT_BACK_DISTANCE = 0;
+  static readonly SHIFT_TIME = 0.2;
+  static readonly DEFAULT_CHANCES = 0;
+  static readonly DEFAULT_BEAT_BACK_DISTANCE = 0;
 
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1060;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3003,
-      Position.toPercentage(this.chances),
-      this.distanceInfo
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3003,
+        Position.toPercentage(this.chances),
+        this.distanceInfo
+      );
+    };
   }
 
   get chances() {
     return Math.max(
-      Math.min(
-        this.data.getLevelParam(this.level, 0) * this.level + BeatBackSkill.DEFAULT_CHANCES,
-        1
-      ),
+      Math.min(this.data.getLevelParam(this.level, 0) * this.level + BeatBackSkill.DEFAULT_CHANCES, 1),
       0
     );
   }
@@ -282,6 +290,7 @@ export class BeatBackSkill extends TowerSkill {
   get distanceInfo() {
     let _info = null;
     let _distance = this.beatBackDistance;
+    return _distance.toString();
     if (_distance < 100) {
       _info = GlobalDataGetValue.getLanguageStr(3505);
     } else if (_distance < 250) {
@@ -306,7 +315,7 @@ export class BounceAttackSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1070;
-    this.m_updateFunction = function () {
+    this.m_updateFunction = () => {
       this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
         3004,
         this.bounceNum,
@@ -317,15 +326,12 @@ export class BounceAttackSkill extends TowerSkill {
   }
 
   get bounceNum() {
-    return Math.floor(
-      this.data.getLevelParam(this.level, 0) * this.level + BounceAttackSkill.DEFAULT_BOUNCE_NUM
-    );
+    return Math.floor(this.data.getLevelParam(this.level, 0) * this.level + BounceAttackSkill.DEFAULT_BOUNCE_NUM);
   }
 
   get nextEffectRate() {
     return Math.min(
-      this.data.getLevelParam(this.level, 1) * this.level +
-        BounceAttackSkill.DEFAULT_NEXT_EFFECT_RATE,
+      this.data.getLevelParam(this.level, 1) * this.level + BounceAttackSkill.DEFAULT_NEXT_EFFECT_RATE,
       BounceAttackSkill.MAX_NEXT_EFFECT_RATE
     );
   }
@@ -345,15 +351,12 @@ export class BurnColdSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1080;
-    this.m_updateFunction = function () {
+    this.m_updateFunction = () => {
       let _value = this.burnColdValue;
       if (_value > 0) {
         this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3005, this.burn);
       } else {
-        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-          3006,
-          Position.toPercentage(this.cold)
-        );
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3006, Position.toPercentage(this.cold));
       }
     };
   }
@@ -398,17 +401,13 @@ export class ChangeDamageSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1000;
-    if (this.damageRate > 1) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3007,
-        Position.toPercentage(this.damageRate - 1)
-      );
-    } else if (this.damageRate < 1) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3008,
-        Position.toPercentage(1 - this.damageRate)
-      );
-    }
+    this.m_updateFunction = () => {
+      if (this.damageRate > 1) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3007, Position.toPercentage(this.damageRate - 1));
+      } else if (this.damageRate < 1) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3008, Position.toPercentage(1 - this.damageRate));
+      }
+    };
   }
 
   get damageAdd() {
@@ -443,20 +442,16 @@ export class ChangeRangeSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1010;
-    if (this.rangeRate > 1) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3009,
-        Position.toPercentage(this.rangeRate - 1)
-      );
-    } else {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3010,
-        Position.toPercentage(1 - this.rangeRate)
-      );
-    }
-    if (this.rangeMin > 0) {
-      this.m_skillInfo += GlobalDataGetValue.getLanguageStr(3027);
-    }
+    this.m_updateFunction = () => {
+      if (this.rangeRate > 1) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3009, Position.toPercentage(this.rangeRate - 1));
+      } else {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3010, Position.toPercentage(1 - this.rangeRate));
+      }
+      if (this.rangeMin > 0) {
+        this.m_skillInfo += GlobalDataGetValue.getLanguageStr(3027);
+      }
+    };
   }
 
   get rangeAdd() {
@@ -487,25 +482,17 @@ export class ChangeRateSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1020;
-    if (this.rateRate > 1) {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3011,
-        Position.toPercentage(this.rateRate - 1)
-      );
-    } else {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3012,
-        Position.toPercentage(1 - this.rateRate)
-      );
-    }
+    this.m_updateFunction = () => {
+      if (this.rateRate > 1) {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3011, Position.toPercentage(this.rateRate - 1));
+      } else {
+        this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3012, Position.toPercentage(1 - this.rateRate));
+      }
+    };
   }
 
   get rateRate() {
-    return (
-      this.data.getLevelParam(this.level, 0) +
-      this.data.getLevelParam(this.level, 1) * this.level +
-      1
-    );
+    return this.data.getLevelParam(this.level, 0) + this.data.getLevelParam(this.level, 1) * this.level + 1;
   }
 
   get rate() {
@@ -528,24 +515,21 @@ export class ComboAttackSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1090;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3013,
-      Position.toPercentage(this.chances),
-      this.extraBullet + 1
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3013,
+        Position.toPercentage(this.chances),
+        this.extraBullet + 1
+      );
+    };
   }
 
   get chances() {
-    return Math.max(
-      Math.min(this.data.getLevelParam(this.level, 0) + ComboAttackSkill.DEFAULT_CHANCES, 1),
-      0
-    );
+    return Math.max(Math.min(this.data.getLevelParam(this.level, 0) + ComboAttackSkill.DEFAULT_CHANCES, 1), 0);
   }
 
   get extraBullet() {
-    return Math.floor(
-      this.data.getLevelParam(this.level, 1) * this.level + ComboAttackSkill.DEFAULT_EXTRA_BULLET
-    );
+    return Math.floor(this.data.getLevelParam(this.level, 1) * this.level + ComboAttackSkill.DEFAULT_EXTRA_BULLET);
   }
 }
 
@@ -557,30 +541,25 @@ export class CritSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1100;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3014,
-      Position.toPercentage(this.chances),
-      this.damageEffectRate.toFixed(1)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3014,
+        Position.toPercentage(this.chances),
+        this.damageEffectRate.toFixed(1)
+      );
+    };
   }
 
   get chances() {
-    return Math.max(
-      Math.min(this.data.getLevelParam(this.level, 0) * this.level + CritSkill.DEFAULT_CHANCES, 1),
-      0
-    );
+    return Math.max(Math.min(this.data.getLevelParam(this.level, 0) * this.level + CritSkill.DEFAULT_CHANCES, 1), 0);
   }
 
   get damageEffectRate() {
-    return (
-      this.data.getLevelParam(this.level, 1) * this.level + CritSkill.DEFAULT_DAMAGE_EFFECT_RATE + 1
-    );
+    return this.data.getLevelParam(this.level, 1) * this.level + CritSkill.DEFAULT_DAMAGE_EFFECT_RATE + 1;
   }
 
   get buffEffectRate() {
-    return (
-      this.data.getLevelParam(this.level, 2) * this.level + CritSkill.DEFAULT_BUFF_EFFECT_RATE + 1
-    );
+    return this.data.getLevelParam(this.level, 2) * this.level + CritSkill.DEFAULT_BUFF_EFFECT_RATE + 1;
   }
 }
 
@@ -591,20 +570,13 @@ export class CussSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1110;
-    this.m_updateFunction = function () {
-      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-        3026,
-        Math.round(this.cussPower),
-        this.duration.toFixed(0)
-      );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3026, Math.round(this.cussPower), this.duration.toFixed(0));
     };
   }
 
   get cussPower() {
-    return (
-      this.data.getLevelParam(this.level, 0) * this.level * this.tower.level +
-      CussSkill.DEFAULT_CUSS_POWER
-    );
+    return this.data.getLevelParam(this.level, 0) * this.level * this.tower.level + CussSkill.DEFAULT_CUSS_POWER;
   }
 
   get duration() {
@@ -618,20 +590,22 @@ export class DividedAttackSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1120;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3015, this.extraBullet + 1);
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3015, this.extraBullet + 1);
+    };
   }
 
   get extraBullet() {
-    return Math.floor(
-      this.data.getLevelParam(this.level, 0) * this.level + DividedAttackSkill.DEFAULT_EXTRA_BULLET
-    );
+    return Math.floor(this.data.getLevelParam(this.level, 0) * this.level + DividedAttackSkill.DEFAULT_EXTRA_BULLET);
   }
 }
 
 export class FloatDamageSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3017);
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3017);
+    };
   }
 
   get floatDamageRate() {
@@ -642,7 +616,10 @@ export class FloatDamageSkill extends TowerSkill {
 export class GuidedBulletSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
-    this.m_skillInfo = "";
+    // this.m_skillInfo = "";
+    this.m_updateFunction = () => {
+      this.m_skillInfo = this.guideInfo;
+    };
   }
 
   get guideRatio() {
@@ -682,19 +659,18 @@ export class IntimidateSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1140;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3019,
-      Position.toPercentage(this.chances),
-      this.duration.toFixed(1)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3019,
+        Position.toPercentage(this.chances),
+        this.duration.toFixed(1)
+      );
+    };
   }
 
   get chances() {
     return Math.max(
-      Math.min(
-        this.data.getLevelParam(this.level, 0) * this.level + IntimidateSkill.DEFAULT_CHANCES,
-        1
-      ),
+      Math.min(this.data.getLevelParam(this.level, 0) * this.level + IntimidateSkill.DEFAULT_CHANCES, 1),
       0
     );
   }
@@ -714,10 +690,7 @@ export class LightSkill extends TowerSkill {
   }
 
   get chances() {
-    return Math.max(
-      Math.min(this.data.getLevelParam(this.level, 0) * this.level + LightSkill.DEFAULT_CHANCES, 1),
-      0
-    );
+    return Math.max(Math.min(this.data.getLevelParam(this.level, 0) * this.level + LightSkill.DEFAULT_CHANCES, 1), 0);
   }
 }
 
@@ -729,7 +702,7 @@ export class PoisonSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1150;
-    this.m_updateFunction = function () {
+    this.m_updateFunction = () => {
       this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
         3000,
         Math.round(this.poisonRate * this.tower.damage()),
@@ -763,18 +736,17 @@ export class ReducedDefenseSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1160;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3020,
-      Position.toPercentage(this.reducedDefenseRate),
-      this.duration.toFixed(1)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3020,
+        Position.toPercentage(this.reducedDefenseRate),
+        this.duration.toFixed(1)
+      );
+    };
   }
 
   get reducedDefenseRate() {
-    return (
-      this.data.getLevelParam(this.level, 0) * this.level +
-      ReducedDefenseSkill.DEFAULT_REDUCED_DEFENSE_RATE
-    );
+    return this.data.getLevelParam(this.level, 0) * this.level + ReducedDefenseSkill.DEFAULT_REDUCED_DEFENSE_RATE;
   }
 
   get duration() {
@@ -788,13 +760,13 @@ export class ScatterAttackSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1170;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3021, this.extraBullet + 1);
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3021, this.extraBullet + 1);
+    };
   }
 
   get extraBullet() {
-    return Math.floor(
-      this.data.getLevelParam(this.level, 0) * this.level + ScatterAttackSkill.DEFAULT_EXTRA_BULLET
-    );
+    return Math.floor(this.data.getLevelParam(this.level, 0) * this.level + ScatterAttackSkill.DEFAULT_EXTRA_BULLET);
   }
 }
 
@@ -805,21 +777,17 @@ export class SilenceSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1180;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3022,
-      Position.toPercentage(this.chances),
-      this.duration.toFixed(1)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3022,
+        Position.toPercentage(this.chances),
+        this.duration.toFixed(1)
+      );
+    };
   }
 
   get chances() {
-    return Math.max(
-      Math.min(
-        this.data.getLevelParam(this.level, 0) * this.level + SilenceSkill.DEFAULT_CHANCES,
-        1
-      ),
-      0
-    );
+    return Math.max(Math.min(this.data.getLevelParam(this.level, 0) * this.level + SilenceSkill.DEFAULT_CHANCES, 1), 0);
   }
 
   get duration() {
@@ -834,11 +802,13 @@ export class SlowSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1190;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3023,
-      Position.toPercentage(this.slowRate),
-      this.duration.toFixed(1)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3023,
+        Position.toPercentage(this.slowRate),
+        this.duration.toFixed(1)
+      );
+    };
   }
 
   get slowRate() {
@@ -858,13 +828,14 @@ export class ThroughoutAttackSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1200;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3024, this.throughoutNum);
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3024, this.throughoutNum);
+    };
   }
 
   get throughoutNum() {
     return Math.floor(
-      this.data.getLevelParam(this.level, 0) * this.level +
-        ThroughoutAttackSkill.DEFAULT_THROUGHOUT_NUM
+      this.data.getLevelParam(this.level, 0) * this.level + ThroughoutAttackSkill.DEFAULT_THROUGHOUT_NUM
     );
   }
 
@@ -883,21 +854,17 @@ export class VertigoSkill extends TowerSkill {
   constructor(_id: string, _level: number, _tower: Tower) {
     super(_id, _level, _tower);
     this.index = 1210;
-    this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
-      3025,
-      Position.toPercentage(this.chances),
-      this.duration.toFixed(1)
-    );
+    this.m_updateFunction = () => {
+      this.m_skillInfo = GlobalDataGetValue.getLanguageStr(
+        3025,
+        Position.toPercentage(this.chances),
+        this.duration.toFixed(1)
+      );
+    };
   }
 
   get chances() {
-    return Math.max(
-      Math.min(
-        this.data.getLevelParam(this.level, 0) * this.level + VertigoSkill.DEFAULT_CHANCES,
-        1
-      ),
-      0
-    );
+    return Math.max(Math.min(this.data.getLevelParam(this.level, 0) * this.level + VertigoSkill.DEFAULT_CHANCES, 1), 0);
   }
 
   get duration() {
@@ -1096,19 +1063,13 @@ export class MonsterSkill extends BaseSkill {
   }
 
   get levelMax() {
-    let _spendObj = null;
-    let _grade = null;
-    let i = 0;
     if (this.m_levelMax <= 0) {
-      _spendObj = GlobalData.$_skill_lvup_spend;
-      _grade = this.grade;
+      const _spendObj = GlobalData.$_skill_lvup_spend;
+      const _grade = this.grade as keyof typeof _spendObj;
       if (_spendObj[_grade]) {
-        for (i = 1; i < 100; i++) {
-          if (!_spendObj[_grade][String(i)]) {
-            break;
-          }
+        for (const k in _spendObj[_grade]) {
+          this.m_levelMax = Math.max(this.m_levelMax, parseInt(k));
         }
-        this.m_levelMax = i;
       } else {
         this.m_levelMax = 1;
       }
@@ -1121,10 +1082,10 @@ export class MonsterSkill extends BaseSkill {
       _level = this.level;
     }
     let _spendObj = GlobalData.$_skill_lvup_spend;
-    let _grade = this.grade;
+    let _grade = this.grade as keyof typeof _spendObj;
     if (_spendObj[_grade]) {
-      if (_spendObj[_grade][String(_level)]) {
-        return _spendObj[_grade][String(_level)];
+      if (_spendObj[_grade][String(_level) as keyof (typeof _spendObj)["A"]]) {
+        return _spendObj[_grade][String(_level) as keyof (typeof _spendObj)["A"]];
       }
     }
     return null;
@@ -1132,10 +1093,10 @@ export class MonsterSkill extends BaseSkill {
 
   get skillScore() {
     let _powerObj = GlobalData.$_skill_grade_score;
-    let _grade = this.grade;
+    let _grade = this.grade as keyof typeof _powerObj;
     if (_powerObj[_grade]) {
-      if (_powerObj[_grade][String(this.level)]) {
-        return _powerObj[_grade][String(this.level)];
+      if (_powerObj[_grade][String(this.level) as keyof (typeof _powerObj)["Z1"]]) {
+        return _powerObj[_grade][String(this.level) as keyof (typeof _powerObj)["Z1"]];
       }
     }
     return 1;
@@ -1379,10 +1340,7 @@ export class CloudSkill extends MonsterEventSkill {
     this.index = 110;
     this.m_updateFunction = function () {
       this.m_skillInfo = GlobalDataGetValue.getLanguageStr(2302, this.cloudTime());
-      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(
-        2302,
-        this.cloudTime(this.level + 1)
-      );
+      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(2302, this.cloudTime(this.level + 1));
       this.refreshTag(true);
     };
   }
@@ -1460,10 +1418,7 @@ export class HideSkill extends MonsterEventSkill {
     this.index = 150;
     this.m_updateFunction = function () {
       this.m_skillInfo = GlobalDataGetValue.getLanguageStr(2305, this.duration());
-      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(
-        2305,
-        this.duration(this.level + 1)
-      );
+      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(2305, this.duration(this.level + 1));
       this.refreshTag();
     };
   }
@@ -1561,10 +1516,7 @@ export class ReincarnateSkill extends MonsterSkill {
     this.index = 85;
     this.m_updateFunction = function () {
       this.m_skillInfo = GlobalDataGetValue.getLanguageStr(2215, this.monsterName());
-      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(
-        2215,
-        this.monsterName(this.level + 1)
-      );
+      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(2215, this.monsterName(this.level + 1));
     };
   }
 
@@ -1927,10 +1879,7 @@ export class TransformSkill extends MonsterEventSkill {
     this.index = 95;
     this.m_updateFunction = function () {
       this.m_skillInfo = GlobalDataGetValue.getLanguageStr(2307, this.transformName());
-      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(
-        2307,
-        this.transformName(this.level + 1)
-      );
+      this.m_nextLevelSkillInfo = GlobalDataGetValue.getLanguageStr(2307, this.transformName(this.level + 1));
       this.refreshTag(true);
     };
   }

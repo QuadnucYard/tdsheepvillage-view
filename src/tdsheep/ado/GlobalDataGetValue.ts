@@ -2,15 +2,6 @@ import { GlobalData } from "./GlobalData";
 import { Tools } from "../utils/Tools";
 import _ from "lodash-es";
 
-export interface IEntity {
-  type: string;
-  id: string;
-}
-
-type Merge<T> = {
-  [P in keyof T]: T[P];
-};
-
 export class GlobalDataGetValue {
   static MANUAL_TAG_STR = "_@@A";
   static INTER_CONFIG_SPLIT_CHAR = "^";
@@ -21,22 +12,6 @@ export class GlobalDataGetValue {
 
   static getSystemMsg(_msgType, _msgId) {
     return GlobalData.$_global_systemMsg[_msgType][_msgId];
-  }
-
-  static addObjAttribute_type_id<T extends object>(_obj: T) {
-    return _.mapValues(_obj, (t, i) => GlobalDataGetValue.addObjAttribute_type_id_one(t, i)) as {
-      [P in keyof T]: { [Q in keyof T[P]]: T[P][Q] & IEntity };
-    };
-  }
-
-  static addObjAttribute_type_id_one<T extends object>(_obj: T, _type: string) {
-    return _.mapValues(_obj, (t, i) => GlobalDataGetValue.add_type_id(t, _type, i)) as {
-      [P in keyof T]: T[P] & IEntity;
-    };
-  }
-
-  static add_type_id<T>(_obj: T, _type: string, _id: string): T & IEntity {
-    return { ..._obj, type: _type, id: _id };
   }
 
   static getLanguageStr(_id, ...args) {
