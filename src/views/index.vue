@@ -1,14 +1,14 @@
 <template>
   <main>
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane v-for="sec in sections" :key="sec.name" :label="sec.label" :name="sec.name"></el-tab-pane>
+      <el-tab-pane v-for="sec in sections" :key="sec.name" :label="sec.label" :name="sec.name" />
     </el-tabs>
     <div class="content">
       <router-view v-slot="{ Component }">
         <!-- <transition name="fade-transform" mode="out-in"> -->
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
         <!-- </transition> -->
       </router-view>
       <!-- <keep-alive><router-view /></keep-alive> -->
@@ -18,17 +18,20 @@
 
 <script setup lang="ts">
 import type { TabsPaneContext } from "element-plus";
-import { useRouter } from "vue-router";
 import { sections } from "@/router";
 
 const router = useRouter();
+const route = useRoute();
 
-const activeName = ref("first");
+const activeName = ref("");
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  // console.log(tab.paneName, event);
   router.push({ name: tab.paneName as string });
 };
+
+onMounted(() => {
+  activeName.value = route.name as string;
+});
 </script>
 
 <style lang="scss">
