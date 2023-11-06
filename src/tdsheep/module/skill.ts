@@ -1065,7 +1065,7 @@ export class MonsterSkill extends BaseSkill {
       const _grade = this.grade as keyof typeof _spendObj;
       if (_spendObj[_grade]) {
         for (const k in _spendObj[_grade]) {
-          this.m_levelMax = Math.max(this.m_levelMax, parseInt(k));
+          this.m_levelMax = Math.max(this.m_levelMax, parseInt(k)) + 1;
         }
       } else {
         this.m_levelMax = 1;
