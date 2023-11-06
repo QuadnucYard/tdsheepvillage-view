@@ -43,16 +43,13 @@
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
-import type { DreamMapId, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
-import { GameMap } from "@/tdsheep/module/map/GameMap";
+import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import _ from "lodash-es";
+import { chain } from "lodash-es";
 import WolfHpChart from "./components/WolfHpChart.vue";
-import WaveDistribChart from "./components/WaveDistribChart.vue";
-import WaveTool from "./components/WaveTool.vue";
 import { calcPKGold, calcDreamExp } from "@/utils/game-utils";
 
-const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();
+const allDreamMaps = chain(GlobalData.dream_maps).toArray().sortBy("index").value();
 
 const form = reactive({
   mid: "m2A" as DreamMapId,

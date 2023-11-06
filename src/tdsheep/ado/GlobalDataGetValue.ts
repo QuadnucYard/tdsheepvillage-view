@@ -1,6 +1,5 @@
 import { GlobalData } from "./GlobalData";
 import { Tools } from "../utils/Tools";
-import _ from "lodash-es";
 
 export class GlobalDataGetValue {
   static MANUAL_TAG_STR = "_@@A";

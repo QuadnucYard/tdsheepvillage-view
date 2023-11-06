@@ -25,7 +25,7 @@ import {
 import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import _ from "lodash-es";
+import { range, zip } from "lodash-es";
 import VChart from "vue-echarts";
 
 echarts.use([
@@ -55,9 +55,9 @@ const names = computed<string[]>(() => [
   GlobalData.$_map_Obj[props.mid].name,
   ...GlobalData.$_map_Obj[props.mid].wolf_proportion.map(t => tr(t[1] as string)),
 ]);
-const xData = computed(() => _.range(freqs.value.all.length));
+const xData = computed(() => range(freqs.value.all.length));
 const subfigures = computed<Subfigure[]>(() =>
-  _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
+  zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
     title: t[0]!,
     pdf: t[1]!,
     cdf: [...accumulate(t[1]!)],

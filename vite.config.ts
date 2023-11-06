@@ -12,6 +12,8 @@ import Components from "unplugin-vue-components/vite";
 
 const pathSrc = path.resolve(__dirname, "src");
 
+const big = ["@element-plus", "@xmldom", "lodash-es", "@vue", "zrender", "element-plus", "katex", "echarts"];
+
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./", // 解决dist资源路径问题
@@ -57,10 +59,7 @@ export default defineConfig({
       extensions: ["vue", "md"],
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      resolvers: [
-        IconsResolver({ enabledCollections: ["ep"] }),
-        ElementPlusResolver({ importStyle: "sass" }),
-      ],
+      resolvers: [IconsResolver({ enabledCollections: ["ep"] }), ElementPlusResolver({ importStyle: "sass" })],
       dts: "src/components.d.ts",
     }),
 
@@ -79,10 +78,16 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes("node_modules")) {
             const a = id.toString().split("node_modules/");
-            return a.at(-1)?.split("/")[0];
+            const name = a.at(-1)?.split("/")[0];
+            if (big.includes(name)) return name;
+            else return "vendor";
           } else if (id.includes("/")) {
+            if (id.includes("/src/assets/")) return "assets";
+            // const m = id.match(/src\/(.+?)\//);
+            // if (m) return m[1];
             return "index";
           }
+          console.log("other", id);
         },
       },
     },

@@ -50,7 +50,6 @@
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Monster } from "@/tdsheep/module/unit/Monster";
-import _ from "lodash-es";
 
 interface RowData {
   id: string;
@@ -58,9 +57,7 @@ interface RowData {
   skills: any;
 }
 console.log("init wolfs");
-const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
-  .sort()
-  .map(t => {
+const allMonsters = Object.keys(GlobalData.$_wolfAtt_Obj).map(t => {
     let _wolf = new Monster(t, 0, 0);
     _wolf.initSkills();
     let _md = _wolf.monsterData;
