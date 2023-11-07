@@ -1,5 +1,5 @@
 import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
-import { chain, findIndex, shuffle, sumBy, zip } from "lodash-es";
+import _ from "lodash-es";
 
 export function getPop(wid: MonsterId, bossAs?: int): int {
   const pop = GlobalData.$_wolfAtt_Obj[wid].pop;
@@ -7,7 +7,7 @@ export function getPop(wid: MonsterId, bossAs?: int): int {
 }
 
 export function getTotalPop(wolfs: MonsterId[], bossAs: int = 1): int {
-  return sumBy(wolfs, (t: MonsterId) => getPop(t, bossAs));
+  return _.sumBy(wolfs, (t: MonsterId) => getPop(t, bossAs));
 }
 
 export function calcPKGold(level: float, pop: int) {
@@ -23,7 +23,10 @@ export function calcDreamExp(score: float, pop: int) {
   return Math.round(pop * Math.pow(score, _opt.power) * _opt.popu + _opt.p);
 }
 
-export function generateWave(mid: MapId, reservation: int[] | null): [string[], [string, int][]] | null {
+export function generateWave(
+  mid: MapId,
+  reservation: int[] | null
+): [string[], [string, int][]] | null {
   const umap = GlobalData.$_map_Obj[mid];
   const wp = umap.wolf_proportion as [number, MonsterId][];
   let pop = umap.pop_max;
@@ -40,7 +43,7 @@ export function generateWave(mid: MapId, reservation: int[] | null): [string[], 
     mlist = reservation.flatMap((t, i) => new Array(t).fill(wolfs[i]));
     clist = reservation;
     reservation.length = wolfPop.length;
-    pop -= chain(wolfPop)
+    pop -= _.chain(wolfPop)
       .zip(reservation)
       .sumBy(t => t[0]! * t[1]!)
       .value();
@@ -56,12 +59,12 @@ export function generateWave(mid: MapId, reservation: int[] | null): [string[], 
     let k: int;
     do {
       const p = Math.random() * wolfProp[n - 1];
-      k = findIndex(wolfProp, t => p < t);
+      k = _.findIndex(wolfProp, t => p < t);
     } while (pop < wolfPop[k]);
     pop -= wolfPop[k];
     mlist.push(wolfs[k]);
     clist[k]++;
   }
 
-  return [reservation ? shuffle(mlist) : mlist, zip(wolfs, clist) as [string, int][]];
+  return [reservation ? _.shuffle(mlist) : mlist, _.zip(wolfs, clist) as [string, int][]];
 }

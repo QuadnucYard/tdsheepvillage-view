@@ -119,23 +119,23 @@ import { MonsterSkill } from "@/tdsheep/module/skill";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 import { tr } from "@/utils/translate";
 import { ElTable } from "element-plus";
-import { difference, each, groupBy, map, sortBy } from "lodash-es";
+import _, { fromPairs } from "lodash-es";
 
 const skillTableRef = ref<InstanceType<typeof ElTable>>();
 
-const wolfList = sortBy(
-  map(GlobalData.$_wolfAtt_Obj, (v, k) => ({ id: k, name: v.name, label: `${tr(k)} [${k}]` })),
+const wolfList = _.sortBy(
+  _.map(GlobalData.$_wolfAtt_Obj, (v, k) => ({ id: k, name: v.name, label: `${tr(k)} [${k}]` })),
   "id"
 );
 const wolfList1 = wolfList.filter(t => t.name.startsWith("camp_"));
 const wolfList2 = wolfList.filter(t => t.id.startsWith("D_"));
-const wolfList0 = difference(wolfList, wolfList1, wolfList2);
+const wolfList0 = _.difference(wolfList, wolfList1, wolfList2);
 
-const skillDict = groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, t => t.kindId);
-each(skillDict, (t, k) => (skillDict[k] = sortBy(t, "id")));
-
+const skillDict = _.groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, t => t.kindId);
+_.each(skillDict, (t, k) => (skillDict[k] = _.sortBy(t, "id")));
+console.log(skillDict);
 const skillKindList = Object.keys(skillDict).sort();
-const skillTree = map(skillDict, (v, k) => ({
+const skillTree = _.map(skillDict, (v, k) => ({
   label: k,
   value: k,
   children: v.map(c => ({ value: c.id })),
@@ -200,7 +200,7 @@ const handleSelectionChange = (val: SkillItem[]) => {
 function updateSkillInit() {
   const _wolf = new Monster(form.wid, form.level, 1, 0, []);
   _wolf.initSkills();
-  const _skills = sortBy(_wolf.skills as any as MonsterSkill[], "index");
+  const _skills = _.sortBy(_wolf.skills as any as MonsterSkill[], "index");
   form.speed = _wolf.monsterData.speedBase;
   form.levelMax = _wolf.levelMax;
   form.tableData = _skills.map(s => formatItem(s));

@@ -52,7 +52,7 @@ import { MonsterData } from "@/tdsheep/command/unit";
 import { generateWave } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 import { ElMessage } from "element-plus";
-import { shuffle, sumBy } from "lodash-es";
+import _ from "lodash-es";
 import WolfNumberChart from "./WolfNumberChart.vue";
 
 const props = defineProps<{ mid: MapId; mapMonsterData: MonsterData[] }>();
@@ -79,11 +79,11 @@ const onGenerateWave = () => {
     return;
   }
   let [mlist, clist] = result;
-  if (form.extra) mlist = shuffle(mlist.concat(form.extra.split(",").map(s => s.trim())));
+  if (form.extra) mlist = _.shuffle(mlist.concat(form.extra.split(",").map(s => s.trim())));
   form.resultRaw = `[${mlist.map(t => `"${t}"`).join(",")}]`;
   form.result = tr(mlist).join(",");
   wolfNumber = clist.map(t => ({ name: tr(t[0]!), num: t[1]! }));
-  form.count = sumBy(clist, t => t[1]);
+  form.count = _.sumBy(clist, t => t[1]);
 };
 </script>
 

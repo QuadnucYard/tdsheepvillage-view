@@ -3,7 +3,7 @@ import data from "@/assets/sys_config.json";
 import ddata from "@/assets/dream_config.json";
 import dwaves from "@/assets/dream_waves.json";
 import { compareNumber, isAlpha } from "@/utils";
-import { chain, mapValues } from "lodash-es";
+import _ from "lodash-es";
 import X2JS from "x2js";
 
 interface IEntity {
@@ -12,13 +12,13 @@ interface IEntity {
 }
 
 function addObjAttribute_type_id<T extends object>(_obj: T) {
-  return mapValues(_obj, (t, i) => addObjAttribute_type_id_one(t as any, i)) as {
+  return _.mapValues(_obj, (t, i) => addObjAttribute_type_id_one(t as any, i)) as {
     [P in keyof T]: { [Q in keyof T[P]]: T[P][Q] & IEntity };
   };
 }
 
 function addObjAttribute_type_id_one<T extends object>(_obj: T, _type: string) {
-  return mapValues(_obj, (t, i) => add_type_id(t, _type, i)) as {
+  return _.mapValues(_obj, (t, i) => add_type_id(t, _type, i)) as {
     [P in keyof T]: T[P] & IEntity;
   };
 }
@@ -43,7 +43,7 @@ export const GlobalData = (function () {
     $_global_properties: addObjAttribute_type_id(data.properties),
     $_skillAtt_Obj: skills,
     $_skillPackage_Obj: data.skill_package,
-    $_map_Obj: addObjAttribute_type_id_one(data.umaps, "umap"),
+    $_map_Obj: data.umaps,
     $_towerAtt_Obj: buildings.tower,
     $_bulletAtt_Obj: data.bullet,
     $_wolfAtt_Obj: addObjAttribute_type_id_one(data.wolfs, "wolf"),
@@ -83,7 +83,7 @@ export const GlobalData = (function () {
     dream_data: ddata,
     dream_maps: addObjAttribute_type_id_one(ddata["dmaps"], "dmaps"),
     dream_waves: dwaves,
-    skillTemplates: chain(Object.values(skills.towerSkill))
+    skillTemplates: _.chain(Object.values(skills.towerSkill))
       .groupBy(t => t.kindId)
       .mapValues(t => ({ id: t[0].id, params: t[0].params }))
       .value(),

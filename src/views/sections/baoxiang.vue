@@ -59,14 +59,22 @@
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
-import { chain } from "lodash-es";
+import _ from "lodash-es";
 import { tr } from "@/utils/translate";
 
-const baoxiangList = chain(GlobalData.$_global_properties.card)
+const baoxiangList = _.chain(GlobalData.$_global_properties.card)
   .values()
   .filter(t => t.id.startsWith("baoxiang"))
   .sortBy(t => Math.abs(t.index))
   .value();
+
+/*
+ _.chain(scope.row.data)
+                .unzip()
+                .map((u, i) => (i == 0 ? adjacentDifference(u) : u))
+                .unzip()
+                .value()
+  */
 </script>
 
 <style lang="scss"></style>

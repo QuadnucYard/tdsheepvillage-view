@@ -61,6 +61,7 @@
 <script setup lang="ts">
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
+import _ from "lodash-es";
 
 interface RowData {
   id: string;
@@ -68,7 +69,7 @@ interface RowData {
   skills: any;
 }
 
-const allGamemaps = Object.values(GlobalData.$_map_Obj);
+const allGamemaps = _.map(GlobalData.$_map_Obj, (t, k) => _.extend(t, { id: k }));
 
 const sortByNeedLevel = (a: { need_lev?: number }, b: { need_lev?: number }) => {
   let l1 = a.need_lev || 0,
