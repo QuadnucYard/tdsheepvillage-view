@@ -1,44 +1,36 @@
 <template>
-  <div>
-    <h1>狼相关计算</h1>
-    <p>
-      狼：
+  <el-form :label-width="80">
+    <el-form-item label="狼">
       <el-select v-model="form.wid" @change="updateSkillInit">
         <el-option-group label="前线">
-          <el-option
-            v-for="item in wolfList0"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+          <el-option v-for="item in wolfList0" :key="item.id" :label="item.label" :value="item.id" />
         </el-option-group>
         <el-option-group label="防线">
-          <el-option
-            v-for="item in wolfList1"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+          <el-option v-for="item in wolfList1" :key="item.id" :label="item.label" :value="item.id" />
         </el-option-group>
         <el-option-group label="噩梦">
-          <el-option
-            v-for="item in wolfList2"
-            :key="item.id"
-            :label="item.label"
-            :value="item.id"
-          />
+          <el-option v-for="item in wolfList2" :key="item.id" :label="item.label" :value="item.id" />
         </el-option-group>
       </el-select>
-    </p>
-    <p>
-      等级： <el-input-number v-model="form.level" :min="1" @change="recalcPower" /> 最高等级：{{
-        form.levelMax
-      }}
-    </p>
-    <p>升级经验：{{ form.expMax }}</p>
-    <p>血量：{{ form.hpMax }}</p>
-    <p>速度：{{ form.speed }}</p>
-    <p>实力：{{ form.power }}</p>
+    </el-form-item>
+    <el-form-item label="等级">
+      <el-input-number v-model="form.level" :min="1" @change="recalcPower" />
+      <span class="ml-2">最高等级：{{ form.levelMax }}</span>
+    </el-form-item>
+    <el-form-item label="升级经验">
+      {{ form.expMax }}
+    </el-form-item>
+    <el-form-item label="血量">
+      {{ form.hpMax }}
+    </el-form-item>
+    <el-form-item label="速度">
+      {{ form.speed }}
+    </el-form-item>
+    <el-form-item label="实力">
+      {{ form.power }}
+    </el-form-item>
+  </el-form>
+  <div class="ml-8">
     <p>技能</p>
     <el-table
       ref="skillTableRef"
@@ -49,29 +41,15 @@
       <el-table-column type="selection" :width="30" />
       <el-table-column label="KindId" :width="160" header-align="center">
         <template #default="scope">
-          <el-select
-            v-model="scope.row.kindId"
-            @change="updateSkillInfo0(scope.row)"
-            style="font-size: small"
-          >
+          <el-select v-model="scope.row.kindId" @change="updateSkillInfo0(scope.row)" style="font-size: small">
             <el-option v-for="item in skillKindList" :key="item" :label="item" :value="item" />
           </el-select>
-          <!-- <el-tree-select v-model="scope.row.id" lazy :load="load" :cache-data="cacheData" /> -->
         </template>
       </el-table-column>
       <el-table-column label="Id" :width="200" header-align="center">
         <template #default="scope">
-          <el-select
-            v-model="scope.row.id"
-            @change="updateSkillInfo(scope.row)"
-            style="font-size: small"
-          >
-            <el-option
-              v-for="item in skillDict[scope.row.kindId]"
-              :key="item.id"
-              :label="item.id"
-              :value="item.id"
-            />
+          <el-select v-model="scope.row.id" @change="updateSkillInfo(scope.row)" style="font-size: small">
+            <el-option v-for="item in skillDict[scope.row.kindId]" :key="item.id" :label="item.id" :value="item.id" />
           </el-select>
         </template>
       </el-table-column>
@@ -88,20 +66,8 @@
           />
         </template>
       </el-table-column>
-      <el-table-column
-        prop="levelMax"
-        label="Level Max"
-        :width="100"
-        header-align="center"
-        align="center"
-      />
-      <el-table-column
-        prop="score"
-        label="Score"
-        :width="100"
-        header-align="center"
-        align="center"
-      />
+      <el-table-column prop="levelMax" label="Level Max" :width="100" header-align="center" align="center" />
+      <el-table-column prop="score" label="Score" :width="100" header-align="center" align="center" />
       <el-table-column label="Info">
         <template #default="scope">
           <span>{{ scope.row.info }}</span>
@@ -119,7 +85,7 @@ import { MonsterSkill } from "@/tdsheep/module/skill";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 import { tr } from "@/utils/translate";
 import { ElTable } from "element-plus";
-import _, { fromPairs } from "lodash-es";
+import _ from "lodash-es";
 
 const skillTableRef = ref<InstanceType<typeof ElTable>>();
 
@@ -135,18 +101,6 @@ const skillDict = _.groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, t => t.kindI
 _.each(skillDict, (t, k) => (skillDict[k] = _.sortBy(t, "id")));
 console.log(skillDict);
 const skillKindList = Object.keys(skillDict).sort();
-const skillTree = _.map(skillDict, (v, k) => ({
-  label: k,
-  value: k,
-  children: v.map(c => ({ value: c.id })),
-}));
-/* const cacheData = skillTree.map(t => _.pick(t, "label", "value"));
-console.log("ca", cacheData);
-const load = (node, resolve) => {
-  console.log(node, resolve);
-  if (node.isLeaf) return resolve([]);
-  return resolve([]);
-}; */
 
 interface SkillItem {
   kindId: string;
@@ -220,9 +174,7 @@ function updateSkillInfo(row: SkillItem) {
   recalcPower();
 }
 function recalcPower() {
-  let _downerSkills = form.tableData
-    .filter(r => form.selected.includes(r.id))
-    .map(r => ({ skid: r.id, lev: r.level }));
+  let _downerSkills = form.tableData.filter(r => form.selected.includes(r.id)).map(r => ({ skid: r.id, lev: r.level }));
   let _wolf = new Monster(form.wid, form.level, 1, 0, _downerSkills, []);
   _wolf.refreshLevel();
   form.hpMax = _wolf.hpMax;
