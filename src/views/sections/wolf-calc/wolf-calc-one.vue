@@ -1,17 +1,7 @@
 <template>
   <el-form :label-width="80">
     <el-form-item label="狼">
-      <el-select v-model="form.wid" @change="updateSkillInit">
-        <el-option-group label="前线">
-          <el-option v-for="item in wolfList0" :key="item.id" :label="item.label" :value="item.id" />
-        </el-option-group>
-        <el-option-group label="防线">
-          <el-option v-for="item in wolfList1" :key="item.id" :label="item.label" :value="item.id" />
-        </el-option-group>
-        <el-option-group label="噩梦">
-          <el-option v-for="item in wolfList2" :key="item.id" :label="item.label" :value="item.id" />
-        </el-option-group>
-      </el-select>
+      <wolf-select v-model="form.wid" @change="updateSkillInit" />
     </el-form-item>
     <el-form-item label="等级">
       <el-input-number v-model="form.level" :min="1" @change="recalcPower" />
@@ -81,21 +71,13 @@
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import WolfSelect from "../components/WolfSelect.vue";
 import { MonsterSkill } from "@/tdsheep/module/skill";
 import { Monster } from "@/tdsheep/module/unit/Monster";
-import { tr } from "@/utils/translate";
 import { ElTable } from "element-plus";
 import _ from "lodash-es";
 
 const skillTableRef = ref<InstanceType<typeof ElTable>>();
-
-const wolfList = _.sortBy(
-  _.map(GlobalData.$_wolfAtt_Obj, (v, k) => ({ id: k, name: v.name, label: `${tr(k)} [${k}]` })),
-  "id"
-);
-const wolfList1 = wolfList.filter(t => t.name.startsWith("camp_"));
-const wolfList2 = wolfList.filter(t => t.id.startsWith("D_"));
-const wolfList0 = _.difference(wolfList, wolfList1, wolfList2);
 
 const skillDict = _.groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, t => t.kindId);
 _.each(skillDict, (t, k) => (skillDict[k] = _.sortBy(t, "id")));
