@@ -27,9 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import WolfSelect from "../components/WolfSelect.vue";
 import { Monster } from "@/tdsheep/module/unit/Monster";
-import _ from "lodash-es";
+import WolfSelect from "../components/WolfSelect.vue";
 import WolfSkillTable from "./WolfSkillTable.vue";
 
 const form = reactive({
@@ -38,19 +37,22 @@ const form = reactive({
   expMax: 0,
 });
 
-const wolf = ref(new Monster("dahuil"));
+// const wolf = defineModel<Monster>({ required: true});
+const props = defineProps<{ wolf: Monster }>();
 refresh();
 
 const onWolfChanged = (id: string) => {
-  wolf.value = new Monster(id);
+  // const index = wolf.value.index;
+  // wolf.value = new Monster(id);
+  props.wolf.updateData(id);
   refresh();
 };
 
-watch(() => wolf.value.level, refresh);
+watch(() => props.wolf.level, refresh);
 
 function refresh() {
-  wolf.value.refreshLevel();
-  form.expMax = wolf.value.expMax;
+  props.wolf.refreshLevel();
+  form.expMax = props.wolf.expMax;
 }
 </script>
 

@@ -23,6 +23,7 @@ export class Monster extends BaseUnit {
   public static readonly PATH_NUM = 5;
   public static readonly PATH_RATE = 0.01;
   public static readonly RE_FIND_PATH_STEP = 2500;
+  private static COUNT: int = 0;
   public index: number = 0;
   public keyId: string = "";
   public m_level: number = 0;
@@ -35,6 +36,18 @@ export class Monster extends BaseUnit {
   constructor(_dataId: any, _level = 1, _difficulty = 1, _exp = 0) {
     super();
     this.tag = "Monster";
+    this.updateData(_dataId);
+    this.hpRate = _difficulty;
+    this.updateLevelExp(_level, _exp);
+    this.index = Monster.COUNT++;
+  }
+
+  static newMonster(_dataObj: any) {
+    let _wolf = null;
+    return _wolf;
+  }
+
+  updateData(_dataId: any) {
     if (_dataId == "") {
       _dataId = "dahuil";
     }
@@ -47,13 +60,6 @@ export class Monster extends BaseUnit {
     if (this.m_data == null) {
       this.m_data = MonsterManager.getOnlyExample().getData("dahuil");
     }
-    this.hpRate = _difficulty;
-    this.updateLevelExp(_level, _exp);
-  }
-
-  static newMonster(_dataObj: any) {
-    let _wolf = null;
-    return _wolf;
   }
 
   createSkills(_skills: any[]) {
@@ -124,7 +130,7 @@ export class Monster extends BaseUnit {
 
   getSkillScore(_skillId: string, _skillLevel: number): number {
     let _grade = null;
-    let _powerObj = GlobalData.$_skill_grade_score;
+    let _powerObj = GlobalData.$_skill_grade_score as { [k: string]: { [k: string]: number } };
     let _index = _skillId.indexOf("_");
     if (_skillId.indexOf("_") == -1) {
       return 1;

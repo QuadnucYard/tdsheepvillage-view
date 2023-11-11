@@ -39,8 +39,8 @@
       <el-table-column prop="score" label="Score" :width="120" header-align="center" align="center" />
       <el-table-column label="Info">
         <template #default="scope">
-          <span>{{ scope.row.info }}</span>
-          <span class="sk-tag">{{ scope.row.tags }}</span>
+          <span class="text-xs">{{ scope.row.info }}</span>
+          <span class="sk-tag text-xs">{{ scope.row.tags }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -131,6 +131,5 @@ const handleSelectionChange = (val: SkillItem[]) => {
 <style lang="scss" scoped>
 .sk-tag {
   color: #4040f0;
-  font-size: smaller;
 }
 </style>
