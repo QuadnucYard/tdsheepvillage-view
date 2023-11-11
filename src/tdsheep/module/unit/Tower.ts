@@ -1,20 +1,19 @@
-import { TowerData, TowerManager, TrapData, WallData } from "../../command/unit";
-import { GlobalData } from "../../ado/GlobalData.js";
-import { BaseBuilding } from "./BaseBuilding";
-import { GlobalDataGetValue } from "../../ado/GlobalDataGetValue.js";
+import { formatHtml } from "@/utils/format";
+import { GlobalData } from "../../ado/GlobalData";
+import { TowerSkillData } from "../../command/skill";
+import type { TowerData } from "../../command/unit";
+import { TowerManager } from "../../command/unit";
+import type { GemItem } from "../item";
 import {
-  TowerSkill,
-  SkillsPackage,
-  AttackRateSkill,
   ChangeBulletSkill,
   ChangeDamageSkill,
   ChangeRangeSkill,
   ChangeRateSkill,
+  SkillsPackage,
+  TowerSkill,
 } from "../skill";
-import { TowerSkillData } from "../../command/skill";
+import { BaseBuilding } from "./BaseBuilding";
 import { Bullet } from "./Bullet";
-import { formatHtml } from "@/utils/format";
-import { GemItem } from "../item";
 
 export class Tower extends BaseBuilding {
   public static readonly TOWER = "tower";
@@ -53,10 +52,7 @@ export class Tower extends BaseBuilding {
   override initSkills() {
     this.skills = {};
     if (this.towerData.skillPackageId != "") {
-      const _sp = new SkillsPackage(
-        this.towerData.skillPackageId,
-        this.towerData.skillPackageLevel
-      );
+      const _sp = new SkillsPackage(this.towerData.skillPackageId, this.towerData.skillPackageLevel);
       if (_sp != null && _sp.skillsPackageData != null) {
         for (const k of _sp.skillsPackageData.skillsList) {
           const _skill = new TowerSkill(k, _sp.level, this).getSubClasses();
@@ -114,26 +110,21 @@ export class Tower extends BaseBuilding {
     const _gemLevel = this.gemLevel;
     const _valueCost = this.valueCostConst(_level);
     return Math.round(
-      (_valueCost + Math.pow(_gemLevel, _paramList[0]) * _paramList[1]) *
-        (_paramList[2] + _gemLevel / _paramList[3])
+      (_valueCost + Math.pow(_gemLevel, _paramList[0]) * _paramList[1]) * (_paramList[2] + _gemLevel / _paramList[3])
     );
   }
 
   buildValue(_level = -1) {
     if (_level == -1) _level = this.level;
     return Math.floor(
-      this.towerData.buildValueA +
-        this.towerData.buildValueB * _level +
-        this.towerData.buildValueC * _level * _level
+      this.towerData.buildValueA + this.towerData.buildValueB * _level + this.towerData.buildValueC * _level * _level
     );
   }
 
   buildCost(_level = -1) {
     if (_level == -1) _level = this.level;
     return Math.floor(
-      this.towerData.buildCostA +
-        this.towerData.buildCostB * _level +
-        this.towerData.buildCostC * _level * _level
+      this.towerData.buildCostA + this.towerData.buildCostB * _level + this.towerData.buildCostC * _level * _level
     );
   }
 
@@ -142,8 +133,7 @@ export class Tower extends BaseBuilding {
     const _value =
       _level * this.towerData.buildCostA +
       ((_level * _level + _level) / 2) * this.towerData.buildCostB +
-      ((_level * _level * _level + (_level * _level * 3) / 2 + _level / 2) / 3) *
-        this.towerData.buildCostC +
+      ((_level * _level * _level + (_level * _level * 3) / 2 + _level / 2) / 3) * this.towerData.buildCostC +
       this.towerData.buildCost -
       this.towerData.buildCostA -
       this.towerData.buildCostB -
@@ -156,8 +146,7 @@ export class Tower extends BaseBuilding {
     const _value =
       _level * this.towerData.buildCostAConst +
       ((_level * _level + _level) / 2) * this.towerData.buildCostBConst +
-      ((_level * _level * _level + (_level * _level * 3) / 2 + _level / 2) / 3) *
-        this.towerData.buildCostCConst +
+      ((_level * _level * _level + (_level * _level * 3) / 2 + _level / 2) / 3) * this.towerData.buildCostCConst +
       this.towerData.buildCostConst -
       this.towerData.buildCostAConst -
       this.towerData.buildCostBConst -
@@ -179,24 +168,18 @@ export class Tower extends BaseBuilding {
       let _cds = this.skills[TowerSkillData.KIND_CHANGE_DAMAGE] as ChangeDamageSkill;
       if (_cds.isChangeBase()) {
         _damage = Math.round(
-          (_cds.damageA + _cds.damageB * _level + _cds.damageC * _level * _level) *
-            _cds.damageRate +
-            _cds.damageAdd
+          (_cds.damageA + _cds.damageB * _level + _cds.damageC * _level * _level) * _cds.damageRate + _cds.damageAdd
         );
       } else {
         _damage = Math.round(
-          (this.towerData.damageA +
-            this.towerData.damageB * _level +
-            this.towerData.damageC * _level * _level) *
+          (this.towerData.damageA + this.towerData.damageB * _level + this.towerData.damageC * _level * _level) *
             _cds.damageRate +
             _cds.damageAdd
         );
       }
     } else {
       _damage = Math.round(
-        this.towerData.damageA +
-          this.towerData.damageB * _level +
-          this.towerData.damageC * _level * _level
+        this.towerData.damageA + this.towerData.damageB * _level + this.towerData.damageC * _level * _level
       );
     }
     // _damage = Math.ceil(_damage * this.statuses[WallData.KIND_DAMAGE]);

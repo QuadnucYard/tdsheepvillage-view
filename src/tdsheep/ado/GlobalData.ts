@@ -79,6 +79,7 @@ export const GlobalData = (function () {
     $_camp_arena_need_user_level: _pvp["arena_need_user_level"],
     $_camp_create_mine_help_max: _pvp["create_mine_help_max"],
     $_camp_create_mine_help_friends_num: _pvp["create_mine_help_friends_num"],
+    $_dream_wolf_hard_ness: ddata.dm_wolf_hard_ness,
     umapsById: sortedIds.map(k => [k, data.umaps[k]]),
     dream_data: ddata,
     dream_maps: addObjAttribute_type_id_one(ddata["dmaps"], "dmaps"),

@@ -1,6 +1,6 @@
-import { BulletData, BulletManager } from "../../command/unit";
+import type { BulletData } from "../../command/unit";
+import { BulletManager, TrapData } from "../../command/unit";
 import { BaseUnit } from "./BaseUnit";
-import { TrapData } from "../../command/unit";
 
 export class Bullet extends BaseUnit {
   public damage: number = 0;

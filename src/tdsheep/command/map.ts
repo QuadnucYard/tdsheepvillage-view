@@ -4,20 +4,20 @@ import { GlobalData } from "../ado/GlobalData";
 import { BaseData } from "./BaseData";
 
 export class GameMapData extends BaseDisplayData {
-  public static DEFAULT_SCORE_MAX = 100;
-  public static DEFAULT_POPULATION_MAX = 10;
-  public static RULE_MULTICAST = 1;
-  public static DATA_SCORE_MAX = "pass_score";
-  public static DATA_POPULATION_MAX = "pop_max";
-  public static DATA_HARD_A = "yield_val";
-  public static DATA_HARD_B = "hard_ness";
-  public static DATA_PASS_BY = "passBy";
-  public static DATA_UNKENNEL_RATE = "interval";
-  public static DATA_UNKENNEL_RULE = "interval_rule";
-  public static DATA_BOSS_LIST = "boss";
-  public static DATA_MONSTER_LIST = "wolf_proportion";
-  public static DATA_TELEPORT_RULE = "teleport_rule";
-  public static DATA_DEBUG = "debug";
+  public static readonly DEFAULT_SCORE_MAX = 100;
+  public static readonly DEFAULT_POPULATION_MAX = 10;
+  public static readonly RULE_MULTICAST = 1;
+  public static readonly DATA_SCORE_MAX = "pass_score";
+  public static readonly DATA_POPULATION_MAX = "pop_max";
+  public static readonly DATA_HARD_A = "yield_val";
+  public static readonly DATA_HARD_B = "hard_ness";
+  public static readonly DATA_PASS_BY = "passBy";
+  public static readonly DATA_UNKENNEL_RATE = "interval";
+  public static readonly DATA_UNKENNEL_RULE = "interval_rule";
+  public static readonly DATA_BOSS_LIST = "boss";
+  public static readonly DATA_MONSTER_LIST = "wolf_proportion";
+  public static readonly DATA_TELEPORT_RULE = "teleport_rule";
+  public static readonly DATA_DEBUG = "debug";
 
   public scoreMax: number;
   public populationMax: number;
@@ -57,7 +57,7 @@ export class GameMapData extends BaseDisplayData {
 }
 
 export class GameMapManager extends BaseManager {
-  static DATA_COUNT = 6;
+  static readonly DATA_COUNT = 6;
   static onlyExample: GameMapManager;
 
   constructor() {
@@ -87,20 +87,20 @@ export class GameMapManager extends BaseManager {
 }
 
 export class WaveData {
-  static UNKENNEL_RULE_RANDOM = -1;
-  static UNKENNEL_RULE_SAME_TIME = 0;
-  static UNKENNEL_RULE_FOLLOWED = 1;
-  static RETURN_TAG_NO = 0;
-  static RETURN_TAG_IN = 1;
-  static RETURN_TAG_OUT = 2;
-  static DENSITY_DIFFICULTY = 0.25;
-  static SOLO_DIFFICULTY = 0.25;
-  static DATA_MONSTER_LIST = "data";
-  static DATA_DIFFICULTY = "hard_ness";
-  static DATA_GIFT = "gift";
-  static DATA_UNKENNEL_DENSITY = "density";
-  static DATA_UNKENNEL_SOLO = "solo";
-  static DATA_UNKENNEL_RETURN = "return";
+  static readonly UNKENNEL_RULE_RANDOM = -1;
+  static readonly UNKENNEL_RULE_SAME_TIME = 0;
+  static readonly UNKENNEL_RULE_FOLLOWED = 1;
+  static readonly RETURN_TAG_NO = 0;
+  static readonly RETURN_TAG_IN = 1;
+  static readonly RETURN_TAG_OUT = 2;
+  static readonly DENSITY_DIFFICULTY = 0.25;
+  static readonly SOLO_DIFFICULTY = 0.25;
+  static readonly DATA_MONSTER_LIST = "data";
+  static readonly DATA_DIFFICULTY = "hard_ness";
+  static readonly DATA_GIFT = "gift";
+  static readonly DATA_UNKENNEL_DENSITY = "density";
+  static readonly DATA_UNKENNEL_SOLO = "solo";
+  static readonly DATA_UNKENNEL_RETURN = "return";
   monsterList: any;
   difficulty: number;
   gift: any;

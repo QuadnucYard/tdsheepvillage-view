@@ -1,4 +1,4 @@
-import { BaseData, BaseDisplayData } from "./BaseData.js";
+import { BaseData, BaseDisplayData } from "./BaseData";
 import { BaseManager } from "./BaseData";
 import { GlobalData } from "../ado/GlobalData";
 

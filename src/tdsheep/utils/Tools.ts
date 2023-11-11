@@ -3,6 +3,11 @@ import { GlobalDataGetValue } from "../ado/GlobalDataGetValue";
 
 type uint = int;
 
+interface Point {
+  x: number;
+  y: number;
+}
+
 export class Tools {
   static DEFAULT = "default";
 
@@ -31,10 +36,7 @@ export class Tools {
         _str += (_timerM > 9 ? _timerM.toString() : "0" + _timerM.toString()) + ":";
       }
       if (_timerS >= 0) {
-        _str +=
-          Math.floor(_timerS) > 9
-            ? Math.floor(_timerS).toString()
-            : "0" + Math.floor(_timerS).toString();
+        _str += Math.floor(_timerS) > 9 ? Math.floor(_timerS).toString() : "0" + Math.floor(_timerS).toString();
       }
     }
     return _str;
@@ -116,12 +118,27 @@ export class Tools {
   public static getSimpleNumStr(_num: int, _char_w: boolean = false): string {
     let _str: string;
     if (_num > 10000) {
-      _str = !!_char_w
-        ? GlobalDataGetValue.getLanguageStr(116)
-        : GlobalDataGetValue.getLanguageStr(108);
+      _str = !!_char_w ? GlobalDataGetValue.getLanguageStr(116) : GlobalDataGetValue.getLanguageStr(108);
       return Math.round(_num / 10000) + _str;
     }
     return String(_num);
+  }
+
+  public static getValueByIndex(_index: int, _srcData: { [key: string]: any }) {
+    for (const k in _srcData) {
+      if (k != Tools.DEFAULT) {
+        const _minMax = Tools.getIDPos(k);
+        if (_index >= _minMax.x && _index <= _minMax.y) {
+          return _srcData[k];
+        }
+      }
+    }
+    return _srcData[Tools.DEFAULT] ?? 1;
+  }
+
+  public static getIDPos(_id: String): Point {
+    var _index: int = _id.indexOf("_");
+    return { x: parseInt(_id.slice(0, _index)), y: parseInt(_id.slice(_index + 1, _id.length)) };
   }
 
   public static fillSpace(_srcStr: string, _lineMax: int = 10, _isFront: boolean = true): string {
@@ -170,37 +187,12 @@ export class Tools {
       _lastStr = _str;
     }
     if (_b) {
-      return (
-        '<font color="' +
-        _colorStr +
-        '" size="' +
-        _size +
-        '" face="' +
-        _font +
-        '"><b>' +
-        _lastStr +
-        "</b></font>"
-      );
+      return '<font color="' + _colorStr + '" size="' + _size + '" face="' + _font + '"><b>' + _lastStr + "</b></font>";
     }
-    return (
-      '<font color="' +
-      _colorStr +
-      '" size="' +
-      _size +
-      '" face="' +
-      _font +
-      '">' +
-      _lastStr +
-      "</font>"
-    );
+    return '<font color="' + _colorStr + '" size="' + _size + '" face="' + _font + '">' + _lastStr + "</font>";
   }
 
-  public static getLine(
-    _length: int = 40,
-    _code: string = "=",
-    _align: string = "",
-    _size: int = 5
-  ): string {
+  public static getLine(_length: int = 40, _code: string = "=", _align: string = "", _size: int = 5): string {
     let i: int = 0;
     let _str: string = "";
     if (_code == "") {
@@ -282,12 +274,7 @@ export class Tools {
     return false;
   }
 
-  public static insertStr(
-    _srcStr: string,
-    _insertStr: string = "\n",
-    _spaceNum: int = 4,
-    _loopMax: int = 1
-  ): string {
+  public static insertStr(_srcStr: string, _insertStr: string = "\n", _spaceNum: int = 4, _loopMax: int = 1): string {
     let _str: string = "";
     let _tempStr: string = "";
     let _checkNum: int = 0;
@@ -511,21 +498,10 @@ export class Tools {
   }
 
   public static getTodayEndUTCTime(_nowDate: Date): Date {
-    return new Date(
-      _nowDate.getUTCFullYear(),
-      _nowDate.getUTCMonth(),
-      _nowDate.getUTCDate(),
-      23,
-      59,
-      59
-    );
+    return new Date(_nowDate.getUTCFullYear(), _nowDate.getUTCMonth(), _nowDate.getUTCDate(), 23, 59, 59);
   }
 
-  public static replaceAllBySplit(
-    _strSource: string,
-    _strReplaceFrom: string,
-    _strRepalceTo: string
-  ): string {
+  public static replaceAllBySplit(_strSource: string, _strReplaceFrom: string, _strRepalceTo: string): string {
     return _strSource == null ? null : _strSource.split(_strReplaceFrom).join(_strRepalceTo);
   }
 

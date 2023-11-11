@@ -1,18 +1,18 @@
-import { BaseItemData } from "./item";
-import { BaseData, BaseDisplayData, BaseManager } from "./BaseData";
 import { GlobalData } from "../ado/GlobalData";
 import { GameMap } from "../module/map/GameMap";
+import { BaseData, BaseDisplayData, BaseManager } from "./BaseData";
+import { BaseItemData } from "./item";
 
 export class BaseUnitData extends BaseItemData {
-  static DATA_A = "a";
-  static DATA_B = "b";
-  static DATA_C = "c";
-  static DATA_D = "d";
-  static DATA_SKILL_PACKAGE_ID = "skill";
-  static DATA_SKILL_PACKAGE_LEVEL = "skillLv";
-  static DATA_SKILLS = "skills";
-  static DATA_X_GRID = "x_grid";
-  static DATA_Y_GRID = "y_grid";
+  static readonly DATA_A = "a";
+  static readonly DATA_B = "b";
+  static readonly DATA_C = "c";
+  static readonly DATA_D = "d";
+  static readonly DATA_SKILL_PACKAGE_ID = "skill";
+  static readonly DATA_SKILL_PACKAGE_LEVEL = "skillLv";
+  static readonly DATA_SKILLS = "skills";
+  static readonly DATA_X_GRID = "x_grid";
+  static readonly DATA_Y_GRID = "y_grid";
   skillPackageId;
   skillPackageLevel;
   skills;
@@ -48,13 +48,13 @@ export class BaseUnitData extends BaseItemData {
 }
 
 export class BuildingData extends BaseUnitData {
-  public static DATA_BUILD_VALUE = "build_val";
-  public static DATA_EXP_VALUE = "exp_val";
-  public static DATA_CAMP_PRICE = "camp_price";
-  public static DATA_CAMP_BUILD_VALUE = "camp_build_val";
-  public static DATA_RANGE = "range";
-  public static DATA_RATE = "rate";
-  public static DATA_LIMIT_NUM = "limit_num";
+  public static readonly DATA_BUILD_VALUE = "build_val";
+  public static readonly DATA_EXP_VALUE = "exp_val";
+  public static readonly DATA_CAMP_PRICE = "camp_price";
+  public static readonly DATA_CAMP_BUILD_VALUE = "camp_build_val";
+  public static readonly DATA_RANGE = "range";
+  public static readonly DATA_RATE = "rate";
+  public static readonly DATA_LIMIT_NUM = "limit_num";
   public m_buildValueA: number = 0;
   public m_buildValueB: number = 0;
   public m_buildValueC: number = 0;
@@ -151,28 +151,28 @@ export class BuildingData extends BaseUnitData {
 }
 
 export class TrapData extends BuildingData {
-  public static KIND_BLAST = "1";
-  public static KIND_DAMAGE = "2";
-  public static KIND_VERTIGO = "3";
-  public static KIND_SLOW = "4";
-  public static KIND_BEAT_BACK = "5";
-  public static KIND_COLD_BULLET = "50";
-  public static KIND_BULLET = "100";
-  public static KIND_BULLET_RANDOM = "101";
-  public static EFFECT_TYPE_FLOOR = "1";
-  public static EFFECT_TYPE_AIR = "2";
-  public static EFFECT_TYPE_ALL = "3";
-  public static EFFECT_TYPE_LIGHTNING = "4";
-  public static EFFECT_KIND_SINGLE = "1";
-  public static EFFECT_KIND_MULTI = "2";
-  public static DATA_VALUE_LIST = "value";
-  public static DATA_EFFECT_TYPE = "effectType";
-  public static DATA_EFFECT_KIND = "effectKind";
-  public static DATA_EFFECT_RANGE = "effectRange";
-  public static DATA_USE_NUM = "use_times";
-  public static DATA_COLDDOWN = "colddown";
-  public static DATA_DELAY = "delay";
-  public static DATA_EFFECT = "effect";
+  public static readonly KIND_BLAST = "1";
+  public static readonly KIND_DAMAGE = "2";
+  public static readonly KIND_VERTIGO = "3";
+  public static readonly KIND_SLOW = "4";
+  public static readonly KIND_BEAT_BACK = "5";
+  public static readonly KIND_COLD_BULLET = "50";
+  public static readonly KIND_BULLET = "100";
+  public static readonly KIND_BULLET_RANDOM = "101";
+  public static readonly EFFECT_TYPE_FLOOR = "1";
+  public static readonly EFFECT_TYPE_AIR = "2";
+  public static readonly EFFECT_TYPE_ALL = "3";
+  public static readonly EFFECT_TYPE_LIGHTNING = "4";
+  public static readonly EFFECT_KIND_SINGLE = "1";
+  public static readonly EFFECT_KIND_MULTI = "2";
+  public static readonly DATA_VALUE_LIST = "value";
+  public static readonly DATA_EFFECT_TYPE = "effectType";
+  public static readonly DATA_EFFECT_KIND = "effectKind";
+  public static readonly DATA_EFFECT_RANGE = "effectRange";
+  public static readonly DATA_USE_NUM = "use_times";
+  public static readonly DATA_COLDDOWN = "colddown";
+  public static readonly DATA_DELAY = "delay";
+  public static readonly DATA_EFFECT = "effect";
   public valueList: any[];
   public effectType: string;
   public effectKind: string;
@@ -304,10 +304,10 @@ export class TowerManager extends BaseManager {
 }
 
 export class WallData extends BuildingData {
-  public static KIND_DAMAGE = "damage";
-  public static KIND_RATE = "rate";
-  public static KIND_RANGE = "range";
-  public static DATA_VALUE_LIST = "value";
+  public static readonly KIND_DAMAGE = "damage";
+  public static readonly KIND_RATE = "rate";
+  public static readonly KIND_RANGE = "range";
+  public static readonly DATA_VALUE_LIST = "value";
   public valueList: any[];
 
   constructor(_data: any) {
@@ -318,23 +318,23 @@ export class WallData extends BuildingData {
 }
 
 export class BulletData extends BaseUnitData {
-  public static SHAPE_COMMON = 0;
-  public static SHAPE_DIRECTION = 1;
-  public static SHAPE_ROLL = 2;
-  public static DAMAGE_NULL = 0;
-  public static DAMAGE_COMMON = 1;
-  public static DAMAGE_PERFORATIVE = 2;
-  public static DAMAGE_MAGICAL = 3;
-  public static DAMAGE_SIEGE = 4;
-  public static DAMAGE_MIXED = 5;
-  public static FALL_ACC_SPEED_THRESHOLD = -7;
-  public static DATA_SHAPE_MODE = "shapeMode";
-  public static DATA_DAMAGE_MODE = "damageMode";
-  public static DATA_RADII = "radii";
-  public static DATA_SHADOW = "shadow";
-  public static DATA_FALL_ACC_SPEED = "fallAcc";
-  public static DATA_FLOOR_PATH_ID = "path";
-  public static DATA_HIT_EFFECT_ID = "effect";
+  public static readonly SHAPE_COMMON = 0;
+  public static readonly SHAPE_DIRECTION = 1;
+  public static readonly SHAPE_ROLL = 2;
+  public static readonly DAMAGE_NULL = 0;
+  public static readonly DAMAGE_COMMON = 1;
+  public static readonly DAMAGE_PERFORATIVE = 2;
+  public static readonly DAMAGE_MAGICAL = 3;
+  public static readonly DAMAGE_SIEGE = 4;
+  public static readonly DAMAGE_MIXED = 5;
+  public static readonly FALL_ACC_SPEED_THRESHOLD = -7;
+  public static readonly DATA_SHAPE_MODE = "shapeMode";
+  public static readonly DATA_DAMAGE_MODE = "damageMode";
+  public static readonly DATA_RADII = "radii";
+  public static readonly DATA_SHADOW = "shadow";
+  public static readonly DATA_FALL_ACC_SPEED = "fallAcc";
+  public static readonly DATA_FLOOR_PATH_ID = "path";
+  public static readonly DATA_HIT_EFFECT_ID = "effect";
   public shapeMode: number;
   public damageMode: number;
   public radii: number;
@@ -389,31 +389,31 @@ export class BulletManager extends BaseManager {
 }
 
 export class MonsterData extends BaseUnitData {
-  public static SPEAK_ENTER = 0;
-  public static SPEAK_IDLE = 1;
-  public static SPEAK_INJURY = 2;
-  public static SPEAK_DIE = 3;
-  public static SPEAK_INVADE = 4;
-  public static SPEAK_CAST = 5;
-  public static DEFENSE_NULL = 0;
-  public static DEFENSE_LIGHT = 1;
-  public static DEFENSE_COMMON = 2;
-  public static DEFENSE_HEAVY = 3;
-  public static DEFENSE_BUILDING = 4;
-  public static DEFENSE_BOSS = 5;
-  public static DEFENSE_HOLY = 6;
-  public static DEFENSE_INVINCIBLE = 7;
-  public static DATA_HP_MAX = "hp_factor";
-  public static DATA_EXP_MAX = "explev";
-  public static DATA_HP_MAX_A = "ha";
-  public static DATA_HP_MAX_B = "hb";
-  public static DATA_HP_MAX_C = "hc";
-  public static DATA_SPEED_BASE = "speed";
-  public static DATA_CHARM = "charm";
-  public static DATA_HEIGHT = "height";
-  public static DATA_WIDTH = "width";
-  public static DATA_SPEAK_LIST = "speak";
-  public static DATA_POPULATION = "pop";
+  public static readonly SPEAK_ENTER = 0;
+  public static readonly SPEAK_IDLE = 1;
+  public static readonly SPEAK_INJURY = 2;
+  public static readonly SPEAK_DIE = 3;
+  public static readonly SPEAK_INVADE = 4;
+  public static readonly SPEAK_CAST = 5;
+  public static readonly DEFENSE_NULL = 0;
+  public static readonly DEFENSE_LIGHT = 1;
+  public static readonly DEFENSE_COMMON = 2;
+  public static readonly DEFENSE_HEAVY = 3;
+  public static readonly DEFENSE_BUILDING = 4;
+  public static readonly DEFENSE_BOSS = 5;
+  public static readonly DEFENSE_HOLY = 6;
+  public static readonly DEFENSE_INVINCIBLE = 7;
+  public static readonly DATA_HP_MAX = "hp_factor";
+  public static readonly DATA_EXP_MAX = "explev";
+  public static readonly DATA_HP_MAX_A = "ha";
+  public static readonly DATA_HP_MAX_B = "hb";
+  public static readonly DATA_HP_MAX_C = "hc";
+  public static readonly DATA_SPEED_BASE = "speed";
+  public static readonly DATA_CHARM = "charm";
+  public static readonly DATA_HEIGHT = "height";
+  public static readonly DATA_WIDTH = "width";
+  public static readonly DATA_SPEAK_LIST = "speak";
+  public static readonly DATA_POPULATION = "pop";
   public hpMaxA: number;
   public hpMaxB: number;
   public hpMaxC: number;

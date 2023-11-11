@@ -1,5 +1,6 @@
+import type { GemData } from "../command/item";
+import { GemManager } from "../command/item";
 import { BaseModule } from "./BaseModule";
-import { GemData, GemManager } from "../command/item";
 
 export class GemItem extends BaseModule {
   constructor(_dataId: string) {

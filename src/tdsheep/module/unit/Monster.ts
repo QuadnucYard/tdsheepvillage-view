@@ -1,10 +1,10 @@
-import { BaseUnit } from "./BaseUnit";
-import { GlobalData } from "../../ado/GlobalData.js";
-import { GlobalDataGetValue } from "../../ado/GlobalDataGetValue.js";
-import { MonsterData, MonsterManager } from "../../command/unit";
+import { GlobalData } from "../../ado/GlobalData";
+import { GlobalDataGetValue } from "../../ado/GlobalDataGetValue";
+import type { MonsterData } from "../../command/unit";
+import { MonsterManager } from "../../command/unit";
 import { GameMap } from "../map/GameMap";
-import { GlobalString } from "../../ado/GlobalString.js";
 import { MonsterSkill } from "../skill";
+import { BaseUnit } from "./BaseUnit";
 
 export class Monster extends BaseUnit {
   static readonly MONSTER_SAY_ARRAY = [
@@ -20,12 +20,8 @@ export class Monster extends BaseUnit {
     GlobalDataGetValue.getLanguageStr(1259),
   ];
   public static readonly WEIGHTILY_SIZE = 487500;
-  public static readonly PATH_NUM = 5;
-  public static readonly PATH_RATE = 0.01;
-  public static readonly RE_FIND_PATH_STEP = 2500;
   private static COUNT: int = 0;
   public index: number = 0;
-  public keyId: string = "";
   public m_level: number = 0;
   public exp: number = 0;
   public hp: number = 0;
@@ -42,18 +38,12 @@ export class Monster extends BaseUnit {
     this.index = Monster.COUNT++;
   }
 
-  static newMonster(_dataObj: any) {
-    let _wolf = null;
-    return _wolf;
-  }
-
   updateData(_dataId: any) {
     if (_dataId == "") {
       _dataId = "dahuil";
     }
     let _index = _dataId.indexOf("|");
     if (_index != -1) {
-      this.keyId = _dataId;
       _dataId = _dataId.slice(0, _index);
     }
     this.m_data = MonsterManager.getOnlyExample().getData(_dataId);
@@ -205,17 +195,12 @@ export class Monster extends BaseUnit {
     return Math.round(_hpMax * _speed * _skillPower * _paramList[2]);
   }
 
-  initMonster() {
-    // this.initMonsterSkills();
-    // this.initStatuses();
-  }
-
   get skillInfo() {
     if (this.skills == null) {
       return "";
     }
     const _skillList = Object.values(this.skills);
-    _skillList.sort((a: any, b: any) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]);
+    _skillList.sort((a, b) => a.index - b.index);
     return _skillList.map(t => t.skillInfo).join("");
   }
 }

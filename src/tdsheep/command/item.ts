@@ -6,12 +6,12 @@ import { SkillsPackage } from "../module/skill";
 import { ColorFilter } from "../utils/ColorFilter";
 
 export class BaseItemData extends BaseDisplayData {
-  public static DATA_PRICE = "price";
-  public static DATA_UNLOCK_MAP_ID = "unlock_mid";
-  public static DATA_COIN = "coin";
-  public static DATA_GOLD = "gold";
-  public static DATA_SCORE = "invite_score";
-  public static DATA_INDEX = "index";
+  public static readonly DATA_PRICE = "price";
+  public static readonly DATA_UNLOCK_MAP_ID = "unlock_mid";
+  public static readonly DATA_COIN = "coin";
+  public static readonly DATA_GOLD = "gold";
+  public static readonly DATA_SCORE = "invite_score";
+  public static readonly DATA_INDEX = "index";
   public m_price: [string, number];
   public priceCoin = 0;
   public priceGold = 0;
@@ -82,14 +82,14 @@ export class BaseItemData extends BaseDisplayData {
 }
 
 export class GemData extends BaseItemData {
-  public static TYPE_PURE = "typePure";
-  public static TYPE_MIX = "typeMix";
-  public static DATA_GEM_LEVEL = "gamLevel";
-  public static DATA_TOWER_SKILL_PACKAGE = "sp";
-  public static DATA_NEXT_LEVEL_ID = "nextId";
-  public static DATA_COLOR_INDEX = "color";
-  public static SKILL_PACKAGE_ID = "id";
-  public static SKILL_PACKAGE_LEVEL = "lv";
+  public static readonly TYPE_PURE = "typePure";
+  public static readonly TYPE_MIX = "typeMix";
+  public static readonly DATA_GEM_LEVEL = "gamLevel";
+  public static readonly DATA_TOWER_SKILL_PACKAGE = "sp";
+  public static readonly DATA_NEXT_LEVEL_ID = "nextId";
+  public static readonly DATA_COLOR_INDEX = "color";
+  public static readonly SKILL_PACKAGE_ID = "id";
+  public static readonly SKILL_PACKAGE_LEVEL = "lv";
   public gemLevel: int;
   public towerSkillPackage: any;
   public nextLevelId: string;

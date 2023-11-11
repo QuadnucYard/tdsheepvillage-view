@@ -1,6 +1,5 @@
-import { GlobalString } from "../../ado/GlobalString";
 import { BaseUnit } from "./BaseUnit";
-import { BuildingData } from "@/tdsheep/command/unit";
+import type { BuildingData } from "@/tdsheep/command/unit";
 
 export class BaseBuilding extends BaseUnit {
   constructor() {
@@ -16,33 +15,14 @@ export class BaseBuilding extends BaseUnit {
   }
 
   get skillInfo() {
-    let k = undefined;
-    let i = 0;
-    let _skill = null;
-    let _info = null;
-    let _skillInfo = "";
-    if (this.skills == null) {
-      return _skillInfo;
-    }
-    let _skillList = [];
-    for (k in this.skills) {
-      _skillList.push(this.skills[k]);
-    }
-    _skillList.sort(
-      (a: any, b: any) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]
-    );
-    for (i = 0; i < _skillList.length; i++) {
-      _skill = _skillList[i];
-      _info = _skill.skillInfo;
-      if (_info != "") {
-        if (_skillInfo != "") {
-          _skillInfo += "\n";
-        }
-        _skillInfo += _info;
-      }
-    }
+    const _skillList = Object.values(this.skills);
+    _skillList.sort((a, b) => a.index - b.index);
+    const _skillInfo = _skillList
+      .map(_skill => _skill.skillInfo)
+      .filter(_info => _info != "")
+      .join("\n");
     if (_skillInfo == "") {
-      _skillInfo = this.buildingData.info;
+      return this.buildingData.info;
     }
     return _skillInfo;
   }

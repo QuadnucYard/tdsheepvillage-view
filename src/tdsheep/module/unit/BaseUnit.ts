@@ -1,9 +1,6 @@
-import { BaseUnitData } from "@/tdsheep/command/unit";
+import type { BaseUnitData } from "@/tdsheep/command/unit";
 import { BaseDisplayModule } from "../BaseModule";
-import { BaseSkill, MonsterSkill, SkillsPackage } from "../skill";
-import { TowerSkill } from "../skill";
-import type { Tower } from "./Tower";
-import type { Monster } from "./Monster";
+import type { BaseSkill } from "../skill";
 
 export class BaseUnit extends BaseDisplayModule {
   static readonly SKILL_ID = "skid";
@@ -24,7 +21,6 @@ export class BaseUnit extends BaseDisplayModule {
 
   init() {
     this.initSkills();
-    // this.initStatuses();
   }
 
   initSkills() {}
