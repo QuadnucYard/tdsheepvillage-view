@@ -19,28 +19,7 @@ export class Monster extends BaseUnit {
     GlobalDataGetValue.getLanguageStr(1258),
     GlobalDataGetValue.getLanguageStr(1259),
   ];
-  public static readonly MONSTER = "monster";
-  public static readonly FRAME_NAME_DEAD = "dead";
-  public static readonly STATUS_MOVE = "statusMove";
-  public static readonly RES_AIMING = "aiming";
-  public static readonly PATH_PATH = "pathPath";
-  public static readonly PHOTO_WIDTH = 66;
-  public static readonly PHOTO_HEIGHT = 64;
-  public static readonly PHOTO_ROUND = 50;
-  public static readonly PHOTO_SIZE = 800;
   public static readonly WEIGHTILY_SIZE = 487500;
-  public static readonly CARD_RATIO = 2;
-  public static readonly CARD_WIDTH = 32;
-  public static readonly CARD_HEIGHT = 40;
-  public static readonly CARD_ROUND = 10;
-  public static readonly CARD_SIZE = 400;
-  public static readonly CARD_ROTATION = -10;
-  public static readonly ICON_RATIO = 1.5;
-  public static readonly ICON_WIDTH = 44;
-  public static readonly ICON_HEIGHT = 44;
-  public static readonly ICON_ROUND = 20;
-  public static readonly ICON_SIZE = 400;
-  public static readonly ICON_ROTATION = -10;
   public static readonly PATH_NUM = 5;
   public static readonly PATH_RATE = 0.01;
   public static readonly RE_FIND_PATH_STEP = 2500;
@@ -51,17 +30,9 @@ export class Monster extends BaseUnit {
   public hp: number = 0;
   public hpMax: number = 0;
   public hpRate: number;
-  public dowerSkills: any[] | null = null;
-  public learnSkills: any[] | null = null;
+  public skillList: MonsterSkill[] = [];
 
-  constructor(
-    _dataId: any,
-    _level = 1,
-    _difficulty = 1,
-    _exp = 0,
-    _dowerSkills: any[] | null = null,
-    _learnSkills: any[] | null = null
-  ) {
+  constructor(_dataId: any, _level = 1, _difficulty = 1, _exp = 0) {
     super();
     this.tag = "Monster";
     if (_dataId == "") {
@@ -78,34 +49,25 @@ export class Monster extends BaseUnit {
     }
     this.hpRate = _difficulty;
     this.updateLevelExp(_level, _exp);
-    this.updateSkills(_dowerSkills, _learnSkills);
   }
 
   static newMonster(_dataObj: any) {
     let _wolf = null;
-    if (_dataObj) {
-      _wolf = new Monster(
-        _dataObj["wids"],
-        _dataObj["level"],
-        1,
-        _dataObj["experience"],
-        _dataObj["init_skills"],
-        _dataObj["skills"]
-      );
-    }
     return _wolf;
+  }
+
+  createSkills(_skills: any[]) {
+    return _skills.map(_sk =>
+      new MonsterSkill(_sk[BaseUnit.SKILL_ID], _sk[BaseUnit.SKILL_LEVEL], this).getSubClasses()
+    );
   }
 
   override initSkills() {
     this.skills = {};
-    const _skills = this.getAllSkills() ?? this.data.skills;
+    const _skills = this.data.skills;
     if (_skills != null) {
-      for (const _sk of _skills) {
-        const _skill = new MonsterSkill(
-          _sk[BaseUnit.SKILL_ID],
-          _sk[BaseUnit.SKILL_LEVEL],
-          this
-        ).getSubClasses();
+      this.skillList = this.createSkills(_skills);
+      for (const _skill of this.skillList) {
         this.skills[_skill.data.kindId] = _skill;
       }
     }
@@ -152,44 +114,10 @@ export class Monster extends BaseUnit {
     this.exp = _exp;
   }
 
-  updateSkills(_dowerSkills: any[] | null = null, _learnSkills: any[] | null = null) {
-    this.dowerSkills = _dowerSkills;
-    this.learnSkills = _learnSkills;
-    if (this.isTame) {
-      this.initSkills();
-    }
-  }
-
-  getAllSkills(_dowerSkills: any[] | null = null, _learnSkills: any[] | null = null) {
-    let _allSkills = [];
-    if (!_dowerSkills) {
-      _dowerSkills = this.dowerSkills;
-    }
-    if (!_learnSkills) {
-      _learnSkills = this.learnSkills;
-    }
-    if (this.isTame && _dowerSkills && _learnSkills) {
-      for (let i = 0; i < _dowerSkills.length; i++) {
-        _allSkills.push(_dowerSkills[i]);
-      }
-      for (let i = 0; i < _learnSkills.length; i++) {
-        _allSkills.push(_learnSkills[i]);
-      }
-    } else {
-      _allSkills = this.monsterData.skills;
-    }
-    return _allSkills;
-  }
-
   get allSkillsScore() {
-    let i = 0;
     let _allSkillsScore = 1;
-    let _allSkills = this.getAllSkills();
-    for (i = 0; i < _allSkills.length; i++) {
-      _allSkillsScore *= this.getSkillScore(
-        _allSkills[i][BaseUnit.SKILL_ID],
-        _allSkills[i][BaseUnit.SKILL_LEVEL]
-      );
+    for (const _skill of this.skillList) {
+      if (_skill.enabled) _allSkillsScore *= this.getSkillScore(_skill.data.id, _skill.level);
     }
     return _allSkillsScore;
   }
@@ -211,10 +139,10 @@ export class Monster extends BaseUnit {
   }
 
   get levelMax() {
-    if (this.isTame) {
-      return GlobalData.$_camp_wolf_lv_max;
-    }
-    return Number.MAX_SAFE_INTEGER;
+    // if (this.isTame) {
+    return GlobalData.$_camp_wolf_lv_max;
+    // }
+    // return Number.MAX_SAFE_INTEGER;
   }
 
   get expMax() {
@@ -271,14 +199,8 @@ export class Monster extends BaseUnit {
     return Math.round(_hpMax * _speed * _skillPower * _paramList[2]);
   }
 
-  initMonsterSkills() {
-    if (!this.isTame) {
-      this.initSkills();
-    }
-  }
-
   initMonster() {
-    this.initMonsterSkills();
+    // this.initMonsterSkills();
     // this.initStatuses();
   }
 
@@ -287,16 +209,7 @@ export class Monster extends BaseUnit {
       return "";
     }
     const _skillList = Object.values(this.skills);
-    _skillList.sort(
-      (a: any, b: any) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]
-    );
+    _skillList.sort((a: any, b: any) => a[GlobalString.DATA_KEY_INDEX] - b[GlobalString.DATA_KEY_INDEX]);
     return _skillList.map(t => t.skillInfo).join("");
-  }
-
-  get isTame() {
-    if (this.dowerSkills || this.learnSkills) {
-      return true;
-    }
-    return false;
   }
 }

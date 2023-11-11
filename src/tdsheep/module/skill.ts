@@ -19,6 +19,8 @@ import type { Tower } from "./unit/Tower";
 export class BaseSkill extends BaseModule {
   public level: number = 0;
   public index: number = 0;
+
+  public enabled: boolean = true;
   public m_skillInfo: string = "";
   public m_nextLevelSkillInfo: string = "";
   public skillTag1: string = "";
@@ -40,6 +42,7 @@ export class BaseSkill extends BaseModule {
     }
     this.m_data = SkillManager.getOnlyExample().getData(_id);
     this.level = _level;
+    this.enabled = true;
   }
 
   get data() {
