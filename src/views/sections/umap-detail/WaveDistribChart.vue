@@ -1,7 +1,7 @@
 <template>
-  <div class="chart-area">
+  <div>
     <h2 style="text-align: center">狼出现频率（按数量，供参考）</h2>
-    <v-chart class="chart" :option="option" />
+    <v-chart :option="option" autoresize style="height: 600px" />
   </div>
 </template>
 
@@ -20,7 +20,7 @@ import {
   TitleComponentOption,
   ToolboxComponent,
   TooltipComponent,
-  TooltipComponentOption
+  TooltipComponentOption,
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
@@ -65,11 +65,7 @@ const subfigures = computed<Subfigure[]>(() =>
 );
 
 type EChartsOption = echarts.ComposeOption<
-  | TitleComponentOption
-  | TooltipComponentOption
-  | GridComponentOption
-  | BarSeriesOption
-  | LineSeriesOption
+  TitleComponentOption | TooltipComponentOption | GridComponentOption | BarSeriesOption | LineSeriesOption
 >;
 
 const option = computed<EChartsOption>(() => ({
@@ -135,22 +131,4 @@ const option = computed<EChartsOption>(() => ({
 }));
 </script>
 
-<style lang="scss" scoped>
-.chart-area {
-  position: absolute;
-  top: 60px;
-  right: 1em;
-  font-size: 0.8em;
-
-  .chart {
-    width: 600px;
-    height: 600px;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  .chart-area {
-    position: inherit;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

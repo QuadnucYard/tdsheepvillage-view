@@ -53,7 +53,7 @@ import { generateWave } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 import { ElMessage } from "element-plus";
 import _ from "lodash-es";
-import WolfNumberChart from "./WolfNumberChart.vue";
+import WolfNumberChart from "../components/WolfNumberChart.vue";
 
 const props = defineProps<{ mid: MapId; mapMonsterData: MonsterData[] }>();
 

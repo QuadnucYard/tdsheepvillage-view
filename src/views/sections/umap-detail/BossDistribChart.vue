@@ -1,5 +1,7 @@
 <template>
-  <v-chart ref="chartRef" class="chart" :option="option" style="width: 600px; height: 500px" />
+  <div>
+    <v-chart ref="chartRef" :option="option" autoresize :update-options="{ notMerge: true }" style="height: 600px" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +26,8 @@ import { tr } from "@/utils/translate";
 
 const props = defineProps<{ mid: MapId }>();
 
+const chartRef = ref<InstanceType<typeof VChart>>();
+
 echarts.use([DatasetComponent, TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer]);
 
 type EChartsOption = echarts.ComposeOption<
@@ -40,8 +44,8 @@ const option = reactive<EChartsOption>({
   },
   legend: {},
   grid: [
-    { bottom: "55%", containLabel: true },
-    { top: "55%", containLabel: true },
+    { left: "5%", right: "4%", bottom: "52%", containLabel: true },
+    { left: "5%", right: "4%", top: "52%", containLabel: true },
   ],
   dataset: {
     source: [],
@@ -55,7 +59,7 @@ const option = reactive<EChartsOption>({
 });
 
 watchEffect(() => {
-  const boss: any[] = GlobalData.$_map_Obj[props.mid].random_boss;
+  const boss: any[] = (GlobalData.$_map_Obj[props.mid] as any).random_boss;
   if (!boss) return;
   const a = boss.map((t, i) => [
     Object.keys(t[3].properties.card)[0],
@@ -76,17 +80,17 @@ watchEffect(() => {
   for (let i = 0; i < left.length; i++) {
     b[i + 1][0] = tr(left[i]);
   }
-  option.dataset!.source = b;
+  (option.dataset! as any).source = b;
   option.series = [
     ...new Array(top.length).fill({
       type: "bar",
-      stack: "totalA",
+      stack: `${props.mid}-totalA`,
       label: { show: true },
       emphasis: { focus: "series" },
     }),
     ...new Array(left.length).fill({
       type: "bar",
-      stack: "totalB",
+      stack: `${props.mid}-totalB`,
       seriesLayoutBy: "row",
       label: { show: true },
       emphasis: { focus: "series" },
@@ -94,6 +98,7 @@ watchEffect(() => {
       yAxisIndex: 1,
     }),
   ];
+  // chartRef?.value.
 });
 </script>
 
