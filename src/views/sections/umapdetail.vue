@@ -77,15 +77,11 @@
     </el-form-item>
     <el-form-item>
       银币：
-      <vue-latex
-        :expression="`G(x) = (2+1.07p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKGold(monsterLevel)}`"
-      />
+      <vue-latex :expression="`G(x) = (2+1.07p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKGold(monsterLevel)}`" />
     </el-form-item>
     <el-form-item>
       经验：
-      <vue-latex
-        :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKExp(monsterLevel)}`"
-      />
+      <vue-latex :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKExp(monsterLevel)}`" />
     </el-form-item>
     <el-form-item>
       <div class="space-x-4">
@@ -96,6 +92,7 @@
     </el-form-item>
     <wolf-hp-chart :hp-data="hpData" />
   </el-form>
+  <boss-distrib-chart :mid="form.mid" />
   <wave-tool :mid="form.mid" :mapMonsterData="mapMonsterData" />
   <wave-distrib-chart :mid="form.mid" :width="600" :height="600" />
 </template>
@@ -109,6 +106,7 @@ import _ from "lodash-es";
 import WolfHpChart from "./components/WolfHpChart.vue";
 import WaveDistribChart from "./components/WaveDistribChart.vue";
 import WaveTool from "./components/WaveTool.vue";
+import BossDistribChart from "./components/BossDistribChart.vue";
 
 const allGamemaps = _.chain(GlobalData.$_map_Obj)
   .map((t, id) => _.extend(t, { id }))
@@ -139,9 +137,7 @@ const form = reactive({
 const mapDataObject = computed(() => GlobalData.$_map_Obj[form.mid]);
 const mapData = computed(() => GameMap.getMapData(form.mid));
 const mapData2 = computed(() => (form.mid2 === "" ? mapData.value : GameMap.getMapData(form.mid2)));
-const mapMonsterData = computed(() =>
-  mapData.value.monsterList.map(t => MonsterManager.getOnlyExample().getData(t))
-);
+const mapMonsterData = computed(() => mapData.value.monsterList.map(t => MonsterManager.getOnlyExample().getData(t)));
 const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.wid));
 
 const formatWolfTag = (wp: [number, MonsterId][]) => {
