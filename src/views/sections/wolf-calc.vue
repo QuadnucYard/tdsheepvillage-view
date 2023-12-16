@@ -11,10 +11,12 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
-import { Monster } from "@/tdsheep/module/unit/Monster";
 import type { TabPaneName } from "element-plus";
 import _ from "lodash-es";
+
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { Monster } from "@/tdsheep/module/unit/Monster";
+
 import wolfCalcOne from "./wolf-calc/wolf-calc-one.vue";
 
 const wolfs = reactive([new Monster("dahuil")]);
@@ -24,7 +26,7 @@ const allPower = computed(() => {
   const [p1, p2] = GlobalData.$_wolf_worth_factor;
   return Math.round(
     Math.pow(
-      _.sumBy(wolfs, w => Math.pow(w.power, p1)),
+      _.sumBy(wolfs, (w) => Math.pow(w.power, p1)),
       p2
     )
   );
@@ -51,7 +53,7 @@ const handleTabsEdit = (targetName: TabPaneName | undefined, action: "remove" | 
 
     editableTabsValue.value = activeName;
     wolfs.splice(
-      wolfs.findIndex(t => t.index === targetName),
+      wolfs.findIndex((t) => t.index === targetName),
       1
     );
   }

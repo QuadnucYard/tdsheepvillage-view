@@ -1,5 +1,5 @@
 <template>
-<el-form :model="form" label-width="120px">
+  <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
       <el-select v-model="form.mid">
         <el-option v-for="t in allGamemaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
@@ -96,11 +96,13 @@
 </template>
 
 <script setup lang="ts">
+import _ from "lodash-es";
+
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
-import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import _ from "lodash-es";
+import { GameMap } from "@/tdsheep/module/map/GameMap";
+
 import WolfHpChart from "../components/WolfHpChart.vue";
 import WaveTool from "./WaveTool.vue";
 
@@ -114,7 +116,7 @@ const allGamemaps = _.chain(GlobalData.$_map_Obj)
 
 const allMonsterOptions = _.chain(GlobalData.$_wolfAtt_Obj)
   .toPairs()
-  .map(t => {
+  .map((t) => {
     let _name: string = t[1]["name"];
     return {
       value: t[0],
@@ -134,16 +136,16 @@ const form = reactive({
 
 watchEffect(() => {
   midModel.value = form.mid;
-})
+});
 
 const mapDataObject = computed(() => GlobalData.$_map_Obj[form.mid]);
 const mapData = computed(() => GameMap.getMapData(form.mid));
 const mapData2 = computed(() => (form.mid2 === "" ? mapData.value : GameMap.getMapData(form.mid2)));
-const mapMonsterData = computed(() => mapData.value.monsterList.map(t => MonsterManager.getOnlyExample().getData(t)));
+const mapMonsterData = computed(() => mapData.value.monsterList.map((t) => MonsterManager.getOnlyExample().getData(t)));
 const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.wid));
 
 const formatWolfTag = (wp: [number, MonsterId][]) => {
-  return wp.map(item => {
+  return wp.map((item) => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
     return {
       id: item[1],
@@ -156,7 +158,7 @@ const formatWolfTag = (wp: [number, MonsterId][]) => {
 
 const formatRndBossTag = (rb: [number, MonsterId, string][]) => {
   if (!rb) return [];
-  return rb.map(item => {
+  return rb.map((item) => {
     let _wolf = GlobalData.$_wolfAtt_Obj[item[1]];
     return {
       id: item[1],
@@ -171,7 +173,7 @@ const monsterLevel = computed(() => mapData2.value.getDifficultyLevel(form.score
 const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.value, form.diff));
 
 const hpData = computed(() =>
-  mapMonsterData.value.map(t => ({
+  mapMonsterData.value.map((t) => ({
     name: t.name,
     value: t.getHpMax(monsterLevel.value, form.diff),
   }))

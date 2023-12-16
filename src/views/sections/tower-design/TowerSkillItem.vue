@@ -9,13 +9,13 @@
       <template v-for="(p, i) in template.params">
         <el-input
           v-if="typeof p === 'string'"
-          v-model="(modelValue.params[i] as string)"
+          v-model="modelValue.params[i] as string"
           size="small"
           style="width: 100px"
         />
         <el-input-number
           v-else
-          v-model="(modelValue.params[i] as number)"
+          v-model="modelValue.params[i] as number"
           size="small"
           controls-position="right"
           :step="getStep(p)"

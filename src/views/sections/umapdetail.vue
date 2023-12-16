@@ -6,7 +6,7 @@
     <el-col :md="8" :sm="16">
       <el-tabs v-model="activeName" class="chart-area">
         <el-tab-pane label="狼分布" name="wolf">
-          <wave-distrib-chart :mid="mid"/>
+          <wave-distrib-chart :mid="mid" />
         </el-tab-pane>
         <el-tab-pane label="Boss分布" name="boss">
           <boss-distrib-chart :mid="mid" />
@@ -17,10 +17,11 @@
 </template>
 
 <script setup lang="ts">
+import { MapId } from "@/tdsheep/ado/GlobalData";
+
+import BossDistribChart from "./umap-detail/BossDistribChart.vue";
 import UmapInfoForm from "./umap-detail/UmapInfoForm.vue";
 import WaveDistribChart from "./umap-detail/WaveDistribChart.vue";
-import BossDistribChart from "./umap-detail/BossDistribChart.vue";
-import { MapId } from "@/tdsheep/ado/GlobalData";
 
 const mid = ref<MapId>("m1");
 const activeName = ref("wolf");

@@ -23,9 +23,7 @@ const form = reactive({
   level: 1,
 });
 
-const expMax = computed(
-  () => ((2 * (form.level + 1) + 3) * (form.level + 1) + 4) * (form.level + 1) + 20
-);
+const expMax = computed(() => ((2 * (form.level + 1) + 3) * (form.level + 1) + 4) * (form.level + 1) + 20);
 const power = computed(() => Math.round((0.015 * form.level + 0.8) * form.level + 2));
 const upgradeLevel = computed(() => Math.floor(form.level / 4 + 1));
 const slaveGold = computed(() => (form.level + 7) * power.value);

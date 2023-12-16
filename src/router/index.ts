@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw, Router } from "vue-router";
+import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
 
 export const sections = [
   { name: "user", label: "User" },
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "index",
     component: () => import("@/views/index.vue"),
-    children: sections.map(sec => {
+    children: sections.map((sec) => {
       return {
         path: "/" + sec.name,
         name: sec.name,

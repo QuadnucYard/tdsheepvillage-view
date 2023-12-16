@@ -53,7 +53,7 @@ export class Monster extends BaseUnit {
   }
 
   createSkills(_skills: any[]) {
-    return _skills.map(_sk =>
+    return _skills.map((_sk) =>
       new MonsterSkill(_sk[BaseUnit.SKILL_ID], _sk[BaseUnit.SKILL_LEVEL], this).getSubClasses()
     );
   }
@@ -201,6 +201,6 @@ export class Monster extends BaseUnit {
     }
     const _skillList = Object.values(this.skills);
     _skillList.sort((a, b) => a.index - b.index);
-    return _skillList.map(t => t.skillInfo).join("");
+    return _skillList.map((t) => t.skillInfo).join("");
   }
 }

@@ -1,6 +1,6 @@
+import { GlobalData } from "../ado/GlobalData";
 import { BaseData, BaseDisplayData } from "./BaseData";
 import { BaseManager } from "./BaseData";
-import { GlobalData } from "../ado/GlobalData";
 
 export class BaseSkillData extends BaseDisplayData {
   static readonly TYPE_TOWER_SKILL = "typeTowerSkill";

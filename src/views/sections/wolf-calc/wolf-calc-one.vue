@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import { Monster } from "@/tdsheep/module/unit/Monster";
+
 import WolfSelect from "../components/WolfSelect.vue";
 import WolfSkillTable from "./WolfSkillTable.vue";
 

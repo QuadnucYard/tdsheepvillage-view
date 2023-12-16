@@ -7,3 +7,9 @@
 **/*.sh
 
 /public/*
+
+/src/assets/*
+pnpm-lock.yaml
+auto-imports.d.ts
+components.d.ts
+env.d.ts

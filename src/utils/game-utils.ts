@@ -1,5 +1,6 @@
-import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
+
+import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 
 export function getPop(wid: MonsterId, bossAs?: int): int {
   const pop = GlobalData.$_wolfAtt_Obj[wid].pop;
@@ -23,17 +24,14 @@ export function calcDreamExp(score: float, pop: int) {
   return Math.round(pop * Math.pow(score, _opt.power) * _opt.popu + _opt.p);
 }
 
-export function generateWave(
-  mid: MapId,
-  reservation: int[] | null
-): [string[], [string, int][]] | null {
+export function generateWave(mid: MapId, reservation: int[] | null): [string[], [string, int][]] | null {
   const umap = GlobalData.$_map_Obj[mid];
   const wp = umap.wolf_proportion as [number, MonsterId][];
   let pop = umap.pop_max;
   // console.log(pop);
-  const wolfProp = wp.map(t => t[0]);
-  const wolfPop = wp.map(t => getPop(t[1]));
-  let wolfs = wp.map(t => t[1]);
+  const wolfProp = wp.map((t) => t[0]);
+  const wolfPop = wp.map((t) => getPop(t[1]));
+  let wolfs = wp.map((t) => t[1]);
   let n = wolfPop.length;
   if (n == 0) return [[], []];
 
@@ -45,7 +43,7 @@ export function generateWave(
     reservation.length = wolfPop.length;
     pop -= _.chain(wolfPop)
       .zip(reservation)
-      .sumBy(t => t[0]! * t[1]!)
+      .sumBy((t) => t[0]! * t[1]!)
       .value();
     if (pop < 0) {
       return null;
@@ -59,7 +57,7 @@ export function generateWave(
     let k: int;
     do {
       const p = Math.random() * wolfProp[n - 1];
-      k = _.findIndex(wolfProp, t => p < t);
+      k = _.findIndex(wolfProp, (t) => p < t);
     } while (pop < wolfPop[k]);
     pop -= wolfPop[k];
     mlist.push(wolfs[k]);

@@ -48,17 +48,20 @@
         </el-select>
       </template>
 
-      <el-button v-else class="button-new-tag m-0.5" type="primary" plain size="small" @click="showInput"> + </el-button>
+      <el-button v-else class="button-new-tag m-0.5" type="primary" plain size="small" @click="showInput">
+        +
+      </el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
-import { ElInput, ElAutocomplete, ElSelect } from "element-plus";
-import { tr } from "@/utils/translate";
+import { ElAutocomplete, ElInput, ElSelect } from "element-plus";
 import "element-plus/es/components/autocomplete/style/css";
+
+import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { getTotalPop } from "@/utils/game-utils";
+import { tr } from "@/utils/translate";
 
 const props = defineProps<{ wolfList: WolfItem[] }>();
 const modelValue = defineModel<WolfItem[]>();
@@ -94,9 +97,7 @@ const filterOptions = (queryString: string) => {
 }; */
 const createFilter = (queryString: string) => {
   return (item: WolfItem) => {
-    return (
-      item.id.toLowerCase().includes(queryString.toLowerCase()) || item.value.includes(queryString)
-    );
+    return item.id.toLowerCase().includes(queryString.toLowerCase()) || item.value.includes(queryString);
   };
 };
 

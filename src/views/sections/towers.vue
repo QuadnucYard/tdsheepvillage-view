@@ -129,12 +129,13 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
-import { Tower } from "@/tdsheep/module/unit/Tower";
-import { GameMap } from "@/tdsheep/module/map/GameMap";
-import { GemItem } from "@/tdsheep/module/item";
-import { formatTimeSpan } from "@/utils/format";
 import _ from "lodash-es";
+
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GemItem } from "@/tdsheep/module/item";
+import { GameMap } from "@/tdsheep/module/map/GameMap";
+import { Tower } from "@/tdsheep/module/unit/Tower";
+import { formatTimeSpan } from "@/utils/format";
 
 const form = reactive({
   isDefendMap: false,
@@ -147,11 +148,10 @@ const form = reactive({
 });
 
 const allTowers = _.map(GlobalData.$_towerAtt_Obj, (t, k) => [t.name, k]);
-const allGems =
-  _.chain(GlobalData.$_global_properties.gem)
+const allGems = _.chain(GlobalData.$_global_properties.gem)
   .toPairs()
-  .sortBy(t => Number(Math.abs(t[1].index)))
-  .map(t => [`${t[1].name} [${t[1].index}]`, t[0]])
+  .sortBy((t) => Number(Math.abs(t[1].index)))
+  .map((t) => [`${t[1].name} [${t[1].index}]`, t[0]])
   .value();
 
 const tower = computed(() => {

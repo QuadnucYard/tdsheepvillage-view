@@ -1,6 +1,6 @@
-import { BaseModule } from "../BaseModule";
 import { GameMapManager } from "../../command/map";
 import type { GameMapData } from "../../command/map";
+import { BaseModule } from "../BaseModule";
 
 export class GameMap extends BaseModule {
   static readonly DEFEND_MAP_1 = "mfx1";

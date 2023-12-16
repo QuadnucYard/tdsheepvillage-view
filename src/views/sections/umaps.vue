@@ -26,29 +26,15 @@
     <el-table-column prop="interval" label="unkennelDelay" sortable align="center" />
     <el-table-column prop="interval_rule" label="unkennelRule" sortable align="center" />
     <el-table-column prop="teleport_rule" label="teleportRule" sortable align="center" />
-    <el-table-column
-      prop="need_lev"
-      label="needLevel"
-      sortable
-      :sort-method="sortByNeedLevel"
-      align="center"
-    />
+    <el-table-column prop="need_lev" label="needLevel" sortable :sort-method="sortByNeedLevel" align="center" />
     <el-table-column prop="pass_by" label="passBy" align="center">
       <template #default="props">
         {{ props.row.pass_by.map((u: MapId) => GlobalData.$_map_Obj[u].name).join(", ") }}
       </template>
     </el-table-column>
-    <el-table-column
-      prop="wolf_proportion"
-      label="monsterList"
-      :cell-style="{ 'text-align': 'left' }"
-    >
+    <el-table-column prop="wolf_proportion" label="monsterList" :cell-style="{ 'text-align': 'left' }">
       <template #default="props">
-        <el-tag
-          v-for="w in formatWolfProp(props.row.wolf_proportion)"
-          :key="w.prob"
-          class="ml-2"
-        >
+        <el-tag v-for="w in formatWolfProp(props.row.wolf_proportion)" :key="w.prob" class="ml-2">
           <sub>{{ w.prob }}</sub>
           {{ w.name }}
           <sup>{{ w.pop }}</sup>
@@ -59,9 +45,10 @@
 </template>
 
 <script setup lang="ts">
+import _ from "lodash-es";
+
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import _ from "lodash-es";
 
 interface RowData {
   id: string;
@@ -78,7 +65,7 @@ const sortByNeedLevel = (a: { need_lev?: number }, b: { need_lev?: number }) => 
 };
 
 const formatWolfProp = (wp: [number, string][]) => {
-  return wp.map(item => {
+  return wp.map((item) => {
     const _wolf = MonsterManager.getOnlyExample().getData(item[1]);
     return {
       prob: item[0],

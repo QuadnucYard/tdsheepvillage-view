@@ -1,14 +1,12 @@
-import * as path from "path";
-
 import vue from "@vitejs/plugin-vue";
+import * as path from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
-import { defineConfig } from "vite";
-import viteCompression from "vite-plugin-compression";
-
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import Components from "unplugin-vue-components/vite";
+import { defineConfig } from "vite";
+import viteCompression from "vite-plugin-compression";
 
 const pathSrc = path.resolve(__dirname, "src");
 

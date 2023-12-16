@@ -2,12 +2,7 @@
   <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
       <el-select v-model="form.mid">
-        <el-option
-          v-for="t in allDreamMaps"
-          :key="t.id"
-          :label="`${t.id} ${t.name}`"
-          :value="t.id"
-        />
+        <el-option v-for="t in allDreamMaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
       </el-select>
       <el-tag effect="light" class="mx-1"> 难度系数：{{ mapData.hard_ness }}, {{ mapData.yield_val }} </el-tag>
     </el-form-item>
@@ -18,18 +13,11 @@
     </el-form-item>
     <el-form-item>
       银币：
-      <vue-latex
-        :expression="`G(x) = (2+1.07p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKGold(
-          monsterLevel,
-          wavePopu
-        )}`"
-      />
+      <vue-latex :expression="`G(x) = (2+1.07p)(\\frac{L(x)}{0.39})^{2/3} = ${calcPKGold(monsterLevel, wavePopu)}`" />
     </el-form-item>
     <el-form-item>
       经验：
-      <vue-latex
-        :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${waveExp}`"
-      />
+      <vue-latex :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${waveExp}`" />
     </el-form-item>
     <el-form-item>
       <div class="space-x-4">
@@ -42,12 +30,14 @@
 </template>
 
 <script setup lang="ts">
+import _ from "lodash-es";
+
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import _ from "lodash-es";
+import { calcDreamExp, calcPKGold } from "@/utils/game-utils";
+
 import WolfHpChart from "./components/WolfHpChart.vue";
-import { calcPKGold, calcDreamExp } from "@/utils/game-utils";
 
 const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();
 
@@ -69,9 +59,7 @@ const getWaveWolfs = (score: int): MonsterId[] => {
   if (score % 10 == 0) return waves.boss[key as keyof typeof waves.boss] as MonsterId[];
   return waves.wolf[key as keyof typeof waves.wolf] as MonsterId[];
 };
-const waveWolfs = computed(() =>
-  getWaveWolfs(form.score).map(t => MonsterManager.getOnlyExample().getData(t))
-);
+const waveWolfs = computed(() => getWaveWolfs(form.score).map((t) => MonsterManager.getOnlyExample().getData(t)));
 
 const getWavePopu = (mid: DreamMapId, score: int) => {
   const key = getWaveKey(score).toString();
@@ -84,9 +72,7 @@ const getWaveExp = (score: int) =>
   calcDreamExp(score, getWavePopu(form.mid, score == 0 ? 1 : score == 9 ? 10 : getWaveKey(score)));
 const waveExp = computed(() => getWaveExp(form.score));
 
-const monsterLevel = computed(() =>
-  Math.sqrt(mapData.value.hard_ness * form.score + mapData.value.yield_val)
-);
+const monsterLevel = computed(() => Math.sqrt(mapData.value.hard_ness * form.score + mapData.value.yield_val));
 const monsterHpRate = computed(() => {
   for (const [k, v] of Object.entries(GlobalData.dream_data.dm_wolf_hard_ness)) {
     const [x, y] = k.split("_");
@@ -96,7 +82,7 @@ const monsterHpRate = computed(() => {
 });
 
 const hpData = computed(() =>
-  waveWolfs.value.map(t => ({
+  waveWolfs.value.map((t) => ({
     name: t.name,
     value: t.getHpMax(monsterLevel.value, monsterHpRate.value),
   }))
@@ -105,7 +91,7 @@ const hpData = computed(() =>
 const calcAccumulative = computed(() => {
   let gold = 0;
   let exp = 0;
-  for (let i = 1; i <= form.score; i ++) {
+  for (let i = 1; i <= form.score; i++) {
     let level = Math.sqrt(mapData.value.yield_val + mapData.value.hard_ness * i);
     gold += calcPKGold(level, getWavePopu(form.mid, i));
     exp += getWaveExp(i);

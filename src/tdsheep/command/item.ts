@@ -1,9 +1,9 @@
-import { BaseDisplayData, BaseManager } from "./BaseData";
-import { BuildingData } from "./unit";
-import { GameMap } from "../module/map/GameMap";
 import { GlobalData } from "../ado/GlobalData";
+import { GameMap } from "../module/map/GameMap";
 import { SkillsPackage } from "../module/skill";
 import { ColorFilter } from "../utils/ColorFilter";
+import { BaseDisplayData, BaseManager } from "./BaseData";
+import { BuildingData } from "./unit";
 
 export class BaseItemData extends BaseDisplayData {
   public static readonly DATA_PRICE = "price";

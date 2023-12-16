@@ -1,5 +1,6 @@
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Tools } from "@/tdsheep/utils/Tools";
+
 import type { WaveData } from "../../command/map";
 import { Monster } from "../unit/Monster";
 import { GameMap } from "./GameMap";
@@ -12,7 +13,7 @@ export class Wave {
   }
 
   generate(_monsterList: string[]) {
-    return _monsterList.map(t => new Monster(t, this.difficultyLevel, this.difficultyValue));
+    return _monsterList.map((t) => new Monster(t, this.difficultyLevel, this.difficultyValue));
   }
 
   get difficultyDream() {

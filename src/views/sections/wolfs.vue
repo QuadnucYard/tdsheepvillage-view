@@ -49,9 +49,10 @@
 </template>
 
 <script setup lang="ts">
+import _ from "lodash-es";
+
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Monster } from "@/tdsheep/module/unit/Monster";
-import _ from "lodash-es";
 
 interface RowData {
   id: string;
@@ -61,7 +62,7 @@ interface RowData {
 console.log("init wolfs");
 const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
   .sort()
-  .map(t => {
+  .map((t) => {
     let _wolf = new Monster(t, 0, 0);
     _wolf.initSkills();
     let _md = _wolf.monsterData;

@@ -7,13 +7,14 @@
       <tower-info :tower="tower" />
     </el-col>
   </el-row>
-  <tower-skill-table :tower="tower" class="mt-2"/>
+  <tower-skill-table :tower="tower" class="mt-2" />
 </template>
 
 <script setup lang="ts">
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { TowerData } from "@/tdsheep/command/unit";
 import { Tower } from "@/tdsheep/module/unit/Tower";
+
 import TowerDataForm from "./tower-design/TowerDataForm.vue";
 import TowerInfo from "./tower-design/TowerInfo.vue";
 import TowerSkillTable from "./tower-design/TowerSkillTable.vue";

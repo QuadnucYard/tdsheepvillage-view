@@ -18,6 +18,7 @@
 
 <script setup lang="ts">
 import type { TabsPaneContext } from "element-plus";
+
 import { sections } from "@/router";
 
 const router = useRouter();

@@ -1,5 +1,6 @@
-import { getHashCode } from ".";
 import Color from "color";
+
+import { getHashCode } from ".";
 
 export function strHue(a: string) {
   return getHashCode(a);

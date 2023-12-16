@@ -42,15 +42,16 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import _ from "lodash-es";
+
+import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { strHSl } from "@/utils/colorful";
-import { tr } from "@/utils/translate";
 import { getPop } from "@/utils/game-utils";
+import { tr } from "@/utils/translate";
 
 type DreamMapId = keyof typeof GlobalData.dream_maps;
 
-const tableData = _.sortBy(Object.values(GlobalData.dream_maps), "name").map(t => ({
+const tableData = _.sortBy(Object.values(GlobalData.dream_maps), "name").map((t) => ({
   ...t,
   ...GlobalData.dream_waves[t.id as DreamMapId],
   waves: Object.assign(

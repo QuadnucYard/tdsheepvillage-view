@@ -3,18 +3,15 @@
 </template>
 
 <script setup lang="ts">
-import VChart from "vue-echarts";
-import * as echarts from "echarts/core";
 import { BarChart } from "echarts/charts";
-import { TitleComponent, TooltipComponent, GridComponent } from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
-import type { ComposeOption } from "echarts/core";
 import type { BarSeriesOption } from "echarts/charts";
-import type {
-  TitleComponentOption,
-  TooltipComponentOption,
-  GridComponentOption,
-} from "echarts/components";
+import { GridComponent, TitleComponent, TooltipComponent } from "echarts/components";
+import type { GridComponentOption, TitleComponentOption, TooltipComponentOption } from "echarts/components";
+import * as echarts from "echarts/core";
+import type { ComposeOption } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import VChart from "vue-echarts";
+
 import { strHSl } from "@/utils/colorful";
 
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
@@ -53,7 +50,7 @@ const option = computed<EChartsOption>(() => ({
     axisLabel: {
       fontSize: 14,
     },
-    data: props.hpData.map(t => t.name),
+    data: props.hpData.map((t) => t.name),
   },
   grid: { left: 100, top: 30, bottom: 20 },
   series: {
@@ -65,7 +62,7 @@ const option = computed<EChartsOption>(() => ({
     },
     showBackground: true,
     backgroundStyle: { color: "rgba(180, 180, 180, 0.2)" },
-    data: props.hpData.map(t => t.value),
+    data: props.hpData.map((t) => t.value),
     itemStyle: {
       color: function (params) {
         return strHSl(params.name, 80, 45);

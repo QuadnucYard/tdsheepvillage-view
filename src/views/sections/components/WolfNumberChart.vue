@@ -3,14 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import * as echarts from "echarts/core";
-import {
-  GridComponent,
-  GridComponentOption,
-  TitleComponent,
-  TooltipComponent,
-} from "echarts/components";
 import { BarChart, BarSeriesOption } from "echarts/charts";
+import { GridComponent, GridComponentOption, TitleComponent, TooltipComponent } from "echarts/components";
+import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import VChart from "vue-echarts";
 
@@ -31,7 +26,7 @@ const option = computed<EChartsOption>(() => ({
     type: "category",
     axisTick: { alignWithLabel: true },
     axisLabel: { fontSize: 14 },
-    data: props.data.map(t => t.name),
+    data: props.data.map((t) => t.name),
   },
   grid: { left: 100, top: 0, bottom: 20 },
   series: {
@@ -40,7 +35,7 @@ const option = computed<EChartsOption>(() => ({
     label: { show: true, position: "right" },
     showBackground: true,
     backgroundStyle: { color: "rgba(180, 180, 180, 0.2)" },
-    data: props.data.map(t => t.num),
+    data: props.data.map((t) => t.num),
   },
   // animation: false,
 }));

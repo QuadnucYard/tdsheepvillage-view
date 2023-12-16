@@ -7,11 +7,7 @@
       <el-table-column prop="key" label="Key" :width="80" align="center" />
       <el-table-column label="Wolf">
         <template #default="scope">
-          <DreamWaveEditor
-            :wolf-list="wolfList"
-            v-model="scope.row.wolf"
-            @change="refreshPopu(scope.row)"
-          />
+          <DreamWaveEditor :wolf-list="wolfList" v-model="scope.row.wolf" @change="refreshPopu(scope.row)" />
         </template>
       </el-table-column>
       <el-table-column label="Population" :width="160" align="center">
@@ -54,17 +50,18 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
-import { ElInput, ElMessage } from "element-plus";
-import { tr } from "@/utils/translate";
-import "element-plus/es/components/autocomplete/style/css";
-import { getTotalPop } from "@/utils/game-utils";
-import DreamWaveEditor from "./components/DreamWaveEditor.vue";
-import useClipboard from "vue-clipboard3";
 import { Lock, Unlock } from "@element-plus/icons-vue";
-
+import { ElInput, ElMessage } from "element-plus";
+import "element-plus/es/components/autocomplete/style/css";
+import useClipboard from "vue-clipboard3";
 import VueJsonPretty from "vue-json-pretty";
 import "vue-json-pretty/lib/styles.css";
+
+import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { getTotalPop } from "@/utils/game-utils";
+import { tr } from "@/utils/translate";
+
+import DreamWaveEditor from "./components/DreamWaveEditor.vue";
 
 const { toClipboard } = useClipboard();
 
@@ -77,14 +74,14 @@ const exportString = ref("");
 const someRef = ref();
 
 type WolfItem = { id: MonsterId; value: string };
-const wolfList: WolfItem[] = (Object.keys(GlobalData.$_wolfAtt_Obj) as MonsterId[]).map(t => ({
+const wolfList: WolfItem[] = (Object.keys(GlobalData.$_wolfAtt_Obj) as MonsterId[]).map((t) => ({
   id: t,
   value: tr(t),
 }));
 
 const allKeys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 const tableData = ref(
-  allKeys.map(k => ({
+  allKeys.map((k) => ({
     key: k,
     wolf: [] as WolfItem[],
     popu: 0,
@@ -110,7 +107,7 @@ const onPopuChanged = (row: TableRow) => {
 
 const onImportDialogConfirm = () => {
   const importData = JSON.parse(importString.value);
-  tableData.value = allKeys.map(k => ({
+  tableData.value = allKeys.map((k) => ({
     key: k,
     wolf: (importData.wolf[k] ?? importData.boss[k] ?? []).map((t: string) => ({
       id: t,
@@ -130,7 +127,7 @@ const showExportDialog = () => {
     popu: {} as { [key: string]: int },
   };
   for (const row of tableData.value) {
-    const wolfs = row.wolf.map(t => t.id);
+    const wolfs = row.wolf.map((t) => t.id);
     exportData_[row.key < 10 ? "wolf" : "boss"][row.key] = wolfs;
     if (row.key < 10) {
       exportData_.wolf[row.key] = wolfs;

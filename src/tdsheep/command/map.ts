@@ -1,6 +1,6 @@
+import { GlobalData } from "../ado/GlobalData";
 import { BaseDisplayData } from "./BaseData";
 import { BaseManager } from "./BaseData";
-import { GlobalData } from "../ado/GlobalData";
 import { BaseData } from "./BaseData";
 
 export class GameMapData extends BaseDisplayData {

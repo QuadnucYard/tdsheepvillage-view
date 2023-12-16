@@ -67,9 +67,9 @@ watchEffect(() => {
     Math.round((t[0] - (boss[i - 1]?.[0] ?? 0)) * 1000) / 10,
   ]);
   // console.log(a);
-  const top = _.uniq(a.map(t => t[0])).sort(); // baoxiang
-  const left = _.uniq(a.map(t => t[1])).sort(); // boss
-  const b = [["boss", ...top]].concat(left.map(x => [x].concat(new Array<number>(top.length).fill(0))));
+  const top = _.uniq(a.map((t) => t[0])).sort(); // baoxiang
+  const left = _.uniq(a.map((t) => t[1])).sort(); // boss
+  const b = [["boss", ...top]].concat(left.map((x) => [x].concat(new Array<number>(top.length).fill(0))));
   // console.log(b);
   for (const it of a) {
     b[left.indexOf(it[1]) + 1][top.indexOf(it[0]) + 1] = it[2];

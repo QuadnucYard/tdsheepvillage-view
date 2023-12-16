@@ -49,11 +49,12 @@
 </template>
 
 <script setup lang="ts">
+import { ElTable } from "element-plus";
+import _ from "lodash-es";
+
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { MonsterSkill } from "@/tdsheep/module/skill";
 import { Monster } from "@/tdsheep/module/unit/Monster";
-import { ElTable } from "element-plus";
-import _ from "lodash-es";
 
 const props = defineProps<{ wolf: Monster }>();
 
@@ -61,7 +62,7 @@ const emits = defineEmits<{ change: [] }>();
 
 const skillTableRef = ref<InstanceType<typeof ElTable>>();
 
-const skillDict = _.groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, t => t.kindId);
+const skillDict = _.groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, (t) => t.kindId);
 _.each(skillDict, (t, k) => (skillDict[k] = _.sortBy(t, "id")));
 const skillKindList = Object.keys(skillDict).sort();
 
@@ -124,7 +125,7 @@ const addRow = () => {
   emits("change");
 };
 const handleSelectionChange = (val: SkillItem[]) => {
-  props.wolf.skillList.forEach(t => (t.enabled = val.find(v => v.skill == t) !== undefined));
+  props.wolf.skillList.forEach((t) => (t.enabled = val.find((v) => v.skill == t) !== undefined));
 };
 </script>
 

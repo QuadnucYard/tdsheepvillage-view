@@ -1,13 +1,6 @@
 <template>
   <div>
-    <el-table
-      ref="skillTableRef"
-      :data="tableData"
-      stripe
-      border
-      table-layout="auto"
-      style="font-size: small"
-    >
+    <el-table ref="skillTableRef" :data="tableData" stripe border table-layout="auto" style="font-size: small">
       <el-table-column label="Skill" header-align="center">
         <template #default="scope: { row: SkillItem }">
           <tower-skill-item :tower="tower" v-model="scope.row.data" />
@@ -29,9 +22,7 @@
       </el-table-column>
       <el-table-column label="操作" :width="100" align="center">
         <template #default="scope">
-          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
-            删除
-          </el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"> 删除 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -40,9 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import TowerSkillItem from "./TowerSkillItem.vue";
-import { Tower } from "@/tdsheep/module/unit/Tower";
 import { ElTable } from "element-plus";
+
+import { Tower } from "@/tdsheep/module/unit/Tower";
+
+import TowerSkillItem from "./TowerSkillItem.vue";
 
 const props = defineProps<{ tower: Tower }>();
 
