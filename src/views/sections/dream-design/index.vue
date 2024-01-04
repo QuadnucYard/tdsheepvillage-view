@@ -61,7 +61,7 @@ import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { getTotalPop } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 
-import DreamWaveEditor from "./components/DreamWaveEditor.vue";
+import DreamWaveEditor from "./DreamWaveEditor.vue";
 
 const { toClipboard } = useClipboard();
 

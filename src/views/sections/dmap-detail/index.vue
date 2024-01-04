@@ -37,7 +37,7 @@ import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { calcDreamExp, calcPKGold } from "@/utils/game-utils";
 
-import WolfHpChart from "./components/WolfHpChart.vue";
+import WolfHpChart from "@/views/components/WolfHpChart.vue";
 
 const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();
 

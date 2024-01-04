@@ -103,7 +103,7 @@ import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 
-import WolfHpChart from "../components/WolfHpChart.vue";
+import WolfHpChart from "@/views/components/WolfHpChart.vue";
 import WaveTool from "./WaveTool.vue";
 
 const midModel = defineModel<MapId>("mid");

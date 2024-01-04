@@ -5,7 +5,7 @@ export const sections = [
   { name: "towers", label: "Towers" },
   { name: "wolfs", label: "Wolfs" },
   { name: "umaps", label: "Umaps" },
-  { name: "umapdetail", label: "Umap Detail" },
+  { name: "umap-detail", label: "Umap Detail" },
   { name: "dmaps", label: "Dream Maps" },
   { name: "dmap-detail", label: "Dream Map Detail" },
   { name: "wolf-calc", label: "Wolf Calculation" },
@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/" + sec.name,
         name: sec.name,
         meta: { keepAlive: true },
-        component: () => import(`../views/sections/${sec.name}.vue`),
+        component: () => import(`@/views/sections/${sec.name}/index.vue`),
       };
     }),
   },

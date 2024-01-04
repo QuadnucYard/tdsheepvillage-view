@@ -50,7 +50,7 @@ import { MonsterData } from "@/tdsheep/command/unit";
 import { generateWave } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 
-import WolfNumberChart from "../components/WolfNumberChart.vue";
+import WolfNumberChart from "@/views/components/WolfNumberChart.vue";
 
 const props = defineProps<{ mid: MapId; mapMonsterData: MonsterData[] }>();
 

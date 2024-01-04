@@ -19,9 +19,9 @@
 <script setup lang="ts">
 import { MapId } from "@/tdsheep/ado/GlobalData";
 
-import BossDistribChart from "./umap-detail/BossDistribChart.vue";
-import UmapInfoForm from "./umap-detail/UmapInfoForm.vue";
-import WaveDistribChart from "./umap-detail/WaveDistribChart.vue";
+import BossDistribChart from "./BossDistribChart.vue";
+import UmapInfoForm from "./UmapInfoForm.vue";
+import WaveDistribChart from "./WaveDistribChart.vue";
 
 const mid = ref<MapId>("m1");
 const activeName = ref("wolf");

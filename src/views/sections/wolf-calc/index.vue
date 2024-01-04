@@ -17,7 +17,7 @@ import _ from "lodash-es";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 
-import wolfCalcOne from "./wolf-calc/wolf-calc-one.vue";
+import WolfCalcOne from "./WolfCalcOne.vue";
 
 const wolfs = reactive([new Monster("dahuil")]);
 const editableTabsValue = ref(wolfs[0].index);

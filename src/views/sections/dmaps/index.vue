@@ -44,9 +44,8 @@
 <script setup lang="ts">
 import _ from "lodash-es";
 
-import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { strHSl } from "@/utils/colorful";
-import { getPop } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 
 type DreamMapId = keyof typeof GlobalData.dream_maps;

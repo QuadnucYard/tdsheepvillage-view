@@ -15,9 +15,9 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { TowerData } from "@/tdsheep/command/unit";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 
-import TowerDataForm from "./tower-design/TowerDataForm.vue";
-import TowerInfo from "./tower-design/TowerInfo.vue";
-import TowerSkillTable from "./tower-design/TowerSkillTable.vue";
+import TowerDataForm from "./TowerDataForm.vue";
+import TowerInfo from "./TowerInfo.vue";
+import TowerSkillTable from "./TowerSkillTable.vue";
 
 const tower = reactive(new Tower(null));
 tower.m_data = new TowerData(GlobalData.$_towerAtt_Obj.shaota);
