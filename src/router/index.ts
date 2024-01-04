@@ -6,6 +6,7 @@ export const sections = [
   { name: "wolfs", label: "Wolfs" },
   { name: "umaps", label: "Umaps" },
   { name: "umap-detail", label: "Umap Detail" },
+  { name: "umap-design", label: "Umap Design" },
   { name: "dmaps", label: "Dream Maps" },
   { name: "dmap-detail", label: "Dream Map Detail" },
   { name: "wolf-calc", label: "Wolf Calculation" },

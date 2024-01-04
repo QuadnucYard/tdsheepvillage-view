@@ -1,16 +1,14 @@
 <template>
   <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
-      <el-select v-model="form.mid">
-        <el-option v-for="t in allGamemaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
-      </el-select>
+      <el-select-v2 v-model="form.mid" :options="allGameMapOptions" />
       <el-tag effect="light"> 难度系数：{{ mapData.hardA }},{{ mapData.hardB }} </el-tag>
       <el-tag effect="light"> Population：{{ mapData.populationMax }} </el-tag>
     </el-form-item>
     <el-form-item label="引狼到">
       <el-select v-model="form.mid2" clearable>
-        <el-option label="无" value=""></el-option>
-        <el-option v-for="t in allGamemaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
+        <el-option label="无" value="" />
+        <el-option v-for="t in allGameMaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
       </el-select>
     </el-form-item>
     <el-form-item label="该地图的狼">
@@ -57,14 +55,7 @@
       </el-tag>
     </el-form-item>
     <el-form-item label="难度">
-      <el-select v-model="form.diff">
-        <el-option :value="0.8" label="小菜一碟" />
-        <el-option :value="0.9" label="轻而易举" />
-        <el-option :value="1.0" label="势均力敌" />
-        <el-option :value="1.1" label="有惊无险" />
-        <el-option :value="1.2" label="稍有难度" />
-        <el-option :value="1.3" label="困难重重" />
-      </el-select>
+      <DifficultySelect v-model="form.diff" />
     </el-form-item>
     <el-form-item>
       <div class="space-x-8">
@@ -102,29 +93,14 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
-
+import { allGameMaps, allMonsterOptions } from "@/utils/ui-data";
+import { allGameMapOptions } from "@/utils/ui-data";
+import DifficultySelect from "@/views/components/DifficultySelect.vue";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
+
 import WaveTool from "./WaveTool.vue";
 
 const midModel = defineModel<MapId>("mid");
-
-const allGamemaps = _.chain(GlobalData.$_map_Obj)
-  .map((t, id) => _.extend(t, { id }))
-  .toArray()
-  .sortBy("index")
-  .value();
-
-const allMonsterOptions = _.chain(GlobalData.$_wolfAtt_Obj)
-  .toPairs()
-  .map((t) => {
-    let _name: string = t[1]["name"];
-    return {
-      value: t[0],
-      label: _name.includes("^") ? _name.substring(_name.indexOf("^") + 1) : _name,
-    };
-  })
-  .sortBy("id")
-  .value();
 
 const form = reactive({
   mid: "m1" as MapId,

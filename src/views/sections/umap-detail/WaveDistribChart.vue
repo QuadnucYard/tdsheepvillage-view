@@ -39,7 +39,7 @@ echarts.use([
   UniversalTransition,
 ]);
 
-const props = withDefaults(defineProps<{ mid: MapId; height: number; width: number }>(), {
+const props = withDefaults(defineProps<{ mid: MapId; height?: number; width?: number }>(), {
   width: 600,
   height: 600,
 });

@@ -51,8 +51,29 @@ export class GameMapData extends BaseDisplayData {
     this.teleportRule = _data[GameMapData.DATA_TELEPORT_RULE];
   }
 
-  getDifficultyLevel(_score: number) {
+  public getDifficultyLevel(_score: number) {
     return Math.sqrt(this.hardA + this.hardB * _score);
+  }
+
+  public calcPKGold(_level: float) {
+    const p = this.populationMax;
+    return Math.round((2 + 1.07 * p) * Math.pow(_level / 0.39, 2 / 3));
+  }
+
+  public calcPKExp(_level: float) {
+    const p = this.populationMax;
+    return Math.round((3.5 + 0.14 * p) * Math.pow(_level / 0.39, 2 / 3));
+  }
+
+  public calcAccumulative() {
+    let gold = 0;
+    let exp = 0;
+    for (let i = 0; i <= mapData.value.scoreMax; i += 2) {
+      let _level = Math.sqrt(mapData.value.hardA + mapData.value.hardB * i);
+      gold += calcPKGold(_level);
+      exp += calcPKExp(_level);
+    }
+    return { gold, exp };
   }
 }
 

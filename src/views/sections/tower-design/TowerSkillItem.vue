@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-select v-model="modelValue.kindId" @update:model-value="onSelect">
-      <template v-for="a in Object.keys(GlobalData.skillTemplates)" :key="a">
+      <template v-for="a in Object.keys(skillTemplates)" :key="a">
         <el-option v-if="!(a in tower.skills)" :label="a" :value="a" />
       </template>
     </el-select>
@@ -32,6 +32,7 @@ import { TowerSkillData } from "@/tdsheep/command/skill";
 import { TowerSkill } from "@/tdsheep/module/skill";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 import { getStep } from "@/utils";
+import { skillTemplates } from "@/utils/ui-data";
 
 const props = defineProps<{ tower: Tower }>();
 const modelValue = defineModel<{ kindId: string; params: (number | string)[] }>({
@@ -42,11 +43,11 @@ const emits = defineEmits<{
   "update:model-value": [];
 }>();
 
-type TemplateType = typeof GlobalData.skillTemplates;
+type TemplateType = typeof skillTemplates;
 const template = ref<TemplateType[keyof TemplateType]>();
 
 const onSelect = () => {
-  template.value = GlobalData.skillTemplates[modelValue.value.kindId];
+  template.value = skillTemplates[modelValue.value.kindId];
   modelValue.value.params = template.value.params.slice();
 };
 

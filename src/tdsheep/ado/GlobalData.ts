@@ -52,6 +52,7 @@ export const GlobalData = (function () {
     $_barrierAtt_Obj: data.barrier,
     $_level_up_gift: data.level_up_gift,
     $_pass_map_gift: data.pass_map_gift,
+    $_wave_hard_Obj: data.wolf_hard_ness,
     $Maps: data["version_ctrl"]["Maps"],
     $_wolfs_unlock_lv: _pvp["camp_wolf_lv_max_factor"],
     $_wolfs_unlock_gold: _pvp["camp_wolf_gold_max_factor"],
@@ -81,14 +82,11 @@ export const GlobalData = (function () {
     $_camp_create_mine_help_max: _pvp["create_mine_help_max"],
     $_camp_create_mine_help_friends_num: _pvp["create_mine_help_friends_num"],
     $_dream_wolf_hard_ness: ddata.dm_wolf_hard_ness,
+
     umapsById: sortedIds.map((k) => [k, data.umaps[k]]),
     dream_data: ddata,
     dream_maps: addObjAttribute_type_id_one(ddata["dmaps"], "dmaps"),
     dream_waves: dwaves,
-    skillTemplates: _.chain(Object.values(skills.towerSkill))
-      .groupBy((t) => t.kindId)
-      .mapValues((t) => ({ id: t[0].id, params: t[0].params }))
-      .value(),
   };
 
   console.log("init", globalData.umapsById);
