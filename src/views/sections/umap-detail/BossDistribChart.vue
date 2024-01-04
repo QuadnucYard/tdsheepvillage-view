@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-chart ref="chartRef" :option="option" autoresize :update-options="{ notMerge: true }" style="height: 600px" />
+    <v-chart :option="option" autoresize :update-options="{ notMerge: true }" style="height: 600px" />
   </div>
 </template>
 
@@ -25,8 +25,6 @@ import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { tr } from "@/utils/translate";
 
 const props = defineProps<{ mid: MapId }>();
-
-const chartRef = ref<InstanceType<typeof VChart>>();
 
 echarts.use([DatasetComponent, TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer]);
 
@@ -98,7 +96,6 @@ watchEffect(() => {
       yAxisIndex: 1,
     }),
   ];
-  // chartRef?.value.
 });
 </script>
 

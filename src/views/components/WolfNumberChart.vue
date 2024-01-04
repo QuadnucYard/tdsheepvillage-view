@@ -7,7 +7,6 @@ import { BarChart, BarSeriesOption } from "echarts/charts";
 import { GridComponent, GridComponentOption, TitleComponent, TooltipComponent } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import VChart from "vue-echarts";
 
 echarts.use([GridComponent, TitleComponent, TooltipComponent, BarChart, CanvasRenderer]);
 

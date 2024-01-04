@@ -20,7 +20,6 @@ import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import _ from "lodash-es";
-import VChart from "vue-echarts";
 
 import wavegenFreq from "@/assets/wavegen_freq.json";
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
