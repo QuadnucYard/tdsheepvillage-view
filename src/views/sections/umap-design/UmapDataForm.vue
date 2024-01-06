@@ -63,43 +63,10 @@
       </table>
     </el-form-item>
     <!-- <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject"> </el-form-item> -->
-    <el-form-item label="狼">
-      <el-select-v2 v-model="form.wid" :options="allMonsterOptions" />
-      <el-tag effect="light">
-        血量系数：{{ monsterData.hpMaxA }},{{ monsterData.hpMaxB }},{{ monsterData.hpMaxC }}
-      </el-tag>
-    </el-form-item>
-    <el-form-item label="进度">
-      <el-input-number v-model="form.score" :min="0" />
-    </el-form-item>
-    <el-form-item label="难度">
-      <DifficultySelect v-model="form.diff" />
-    </el-form-item>
-    <el-form-item>
-      <div class="space-x-8">
-        <span>
-          等级：
-          <vue-latex :expression="`L(x)=\\sqrt{h_a + h_b x}=${monsterLevel.toFixed(2)}`" />
-        </span>
-        <span>最大血量：{{ monsterHpMax }}</span>
-      </div>
-    </el-form-item>
-    <el-form-item>
-      银币：
-      <vue-latex :expression="`G(x) = (2+1.07p)(\\frac{L(x)}{0.39})^{2/3} = ${mapData.calcPKGold(monsterLevel)}`" />
-    </el-form-item>
-    <el-form-item>
-      经验：
-      <vue-latex :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${mapData.calcPKExp(monsterLevel)}`" />
-    </el-form-item>
-    <el-form-item>
-      <div class="space-x-4">
-        <!-- <span>总银币：{{ mapData.calcAccumulative().gold }}</span>
-        <span>总经验：{{ mapData.calcAccumulative().exp }}</span> -->
-        <span>（假设每波+2且不引狼）</span>
-      </div>
-    </el-form-item>
-    <wolf-hp-chart :hp-data="hpData" :height="300" />
+
+    <el-divider />
+
+    <LevelPreview :mapData="mapData" :mapMonsterData="mapMonsterData" />
   </el-form>
 </template>
 
@@ -109,9 +76,8 @@ import _ from "lodash-es";
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import { allGameMapOptions, allMonsterOptions, allNormalMonsterOptions } from "@/utils/ui-data";
-import DifficultySelect from "@/views/components/DifficultySelect.vue";
-import WolfHpChart from "@/views/components/WolfHpChart.vue";
+import { allGameMapOptions, allNormalMonsterOptions } from "@/utils/ui-data";
+import LevelPreview from "@/views/components/LevelPreview.vue";
 
 defineEmits<{ export: [mapData: GameMapData] }>();
 
@@ -130,11 +96,6 @@ watchEffect(() => {
   mapData.value = new GameMapData(proto.value);
 });
 
-const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.wid));
-
-const monsterLevel = computed(() => mapData.value.getDifficultyLevel(form.score));
-const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.value, form.diff));
-
 const mapMonsters = reactive<{ id: string; weight: int }[]>([]);
 const mapMonsterAdd = ref<string | null>(null);
 const mapMonsterData = computed(() => mapMonsters.map((t) => MonsterManager.getOnlyExample().getData(t.id)));
@@ -151,13 +112,6 @@ watch(
     mapData.value.monsterProportion = mapMonsters.map((t, i) => [accWeight[i] / sumWeight.value, t.id]);
   },
   { deep: true }
-);
-
-const hpData = computed(() =>
-  mapMonsterData.value.map((t) => ({
-    name: t.name,
-    value: t.getHpMax(monsterLevel.value, form.diff),
-  }))
 );
 
 const handleAddMonster = (val: string) => {

@@ -1,5 +1,5 @@
 <template>
-  <v-chart class="chart" :option="option" :style="{ width: `${width}px`, height: `${height}px` }" />
+  <v-chart class="chart" :option="option" :style="{ width: `${width}px`, height: `${height}px` }" autoresize />
 </template>
 
 <script setup lang="ts">
