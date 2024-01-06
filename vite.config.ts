@@ -1,10 +1,11 @@
-import vue from "@vitejs/plugin-vue";
+import Vue from "@vitejs/plugin-vue";
 import * as path from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import Components from "unplugin-vue-components/vite";
+import Markdown from "unplugin-vue-markdown/vite";
 import { defineConfig } from "vite";
 import viteCompression from "vite-plugin-compression";
 
@@ -32,7 +33,13 @@ export default defineConfig({
   plugins: [
     viteCompression(),
 
-    vue({ script: { defineModel: true } }),
+    Vue({
+      include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
+    }),
+
+    Markdown({
+      /* options */
+    }),
 
     AutoImport({
       // Auto import functions from Vue, e.g. ref, reactive, toRef...

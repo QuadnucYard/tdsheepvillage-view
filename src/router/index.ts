@@ -1,6 +1,7 @@
 import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
 
 export const sections = [
+  { name: "notice", label: "Notice" },
   { name: "user", label: "User" },
   { name: "towers", label: "Towers" },
   { name: "wolfs", label: "Wolfs" },
@@ -28,6 +29,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import(`@/views/sections/${sec.name}/index.vue`),
       };
     }),
+    redirect: "notice",
   },
 ];
 
