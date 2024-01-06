@@ -22,23 +22,45 @@
     </el-form-item>
 
     <el-form-item label="该地图的狼">
-      <el-select-v2
-        v-for="(_, i) in mapMonsters"
-        :key="i"
-        v-model="mapMonsters[i]"
-        :options="allMonsterOptions"
-        clearable
-        @clear="mapMonsters.removeAt(i)"
-        size="small"
-        style="width: 25%"
-      />
-      <el-select-v2
-        v-model="mapMonsterAdd"
-        :options="allMonsterOptions"
-        @change="handleAddMonster"
-        size="small"
-        style="width: 25%"
-      />
+      <table class="text-center" style="width: 100%; max-width: 400px">
+        <thead>
+          <th>狼</th>
+          <th>权重</th>
+          <th>概率</th>
+          <th>pop</th>
+        </thead>
+        <tbody>
+          <tr v-for="(m, i) in mapMonsters">
+            <td>
+              <el-select-v2
+                :key="i"
+                v-model="m.id"
+                :options="allNormalMonsterOptions"
+                clearable
+                @clear="mapMonsters.removeAt(i)"
+                size="small"
+                style="width: 100%"
+              />
+            </td>
+            <td>
+              <el-input-number v-model="m.weight" :min="0" size="small" />
+            </td>
+            <td>{{ (m.weight / sumWeight).toFixed(3) }}</td>
+            <td>{{ mapMonsterData[i].population }}</td>
+          </tr>
+          <tr>
+            <td>
+              <el-select-v2
+                v-model="mapMonsterAdd"
+                :options="allNormalMonsterOptions"
+                @change="handleAddMonster"
+                size="small"
+                style="width: 100%"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </el-form-item>
     <!-- <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject"> </el-form-item> -->
     <el-form-item label="狼">
@@ -82,10 +104,12 @@
 </template>
 
 <script setup lang="ts">
+import _ from "lodash-es";
+
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import { allGameMapOptions, allMonsterOptions } from "@/utils/ui-data";
+import { allGameMapOptions, allMonsterOptions, allNormalMonsterOptions } from "@/utils/ui-data";
 import DifficultySelect from "@/views/components/DifficultySelect.vue";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
 
@@ -111,9 +135,23 @@ const monsterData = computed(() => MonsterManager.getOnlyExample().getData(form.
 const monsterLevel = computed(() => mapData.value.getDifficultyLevel(form.score));
 const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.value, form.diff));
 
-const mapMonsters = reactive<string[]>([]);
+const mapMonsters = reactive<{ id: string; weight: int }[]>([]);
 const mapMonsterAdd = ref<string | null>(null);
-const mapMonsterData = computed(() => mapMonsters.map((t) => MonsterManager.getOnlyExample().getData(t)));
+const mapMonsterData = computed(() => mapMonsters.map((t) => MonsterManager.getOnlyExample().getData(t.id)));
+const sumWeight = computed(() => _.sumBy(mapMonsters, "weight"));
+
+watch(
+  mapMonsters,
+  () => {
+    const accWeight: int[] = [];
+    for (const { weight } of mapMonsters) {
+      accWeight.push(accWeight.length == 0 ? weight : accWeight.at(-1)! + weight);
+    }
+    mapData.value.monsterList = mapMonsters.map((t) => t.id);
+    mapData.value.monsterProportion = mapMonsters.map((t, i) => [accWeight[i] / sumWeight.value, t.id]);
+  },
+  { deep: true }
+);
 
 const hpData = computed(() =>
   mapMonsterData.value.map((t) => ({
@@ -123,7 +161,7 @@ const hpData = computed(() =>
 );
 
 const handleAddMonster = (val: string) => {
-  mapMonsters.push(val);
+  mapMonsters.push({ id: val, weight: 1 });
   mapMonsterAdd.value = null;
 };
 </script>

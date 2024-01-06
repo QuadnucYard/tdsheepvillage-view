@@ -3,6 +3,7 @@ import "element-plus/theme-chalk/src/message.scss";
 import VueLatex from "vatex";
 import { createApp } from "vue";
 import VChart from "vue-echarts";
+import "vue-json-pretty/lib/styles.css";
 
 import "@/utils/array-extensions";
 

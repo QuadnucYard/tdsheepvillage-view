@@ -32,6 +32,7 @@ const handleExport = (mapData: GameMapData) => {
     yield_val: mapData.hardA,
     hard_ness: mapData.hardB,
     pop_max: mapData.populationMax,
+    wolf_proportion: mapData.monsterProportion,
   };
   exportData.value = exportData_;
   exportString.value = JSON.stringify(exportData_);

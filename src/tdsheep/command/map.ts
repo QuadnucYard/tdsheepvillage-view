@@ -28,6 +28,7 @@ export class GameMapData extends BaseDisplayData {
   public unkennelRule: number;
   public bossList: string[];
   public monsterList: string[];
+  public monsterProportion: [number, string][];
   public teleportRule: number;
 
   constructor(_data: any) {
@@ -48,6 +49,7 @@ export class GameMapData extends BaseDisplayData {
     this.monsterList = _data[GameMapData.DATA_MONSTER_LIST]
       ? _data[GameMapData.DATA_MONSTER_LIST].map((t: any) => t[1])
       : [];
+    this.monsterProportion = _data[GameMapData.DATA_MONSTER_LIST];
     this.teleportRule = _data[GameMapData.DATA_TELEPORT_RULE];
   }
 
@@ -68,10 +70,10 @@ export class GameMapData extends BaseDisplayData {
   public calcAccumulative() {
     let gold = 0;
     let exp = 0;
-    for (let i = 0; i <= mapData.value.scoreMax; i += 2) {
-      let _level = Math.sqrt(mapData.value.hardA + mapData.value.hardB * i);
-      gold += calcPKGold(_level);
-      exp += calcPKExp(_level);
+    for (let i = 0; i <= this.scoreMax; i += 2) {
+      let _level = this.getDifficultyLevel(i);
+      gold += this.calcPKGold(_level);
+      exp += this.calcPKExp(_level);
     }
     return { gold, exp };
   }

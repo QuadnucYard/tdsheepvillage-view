@@ -55,7 +55,6 @@ import { ElInput, ElMessage } from "element-plus";
 import "element-plus/es/components/autocomplete/style/css";
 import useClipboard from "vue-clipboard3";
 import VueJsonPretty from "vue-json-pretty";
-import "vue-json-pretty/lib/styles.css";
 
 import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { getTotalPop } from "@/utils/game-utils";
