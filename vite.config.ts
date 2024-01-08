@@ -1,6 +1,7 @@
 import Vue from "@vitejs/plugin-vue";
 import * as path from "path";
 import AutoImport from "unplugin-auto-import/vite";
+import ElementPlus from "unplugin-element-plus/vite";
 import IconsResolver from "unplugin-icons/resolver";
 import Icons from "unplugin-icons/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
@@ -35,6 +36,10 @@ export default defineConfig({
 
     Vue({
       include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
+    }),
+
+    ElementPlus({
+      useSource: true,
     }),
 
     Markdown({

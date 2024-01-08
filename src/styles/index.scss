@@ -25,11 +25,19 @@ code {
   color: var(--el-color-primary);
 }
 
-.el-table__cell {
-  padding: 4px 0 !important;
-  p {
-    margin: 0;
-    font-size: 90%;
-    line-height: 1.2em;
-  }
+/* .el-form {
+  background-color: #f7d9ac;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.el-form-item__content {
+  background-color: #fdf0e3;
+  border-radius: 16px;
+} */
+
+.el-table__cell p {
+  margin: 0;
+  font-size: 90%;
+  line-height: 1.2em;
 }

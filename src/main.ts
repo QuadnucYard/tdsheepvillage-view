@@ -1,5 +1,3 @@
-import "element-plus/theme-chalk/src/message.scss";
-// import "tailwindcss/tailwind.css";
 import VueLatex from "vatex";
 import { createApp } from "vue";
 import VChart from "vue-echarts";
