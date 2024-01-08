@@ -30,6 +30,7 @@ export class GameMapData extends BaseDisplayData {
   public monsterList: string[];
   public monsterProportion: [number, string][];
   public teleportRule: number;
+  public randomBossList: [number, string, string, any][];
 
   constructor(_data: any) {
     super(_data);
@@ -51,6 +52,7 @@ export class GameMapData extends BaseDisplayData {
       : [];
     this.monsterProportion = _data[GameMapData.DATA_MONSTER_LIST];
     this.teleportRule = _data[GameMapData.DATA_TELEPORT_RULE];
+    this.randomBossList = _data["random_boss"];
   }
 
   public getDifficultyLevel(_score: number) {

@@ -35,3 +35,9 @@ export const allNormalMonsterOptions = _.chain(GlobalData.$_wolfAtt_Obj)
   .map((t) => ({ value: t.id, label: `${tr(t.id)} [${t.id}]` }))
   .sortBy("id")
   .value();
+
+export const allBossMonsterOptions = _.chain(GlobalData.$_wolfAtt_Obj)
+  .filter((t) => t.pop >= 99)
+  .map((t) => ({ value: t.id, label: `${tr(t.id)} [${t.id}]` }))
+  .sortBy("id")
+  .value();

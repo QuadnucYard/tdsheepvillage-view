@@ -41,3 +41,19 @@ code {
   font-size: 90%;
   line-height: 1.2em;
 }
+
+table.markup-table {
+  border-collapse: collapse;
+  thead {
+    // color: var(--el-table-header-text-color);
+    color: #909399;
+  }
+  th,
+  td {
+    border: 0.8px solid #ebeef5;
+    padding: 4px 12px;
+  }
+  th {
+    background: var(--el-fill-color-light);
+  }
+}

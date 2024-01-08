@@ -1,4 +1,5 @@
 import _ from "lodash-es";
+import * as math from "mathjs";
 
 import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 
@@ -65,4 +66,22 @@ export function generateWave(mid: MapId, reservation: int[] | null): [string[], 
   }
 
   return [reservation ? _.shuffle(mlist) : mlist, _.zip(wolfs, clist) as [string, int][]];
+}
+
+export function proportionToWeight(prop: float[]) {
+  const weights = prop.map((t) => t * 1000);
+  const g = math.gcd(...weights);
+  for (let i = weights.length - 1; i >= 0; i--) {
+    weights[i] = (weights[i] - (i == 0 ? 0 : weights[i - 1])) / g;
+  }
+  return weights;
+}
+
+export function weightToProportion(weights: float[]) {
+  const accWeight: int[] = [];
+  for (const weight of weights) {
+    accWeight.push(accWeight.length == 0 ? weight : accWeight.at(-1)! + weight);
+  }
+  const sumWeight = accWeight.at(-1)!;
+  return accWeight.map((t) => t / sumWeight);
 }

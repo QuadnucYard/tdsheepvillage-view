@@ -22,47 +22,11 @@
     </el-form-item>
 
     <el-form-item label="该地图的狼">
-      <table class="text-center" style="width: 100%; max-width: 400px">
-        <thead>
-          <th>狼</th>
-          <th>权重</th>
-          <th>概率</th>
-          <th>pop</th>
-        </thead>
-        <tbody>
-          <tr v-for="(m, i) in mapMonsters">
-            <td>
-              <el-select-v2
-                :key="i"
-                v-model="m.id"
-                :options="allNormalMonsterOptions"
-                clearable
-                @clear="mapMonsters.removeAt(i)"
-                size="small"
-                style="width: 100%"
-              />
-            </td>
-            <td>
-              <el-input-number v-model="m.weight" :min="0" size="small" />
-            </td>
-            <td>{{ (m.weight / sumWeight).toFixed(3) }}</td>
-            <td>{{ mapMonsterData[i].population }}</td>
-          </tr>
-          <tr>
-            <td>
-              <el-select-v2
-                v-model="mapMonsterAdd"
-                :options="allNormalMonsterOptions"
-                @change="handleAddMonster"
-                size="small"
-                style="width: 100%"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <UmapWolfTable :mapData="mapData" style="width: 100%" />
     </el-form-item>
-    <!-- <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject"> </el-form-item> -->
+    <el-form-item label="随机 Boss">
+      <UmapRandomBossTable :mapData="mapData" style="width: 100%" />
+    </el-form-item>
 
     <el-divider />
 
@@ -76,8 +40,11 @@ import _ from "lodash-es";
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
-import { allGameMapOptions, allNormalMonsterOptions } from "@/utils/ui-data";
+import { allGameMapOptions } from "@/utils/ui-data";
 import LevelPreview from "@/views/components/LevelPreview.vue";
+
+import UmapRandomBossTable from "./UmapRandomBossTable.vue";
+import UmapWolfTable from "./UmapWolfTable.vue";
 
 defineEmits<{ export: [mapData: GameMapData] }>();
 
@@ -96,28 +63,7 @@ watchEffect(() => {
   mapData.value = new GameMapData(proto.value);
 });
 
-const mapMonsters = reactive<{ id: string; weight: int }[]>([]);
-const mapMonsterAdd = ref<string | null>(null);
-const mapMonsterData = computed(() => mapMonsters.map((t) => MonsterManager.getOnlyExample().getData(t.id)));
-const sumWeight = computed(() => _.sumBy(mapMonsters, "weight"));
-
-watch(
-  mapMonsters,
-  () => {
-    const accWeight: int[] = [];
-    for (const { weight } of mapMonsters) {
-      accWeight.push(accWeight.length == 0 ? weight : accWeight.at(-1)! + weight);
-    }
-    mapData.value.monsterList = mapMonsters.map((t) => t.id);
-    mapData.value.monsterProportion = mapMonsters.map((t, i) => [accWeight[i] / sumWeight.value, t.id]);
-  },
-  { deep: true }
-);
-
-const handleAddMonster = (val: string) => {
-  mapMonsters.push({ id: val, weight: 1 });
-  mapMonsterAdd.value = null;
-};
+const mapMonsterData = computed(() => mapData.value.monsterList.map((t) => MonsterManager.getOnlyExample().getData(t)));
 </script>
 
 <style scoped></style>

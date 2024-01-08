@@ -66,8 +66,6 @@ const hpData = computed(() =>
     value: t.getHpMax(monsterLevel.value, diff.value),
   }))
 );
-
-watch(hpData, () => console.log(hpData.value));
 </script>
 
 <style scoped></style>
