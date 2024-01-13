@@ -5,14 +5,8 @@ import { TowerSkillData } from "../../command/skill";
 import type { TowerData } from "../../command/unit";
 import { TowerManager } from "../../command/unit";
 import type { GemItem } from "../item";
-import {
-  ChangeBulletSkill,
-  ChangeDamageSkill,
-  ChangeRangeSkill,
-  ChangeRateSkill,
-  SkillsPackage,
-  TowerSkill,
-} from "../skill";
+import { ChangeBulletSkill, ChangeDamageSkill, ChangeRangeSkill, ChangeRateSkill, TowerSkill } from "../skill";
+import { SkillsPackage } from "../skill-package";
 import { BaseBuilding } from "./BaseBuilding";
 import { Bullet } from "./Bullet";
 

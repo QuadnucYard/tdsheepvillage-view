@@ -9,6 +9,7 @@ export class GameMap extends BaseModule {
 
   score: number = 0;
   isDream: boolean = false;
+  isDefendMap: boolean = false;
 
   constructor(_dataId: string, _initMap = true) {
     super();

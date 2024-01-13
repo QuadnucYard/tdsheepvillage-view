@@ -1,4 +1,3 @@
-import { Tools } from "../utils/Tools";
 import { GlobalData } from "./GlobalData";
 
 export class GlobalDataGetValue {
@@ -7,7 +6,7 @@ export class GlobalDataGetValue {
   static getLanguageStr(_id, ...args) {
     let _find = null;
     let _subStr = null;
-    let _str: string | null = "";
+    let _str: string | null = null;
     if (GlobalData.$_global_language_str != null) {
       if (GlobalData.$_global_language_str.getElementsByTagName("id" + _id)[0] != undefined) {
         if (GlobalData.$_global_language_str.getElementsByTagName("id" + _id)[0].getAttribute("str") == "CHILD2010") {
@@ -22,7 +21,7 @@ export class GlobalDataGetValue {
         _str = null;
       }
     }
-    if (_str.length <= 0) {
+    if (!_str?.length) {
       return "";
     }
     let _index = _str.search("%%");
@@ -33,7 +32,7 @@ export class GlobalDataGetValue {
     }
     for (let i = 0; i < args.length; i++) {
       _find = "%" + i;
-      _str = Tools.replaceString(_str, _find, args[i]);
+      _str = _str?.replaceAll(_find, args[i]);
     }
     return _str;
   }

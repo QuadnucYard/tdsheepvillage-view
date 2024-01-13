@@ -1,4 +1,3 @@
-import { GlobalData } from "../ado/GlobalData";
 import { GlobalDataGetValue } from "../ado/GlobalDataGetValue";
 
 type uint = int;

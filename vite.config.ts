@@ -8,6 +8,7 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import Components from "unplugin-vue-components/vite";
 import Markdown from "unplugin-vue-markdown/vite";
 import { defineConfig } from "vite";
+import circleDependency from "vite-plugin-circular-dependency";
 import viteCompression from "vite-plugin-compression";
 
 const pathSrc = path.resolve(__dirname, "src");
@@ -76,6 +77,8 @@ export default defineConfig({
     Icons({
       autoInstall: true,
     }),
+
+    circleDependency({}),
 
     //Inspect(),
   ],

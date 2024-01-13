@@ -117,6 +117,15 @@ export class BuildingData extends BaseUnitData {
     return this.m_buildValueC;
   }
 
+  override get price(): [string, number] {
+    if (GameMap.currentMap?.isDefendMap) {
+      if (this.campPrice instanceof Array) {
+        return this.campPrice;
+      }
+    }
+    return this.m_price;
+  }
+
   get campPrice() {
     return this.m_campPrice;
   }

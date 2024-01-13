@@ -1,9 +1,7 @@
 import { GlobalData } from "../ado/GlobalData";
-import { GameMap } from "../module/map/GameMap";
-import { SkillsPackage } from "../module/skill";
+import { SkillsPackage } from "../module/skill-package";
 import { ColorFilter } from "../utils/ColorFilter";
 import { BaseDisplayData, BaseManager } from "./BaseData";
-import { BuildingData } from "./unit";
 
 export class BaseItemData extends BaseDisplayData {
   public static readonly DATA_PRICE = "price";
@@ -28,15 +26,6 @@ export class BaseItemData extends BaseDisplayData {
   }
 
   get price(): [string, number] {
-    if (this instanceof BuildingData) {
-      if (GameMap.currentMap) {
-        if (GameMap.currentMap.isDefendMap) {
-          if (this.campPrice instanceof Array) {
-            return this.campPrice;
-          }
-        }
-      }
-    }
     return this.m_price;
   }
 

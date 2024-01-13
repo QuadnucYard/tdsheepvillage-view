@@ -3,14 +3,7 @@ import { formatHtml } from "@/utils/format";
 import { GlobalData } from "../ado/GlobalData";
 import { GlobalDataGetValue } from "../ado/GlobalDataGetValue";
 import { EffectData } from "../command/effect";
-import {
-  BaseSkillData,
-  MonsterSkillData,
-  SkillManager,
-  SkillsPackageData,
-  SkillsPackageManager,
-  TowerSkillData,
-} from "../command/skill";
+import { BaseSkillData, MonsterSkillData, SkillManager, TowerSkillData } from "../command/skill";
 import { MonsterData, MonsterManager } from "../command/unit";
 import { Position } from "../utils/Position";
 import { BaseModule } from "./BaseModule";
@@ -1899,20 +1892,3 @@ export class TransformSkill extends MonsterEventSkill {
     return MonsterManager.getOnlyExample().getData(this.transformId(_level)).name;
   }
 }
-
-export class SkillsPackage extends BaseModule {
-  public level: number;
-
-  constructor(_dataId: string, _level = 1) {
-    super();
-    this.m_data = SkillsPackageManager.getOnlyExample().getData(_dataId);
-    this.level = _level;
-  }
-
-  get skillsPackageData() {
-    return this.m_data as SkillsPackageData;
-  }
-}
-
-//export { BaseSkill, TowerSkill, SkillsPackage }
-//export { AoeAttackSkill, AttackRateSkill, AuraSkill, BeatBackSkill, BounceAttackSkill, BurnColdSkill, ChangeBulletSkill, ChangeDamageSkill, ChangeRangeSkill, ChangeRangeSkill, ChangeRateSkill, ComboAttackSkill, CritSkill, CussSkill, DividedAttackSkill, FloatDamageSkill, GuidedBulletSkill, IntimidateSkill, LightSkill, PoisonSkill, ReducedDefenseSkill, ScatterAttackSkill, SilenceSkill, SlowSkill, ThroughoutAttackSkill, VertigoSkill };
