@@ -27,8 +27,8 @@
     </el-form-item>
     <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject">
       <el-tag
-        v-for="item in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
-        :key="item.id"
+        v-for="(item, index) in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
+        :key="index"
         type="success"
         class="mx-1 tag-button"
         effect="light"
@@ -59,6 +59,7 @@ import _ from "lodash-es";
 
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { allGameMaps } from "@/utils/ui-data";
@@ -74,14 +75,16 @@ const form = reactive({
   diff: 1.0,
 });
 
-watchEffect(() => {
-  midModel.value = form.mid;
-});
-
 const mapDataObject = computed(() => GlobalData.$_map_Obj[form.mid]);
-const mapData = computed(() => GameMap.getMapData(form.mid));
+const mapData = defineModel<GameMapData>("mapData", { default: GameMap.getMapData("m1") });
+// const mapData = computed(() => GameMap.getMapData(form.mid));
 const mapData2 = computed(() => (form.mid2 === "" ? mapData.value : GameMap.getMapData(form.mid2)));
 const mapMonsterData = computed(() => mapData.value.monsterList.map((t) => MonsterManager.getOnlyExample().getData(t)));
+
+watchEffect(() => {
+  midModel.value = form.mid;
+  mapData.value = GameMap.getMapData(form.mid);
+});
 
 const formatWolfTag = (wp: [number, MonsterId][]) => {
   return wp.map((item) => {

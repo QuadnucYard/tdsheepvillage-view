@@ -1,6 +1,14 @@
 <template>
   <div>
-    <v-chart :option="option" autoresize :update-options="{ notMerge: true }" style="height: 600px" />
+    <h2 style="text-align: center" v-if="hasRandomBoss">随机Boss奖励分布</h2>
+    <h2 style="text-align: center" v-else>本图没有随机Boss哦</h2>
+    <v-chart
+      v-if="hasRandomBoss"
+      :option="option"
+      autoresize
+      :update-options="{ notMerge: true }"
+      style="height: 600px"
+    />
   </div>
 </template>
 
@@ -55,6 +63,8 @@ const option = reactive<EChartsOption>({
   ],
   series: [],
 });
+
+const hasRandomBoss = computed(() => Boolean((GlobalData.$_map_Obj[props.mid] as any).random_boss?.length));
 
 watchEffect(() => {
   const boss: any[] = (GlobalData.$_map_Obj[props.mid] as any).random_boss;

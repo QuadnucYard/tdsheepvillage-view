@@ -1,5 +1,5 @@
 <template>
-  <table class="text-center markup-table">
+  <table class="text-center markup-table table-auto">
     <thead>
       <th>Boss</th>
       <th>权重</th>
@@ -17,14 +17,15 @@
             clearable
             @clear="bosses.removeAt(i)"
             size="small"
+            style="width: 200px"
           />
         </td>
         <td>
-          <el-input-number v-model="m.weight" :min="0" size="small" />
+          <el-input-number v-model="m.weight" :min="0" size="small" style="width: 100px" />
         </td>
         <td>{{ (m.weight / sumWeight).toFixed(3) }}</td>
         <td>
-          <DifficultySelect v-model="m.diff" />
+          <DifficultySelect v-model="m.diff" style="width: 180px" />
         </td>
       </tr>
       <tr>

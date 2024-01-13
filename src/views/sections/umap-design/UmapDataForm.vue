@@ -49,7 +49,7 @@ import UmapWolfTable from "./UmapWolfTable.vue";
 defineEmits<{ export: [mapData: GameMapData] }>();
 
 const proto = ref<ValueOf<typeof GlobalData.$_map_Obj>>(GlobalData.$_map_Obj.m0B);
-const mapData = ref(new GameMapData(proto.value));
+const mapData = defineModel("mapData", { default: new GameMapData(GlobalData.$_map_Obj.m0B) });
 
 const form = reactive({
   mid: "m0B" as MapId,

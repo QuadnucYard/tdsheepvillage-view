@@ -51,3 +51,15 @@ export function getStep(x: number) {
   const s = x.toString();
   return Math.pow(10, s.indexOf(".") - s.length + 1);
 }
+
+export function zeros(dim0: number): number[];
+export function zeros(dim0: number, dim1: number): number[][];
+
+export function zeros(...dims: number[]) {
+  if (dims.length == 1) {
+    return new Array<number>(dims[0]).fill(0);
+  }
+  if (dims.length == 2) {
+    return Array.from({ length: dims[0] }, () => new Array<number>(dims[1]).fill(0));
+  }
+}

@@ -5,6 +5,8 @@ import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterData, MonsterManager } from "@/tdsheep/command/unit";
 
+import { zeros } from ".";
+
 export function getPop(wid: MonsterId, bossAs?: int): int {
   const pop = GlobalData.$_wolfAtt_Obj[wid].pop;
   return pop < 99 ? pop : bossAs ?? pop;
@@ -63,6 +65,7 @@ export function generateWave(
 }
 
 export function proportionToWeight(prop: readonly float[]) {
+  if (prop.length == 0) return [];
   const weights = prop.map((t) => t * 1000);
   const g = math.gcd(...weights);
   for (let i = weights.length - 1; i >= 0; i--) {
@@ -78,4 +81,71 @@ export function weightToProportion(weights: readonly float[]) {
   }
   const sumWeight = accWeight.at(-1)!;
   return accWeight.map((t) => t / sumWeight);
+}
+
+export type WaveComposition = {
+  all: number[];
+  each: number[][];
+};
+
+export function calcWaveComposition(mapData: GameMapData): WaveComposition {
+  const n = mapData.monsterProportion.length;
+  const prob = mapData.monsterProportion.map((t, i) => t[0] - (i == 0 ? 0 : mapData.monsterProportion[i - 1][0]));
+  const wolfPop = mapData.monsterList.map((t) => getPop(t as MonsterId));
+  // 初始化某pop的proportion总量
+  const pop = mapData.populationMax;
+  const one = zeros(pop + 1);
+  for (let i = 0; i <= pop; i++) {
+    for (let j = 0; j < n; j++) {
+      if (wolfPop[j] <= i) {
+        one[i] += prob[j];
+      }
+    }
+  }
+
+  // 先计算整体分布
+  // f[i][j]：pop为i，数量为j
+  const f = zeros(pop + 1, pop + 1);
+  f[0][0] = 1;
+
+  for (let i = 1; i <= pop; i++) {
+    //枚举当前pop
+    for (let j = 1; j <= pop; j++) {
+      // 枚举要求的狼的数量
+      for (let k = 0; k < n; k++) {
+        // 枚举狼
+        if (i >= wolfPop[k]) {
+          f[i][j] += f[i - wolfPop[k]][j - 1] * (prob[k] / one[i]);
+        }
+      }
+    }
+  }
+  const M = f[pop].findLastIndex((t) => t > 1e-6);
+  const g0 = f[pop].slice(0, M + 1);
+
+  // 计算每种狼的分布
+  const g: number[][] = [];
+  for (let I = 0; I < n; I++) {
+    const m = Math.floor(pop / wolfPop[I]);
+    f[0][0] = 1;
+
+    for (let i = 1; i <= pop; i++) {
+      //枚举当前pop
+      for (let j = 1; j <= m; j++) {
+        // 枚举要求的狼的数量
+        f[i][j] = 0;
+        for (let k = 0; k < n; k++) {
+          // 枚举狼
+          if (i < wolfPop[k]) continue;
+          if (k != I) {
+            f[i][j] += f[i - wolfPop[k]][j] * (prob[k] / one[i]);
+          } else if (k == I && j > 0) {
+            f[i][j] += f[i - wolfPop[k]][j - 1] * (prob[k] / one[i]);
+          }
+        }
+      }
+    }
+    g.push(f[pop].slice(0, M + 1));
+  }
+  return { all: g0, each: g };
 }

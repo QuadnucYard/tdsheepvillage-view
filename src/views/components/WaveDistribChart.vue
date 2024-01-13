@@ -21,11 +21,11 @@ import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import _ from "lodash-es";
 
-import wavegenFreq from "@/assets/wavegen_freq.json";
-import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
+import { GameMapData } from "@/tdsheep/command/map";
 import { accumulate, toString } from "@/utils";
 import { strHSl } from "@/utils/colorful";
 import { toApprecision } from "@/utils/format";
+import { WaveComposition, calcWaveComposition } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 
 echarts.use([
@@ -39,7 +39,7 @@ echarts.use([
   UniversalTransition,
 ]);
 
-const props = withDefaults(defineProps<{ mid: MapId; height?: number; width?: number }>(), {
+const props = withDefaults(defineProps<{ mapData: GameMapData; height?: number; width?: number }>(), {
   width: 600,
   height: 600,
 });
@@ -50,18 +50,24 @@ interface Subfigure {
   cdf: number[];
 }
 
-const freqs = computed(() => wavegenFreq[props.mid]);
-const names = computed<string[]>(() => [
-  GlobalData.$_map_Obj[props.mid].name,
-  ...GlobalData.$_map_Obj[props.mid].wolf_proportion.map((t) => tr(t[1] as string)),
-]);
-const xData = computed(() => _.range(freqs.value.all.length));
-const subfigures = computed<Subfigure[]>(() =>
-  _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
-    title: t[0]!,
-    pdf: t[1]!,
-    cdf: [...accumulate(t[1]!)],
-  }))
+const freqs = ref<WaveComposition>();
+const names = ref<string[]>([]);
+const xData = ref<number[]>([]);
+const subfigures = ref<Subfigure[]>([]);
+
+watch(
+  () => props.mapData,
+  () => {
+    freqs.value = calcWaveComposition(props.mapData);
+    names.value = [props.mapData.name, ...tr(props.mapData.monsterList)];
+    xData.value = _.range(freqs.value.all.length);
+    subfigures.value = _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
+      title: t[0]!,
+      pdf: t[1]!,
+      cdf: [...accumulate(t[1]!)],
+    }));
+  },
+  { deep: true }
 );
 
 type EChartsOption = echarts.ComposeOption<

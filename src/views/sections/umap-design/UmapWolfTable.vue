@@ -17,10 +17,11 @@
             clearable
             @clear="monsters.removeAt(i)"
             size="small"
+            style="width: 200px"
           />
         </td>
         <td>
-          <el-input-number v-model="m.weight" :min="0" size="small" />
+          <el-input-number v-model="m.weight" :min="0" size="small" style="width: 100px" />
         </td>
         <td>{{ (m.weight / sumWeight).toFixed(3) }}</td>
         <td>{{ monsterData[i].population }}</td>
