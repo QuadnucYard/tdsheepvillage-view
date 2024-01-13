@@ -1,6 +1,6 @@
 <template>
   <el-form-item label="狼">
-    <el-select-v2 v-model="wid" :options="allMonsterOptions" />
+    <el-select-v2 v-model="wid" :options="allMonsterOptions" filterable />
     <el-tag effect="light">
       血量系数：{{ monsterData.hpMaxA }},{{ monsterData.hpMaxB }},{{ monsterData.hpMaxC }}
     </el-tag>

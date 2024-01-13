@@ -1,5 +1,5 @@
 <template>
-  <el-select>
+  <el-select filterable>
     <el-option-group label="前线">
       <el-option v-for="item in wolfList0" :key="item.id" :label="item.label" :value="item.id" />
     </el-option-group>

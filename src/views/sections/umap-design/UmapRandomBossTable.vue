@@ -13,6 +13,7 @@
             :key="m.index"
             v-model="m.id"
             :options="allBossMonsterOptions"
+            filterable
             clearable
             @clear="bosses.removeAt(i)"
             size="small"
@@ -28,7 +29,13 @@
       </tr>
       <tr>
         <td>
-          <el-select-v2 v-model="bossAdd" :options="allBossMonsterOptions" @change="handleAddMonster" size="small" />
+          <el-select-v2
+            v-model="bossAdd"
+            :options="allBossMonsterOptions"
+            filterable
+            @change="handleAddMonster"
+            size="small"
+          />
         </td>
       </tr>
     </tbody>

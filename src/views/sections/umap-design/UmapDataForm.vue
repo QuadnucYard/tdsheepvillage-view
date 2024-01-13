@@ -3,7 +3,7 @@
 
   <el-form :model="form" label-width="120px">
     <el-form-item label="原型">
-      <el-select-v2 v-model="form.mid" :options="allGameMapOptions" />
+      <el-select-v2 v-model="form.mid" :options="allGameMapOptions" filterable />
     </el-form-item>
     <el-form-item label="名称">
       <el-input v-model="mapData.name" style="width: 200px" />

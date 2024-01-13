@@ -13,6 +13,7 @@
             :key="m.index"
             v-model="m.id"
             :options="allNormalMonsterOptions"
+            filterable
             clearable
             @clear="monsters.removeAt(i)"
             size="small"
@@ -29,6 +30,7 @@
           <el-select-v2
             v-model="monsterAdd"
             :options="allNormalMonsterOptions"
+            filterable
             @change="handleAddMonster"
             size="small"
           />
