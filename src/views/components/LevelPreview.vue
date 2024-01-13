@@ -40,6 +40,8 @@
   </el-form-item>
 
   <WolfHpChart :hp-data="hpData" :height="100 * Math.sqrt(mapMonsterData.length)" />
+
+  <wave-tool :map-data="mapData" :mapMonsterData="mapMonsterData" :level="monsterLevel" :diff="diff" />
 </template>
 
 <script setup lang="ts">
@@ -48,6 +50,8 @@ import { MonsterData, MonsterManager } from "@/tdsheep/command/unit";
 import { allMonsterOptions } from "@/utils/ui-data";
 import DifficultySelect from "@/views/components/DifficultySelect.vue";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
+
+import WaveTool from "../sections/umap-detail/WaveTool.vue";
 
 const props = defineProps<{ mapData: GameMapData; mapMonsterData: MonsterData[] }>();
 

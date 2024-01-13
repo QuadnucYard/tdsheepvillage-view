@@ -1,7 +1,9 @@
 import _ from "lodash-es";
 import * as math from "mathjs";
 
-import { GlobalData, MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GameMapData } from "@/tdsheep/command/map";
+import { MonsterData, MonsterManager } from "@/tdsheep/command/unit";
 
 export function getPop(wid: MonsterId, bossAs?: int): int {
   const pop = GlobalData.$_wolfAtt_Obj[wid].pop;
@@ -25,50 +27,42 @@ export function calcDreamExp(score: float, pop: int) {
   return Math.round(pop * Math.pow(score, _opt.power) * _opt.popu + _opt.p);
 }
 
-export function generateWave(mid: MapId, reservation: int[] | null): [string[], [string, int][]] | null {
-  const umap = GlobalData.$_map_Obj[mid];
-  const wp = umap.wolf_proportion as [number, MonsterId][];
-  let pop = umap.pop_max;
-  // console.log(pop);
-  const wolfProp = wp.map((t) => t[0]);
-  const wolfPop = wp.map((t) => getPop(t[1]));
-  let wolfs = wp.map((t) => t[1]);
-  let n = wolfPop.length;
-  if (n == 0) return [[], []];
+export function generateWave(
+  mapData: GameMapData,
+  reservation: readonly int[]
+): { mlist: MonsterData[]; clist: { data: MonsterData; num: int }[] } | null {
+  const candidates = mapData.monsterProportion.map((t) => ({
+    prop: t[0],
+    data: MonsterManager.get(t[1]),
+  }));
 
-  let mlist: string[] = []; // 狼组成
-  let clist = new Array<int>(n).fill(0); // 各种狼数量
-  if (reservation) {
-    mlist = reservation.flatMap((t, i) => new Array(t).fill(wolfs[i]));
-    clist = reservation;
-    reservation.length = wolfPop.length;
-    pop -= _.chain(wolfPop)
-      .zip(reservation)
-      .sumBy((t) => t[0]! * t[1]!)
-      .value();
-    if (pop < 0) {
-      return null;
-    }
-  }
-  // console.log(mlist, clist, pop);
+  let n = candidates.length;
+  if (n == 0) return { mlist: [], clist: [] };
+
+  const clist = reservation.slice(0, n); // 各种狼数量
+  const mlist = clist.flatMap((t, i) => new Array<MonsterData>(t).fill(candidates[i].data)); // 狼组成
+  let pop = mapData.populationMax - _.sumBy(mlist, (t) => t.population);
+
+  if (pop < 0) return null;
 
   while (pop > 0) {
-    while (n > 0 && pop < wolfPop[n - 1]) n--;
+    while (n > 0 && pop < candidates[n - 1].data.population) n--;
     if (n == 0) break;
-    let k: int;
-    do {
-      const p = Math.random() * wolfProp[n - 1];
-      k = _.findIndex(wolfProp, (t) => p < t);
-    } while (pop < wolfPop[k]);
-    pop -= wolfPop[k];
-    mlist.push(wolfs[k]);
+    const p = Math.random() * candidates[n - 1].prop;
+    const k = _.findIndex(candidates, (t) => p < t.prop);
+
+    pop -= candidates[k].data.population;
+    mlist.push(candidates[k].data);
     clist[k]++;
   }
 
-  return [reservation ? _.shuffle(mlist) : mlist, _.zip(wolfs, clist) as [string, int][]];
+  return {
+    mlist: reservation ? _.shuffle(mlist) : mlist,
+    clist: _.zip(candidates, clist).map((t) => ({ data: t[0]!.data, num: t[1]! })),
+  };
 }
 
-export function proportionToWeight(prop: float[]) {
+export function proportionToWeight(prop: readonly float[]) {
   const weights = prop.map((t) => t * 1000);
   const g = math.gcd(...weights);
   for (let i = weights.length - 1; i >= 0; i--) {
@@ -77,7 +71,7 @@ export function proportionToWeight(prop: float[]) {
   return weights;
 }
 
-export function weightToProportion(weights: float[]) {
+export function weightToProportion(weights: readonly float[]) {
   const accWeight: int[] = [];
   for (const weight of weights) {
     accWeight.push(accWeight.length == 0 ? weight : accWeight.at(-1)! + weight);

@@ -52,7 +52,6 @@
       v-model:diff="form.diff"
     />
   </el-form>
-  <wave-tool :mid="form.mid" :mapMonsterData="mapMonsterData" />
 </template>
 
 <script setup lang="ts">
@@ -65,8 +64,6 @@ import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { allGameMaps } from "@/utils/ui-data";
 import { allGameMapOptions } from "@/utils/ui-data";
 import LevelPreview from "@/views/components/LevelPreview.vue";
-
-import WaveTool from "./WaveTool.vue";
 
 const midModel = defineModel<MapId>("mid");
 

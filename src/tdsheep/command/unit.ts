@@ -572,4 +572,8 @@ export class MonsterManager extends BaseManager {
   getData(_id: string) {
     return this.getDataById(_id) as MonsterData;
   }
+
+  static get(_id: string) {
+    return this.getOnlyExample().getData(_id);
+  }
 }
