@@ -121,31 +121,31 @@ export function calcWaveComposition(mapData: GameMapData): WaveComposition {
     }
   }
   const M = f[pop].findLastIndex((t) => t > 1e-6);
-  const g0 = f[pop].slice(0, M + 1);
+  const g0 = [...f[pop].slice(0, M + 1)];
 
   // 计算每种狼的分布
   const g: number[][] = [];
   for (let I = 0; I < n; I++) {
-    const m = Math.floor(pop / wolfPop[I]);
+    const m = Math.min(M, Math.floor(pop / wolfPop[I]));
+    for (let i = 0; i <= pop; i++) f[i].fill(0);
     f[0][0] = 1;
 
     for (let i = 1; i <= pop; i++) {
       //枚举当前pop
-      for (let j = 1; j <= m; j++) {
+      for (let j = 0; j <= m; j++) {
         // 枚举要求的狼的数量
-        f[i][j] = 0;
         for (let k = 0; k < n; k++) {
           // 枚举狼
           if (i < wolfPop[k]) continue;
           if (k != I) {
             f[i][j] += f[i - wolfPop[k]][j] * (prob[k] / one[i]);
-          } else if (k == I && j > 0) {
+          } else if (j > 0) {
             f[i][j] += f[i - wolfPop[k]][j - 1] * (prob[k] / one[i]);
           }
         }
       }
     }
-    g.push(f[pop].slice(0, M + 1));
+    g.push([...f[pop].slice(0, m + 1)]);
   }
   return { all: g0, each: g };
 }

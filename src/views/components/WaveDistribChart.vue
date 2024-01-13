@@ -25,7 +25,7 @@ import { GameMapData } from "@/tdsheep/command/map";
 import { accumulate, toString } from "@/utils";
 import { strHSl } from "@/utils/colorful";
 import { toApprecision } from "@/utils/format";
-import { WaveComposition, calcWaveComposition } from "@/utils/game-utils";
+import { calcWaveComposition } from "@/utils/game-utils";
 import { tr } from "@/utils/translate";
 
 echarts.use([
@@ -50,24 +50,15 @@ interface Subfigure {
   cdf: number[];
 }
 
-const freqs = ref<WaveComposition>();
-const names = ref<string[]>([]);
-const xData = ref<number[]>([]);
-const subfigures = ref<Subfigure[]>([]);
-
-watch(
-  () => props.mapData,
-  () => {
-    freqs.value = calcWaveComposition(props.mapData);
-    names.value = [props.mapData.name, ...tr(props.mapData.monsterList)];
-    xData.value = _.range(freqs.value.all.length);
-    subfigures.value = _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
-      title: t[0]!,
-      pdf: t[1]!,
-      cdf: [...accumulate(t[1]!)],
-    }));
-  },
-  { deep: true }
+const freqs = computed(() => calcWaveComposition(props.mapData));
+const names = computed<string[]>(() => [props.mapData.name, ...tr(props.mapData.monsterList)]);
+const xData = computed(() => _.range(freqs.value.all.length));
+const subfigures = computed<Subfigure[]>(() =>
+  _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
+    title: t[0]!,
+    pdf: t[1]!,
+    cdf: [...accumulate(t[1]!)],
+  }))
 );
 
 type EChartsOption = echarts.ComposeOption<
