@@ -51,7 +51,7 @@ import { allMonsterOptions } from "@/utils/ui-data";
 import DifficultySelect from "@/views/components/DifficultySelect.vue";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
 
-import WaveTool from "../sections/umap-detail/WaveTool.vue";
+import WaveTool from "./WaveTool.vue";
 
 const props = defineProps<{ mapData: GameMapData; mapMonsterData: MonsterData[] }>();
 
