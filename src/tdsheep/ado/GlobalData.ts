@@ -30,7 +30,7 @@ function add_type_id<T>(_obj: T, _type: string, _id: string): T & IEntity {
 
 export const GlobalData = (function () {
   const x2js = new X2JS();
-  let _pvp = data["camp_system_simple"];
+  const _pvp = data["camp_system_simple"];
 
   const parseMapId = (s: string) => parseInt(/(?<=m).+(?=[A-Z]*)/.exec(isAlpha(s[s.length - 1]) ? s : s + "A")![0], 36);
   const sortedIds = Object.keys(data.umaps).sort((k1, k2) =>

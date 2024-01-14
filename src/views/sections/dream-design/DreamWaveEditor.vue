@@ -56,12 +56,10 @@
 </template>
 
 <script setup lang="ts">
-import { ElAutocomplete, ElInput, ElSelect } from "element-plus";
+import { ElSelect } from "element-plus";
 import "element-plus/es/components/autocomplete/style/css";
 
-import { GlobalData, MonsterId } from "@/tdsheep/ado/GlobalData";
-import { getTotalPop } from "@/utils/game-utils";
-import { tr } from "@/utils/translate";
+import { MonsterId } from "@/tdsheep/ado/GlobalData";
 
 const props = defineProps<{ wolfList: WolfItem[] }>();
 const modelValue = defineModel<WolfItem[]>();
@@ -90,11 +88,7 @@ const filterOptions = (queryString: string) => {
   console.log(queryString);
   options.value = queryString ? props.wolfList.filter(createFilter(queryString)) : props.wolfList;
 };
-/* const querySearch = (queryString: string, cb: any) => {
-  const results = queryString ? props.wolfList.filter(createFilter(queryString)) : props.wolfList;
-  // call callback function to return suggestions
-  cb(results);
-}; */
+
 const createFilter = (queryString: string) => {
   return (item: WolfItem) => {
     return item.id.toLowerCase().includes(queryString.toLowerCase()) || item.value.includes(queryString);

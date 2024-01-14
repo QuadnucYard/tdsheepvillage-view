@@ -4,7 +4,7 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 
 const extractNames = (obj: any) =>
   _.mapValues(obj, (v) => {
-    let _name: string = v["name"];
+    const _name: string = v["name"];
     return _name.includes("^") ? _name.substring(_name.indexOf("^") + 1) : _name;
   });
 

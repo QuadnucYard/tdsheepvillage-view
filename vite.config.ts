@@ -13,8 +13,6 @@ import viteCompression from "vite-plugin-compression";
 
 const pathSrc = path.resolve(__dirname, "src");
 
-const big = ["@element-plus", "@xmldom", "lodash-es", "@vue", "zrender", "element-plus", "katex", "echarts"];
-
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./", // 解决dist资源路径问题
@@ -26,7 +24,7 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
-      scss: { additionalData: `@use "~/styles/element/index.scss" as *;` },
+      scss: { additionalData: "@use '~/styles/element/index.scss' as *;" },
     },
     postcss: {
       plugins: [require("tailwindcss"), require("autoprefixer")],
@@ -63,6 +61,7 @@ export default defineConfig({
       ],
 
       dts: "src/auto-imports.d.ts",
+      eslintrc: { enabled: true },
     }),
 
     Components({

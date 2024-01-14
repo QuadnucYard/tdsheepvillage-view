@@ -42,7 +42,7 @@ export class Monster extends BaseUnit {
     if (_dataId == "") {
       _dataId = "dahuil";
     }
-    let _index = _dataId.indexOf("|");
+    const _index = _dataId.indexOf("|");
     if (_index != -1) {
       _dataId = _dataId.slice(0, _index);
     }
@@ -120,8 +120,8 @@ export class Monster extends BaseUnit {
 
   getSkillScore(_skillId: string, _skillLevel: number): number {
     let _grade = null;
-    let _powerObj = GlobalData.$_skill_grade_score as { [k: string]: { [k: string]: number } };
-    let _index = _skillId.indexOf("_");
+    const _powerObj = GlobalData.$_skill_grade_score as { [k: string]: { [k: string]: number } };
+    const _index = _skillId.indexOf("_");
     if (_skillId.indexOf("_") == -1) {
       return 1;
     }
@@ -142,7 +142,7 @@ export class Monster extends BaseUnit {
   }
 
   get expMax() {
-    let _level = this.m_level + 1;
+    const _level = this.m_level + 1;
     return Math.round(
       this.monsterData.expMaxA +
         this.monsterData.expMaxB * _level +
@@ -188,10 +188,10 @@ export class Monster extends BaseUnit {
   }
 
   get power() {
-    let _paramList = GlobalData.$_wolf_worth_factor;
-    let _hpMax = this.hpMax;
-    let _speed = this.monsterData.speedBase;
-    let _skillPower = this.allSkillsScore;
+    const _paramList = GlobalData.$_wolf_worth_factor;
+    const _hpMax = this.hpMax;
+    const _speed = this.monsterData.speedBase;
+    const _skillPower = this.allSkillsScore;
     return Math.round(_hpMax * _speed * _skillPower * _paramList[2]);
   }
 

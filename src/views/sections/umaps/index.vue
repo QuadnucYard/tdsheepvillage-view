@@ -4,7 +4,7 @@
   <p>population 影响一波狼的容量。每只狼都会占用一定容量。</p>
   <p>不同随机boss有出现权重。出现率、难度、奖励水平是相对应的，难的比较稀有，奖励也会比较好。</p>
   <el-table
-    :data="allGamemaps"
+    :data="allGameMaps"
     :default-sort="{ prop: 'index', order: 'ascending' }"
     table-layout="auto"
     stripe
@@ -34,11 +34,13 @@
     </el-table-column>
     <el-table-column prop="wolf_proportion" label="monsterList" :cell-style="{ 'text-align': 'left' }">
       <template #default="props">
-        <el-tag v-for="w in formatWolfProp(props.row.wolf_proportion)" :key="w.prob" class="ml-2">
-          <sub>{{ w.prob }}</sub>
-          {{ w.name }}
-          <sup>{{ w.pop }}</sup>
-        </el-tag>
+        <div class="space-x-1">
+          <el-tag v-for="w in formatWolfProp(props.row.wolf_proportion)" :key="w.prob">
+            <sub>{{ w.prob }}</sub>
+            {{ w.name }}
+            <sup>{{ w.pop }}</sup>
+          </el-tag>
+        </div>
       </template>
     </el-table-column>
   </el-table>
@@ -50,13 +52,7 @@ import _ from "lodash-es";
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 
-interface RowData {
-  id: string;
-  data: any;
-  skills: any;
-}
-
-const allGamemaps = _.map(GlobalData.$_map_Obj, (t, k) => _.extend(t, { id: k }));
+const allGameMaps = _.map(GlobalData.$_map_Obj, (t, k) => _.extend(t, { id: k }));
 
 const sortByNeedLevel = (a: { need_lev?: number }, b: { need_lev?: number }) => {
   let l1 = a.need_lev || 0,

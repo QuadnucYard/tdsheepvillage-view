@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 style="text-align: center" v-if="hasRandomBoss">随机Boss奖励分布</h2>
-    <h2 style="text-align: center" v-else>本图没有随机Boss哦</h2>
+    <h2 v-if="hasRandomBoss" style="text-align: center">随机Boss奖励分布</h2>
+    <h2 v-else style="text-align: center">本图没有随机Boss哦</h2>
     <v-chart
       v-if="hasRandomBoss"
       :option="option"

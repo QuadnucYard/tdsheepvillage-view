@@ -11,7 +11,7 @@
         {{ tower.range }}
       </el-form-item>
       <el-form-item label="简介">
-        <div v-html="tower.getInfoHtml()" style="line-height: 1.5em"></div>
+        <tower-skill-info :tower="tower" />
       </el-form-item>
     </el-form>
   </el-card>
@@ -19,8 +19,9 @@
 
 <script setup lang="ts">
 import { Tower } from "@/tdsheep/module/unit/Tower";
+import TowerSkillInfo from "@/views/components/TowerSkillInfo.vue";
 
-const props = defineProps<{ tower: Tower }>();
+defineProps<{ tower: Tower }>();
 </script>
 
 <style scoped></style>

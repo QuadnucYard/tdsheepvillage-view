@@ -7,7 +7,7 @@
       <th>pop</th>
     </thead>
     <tbody>
-      <tr v-for="(m, i) in monsters">
+      <tr v-for="(m, i) in monsters" :key="i">
         <td>
           <el-select-v2
             :key="m.index"
@@ -15,9 +15,9 @@
             :options="allNormalMonsterOptions"
             filterable
             clearable
-            @clear="monsters.removeAt(i)"
             size="small"
             style="width: 200px"
+            @clear="monsters.removeAt(i)"
           />
         </td>
         <td>
@@ -32,8 +32,8 @@
             v-model="monsterAdd"
             :options="allNormalMonsterOptions"
             filterable
-            @change="handleAddMonster"
             size="small"
+            @change="handleAddMonster"
           />
         </td>
       </tr>

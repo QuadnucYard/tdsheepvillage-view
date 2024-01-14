@@ -17,7 +17,7 @@
 
   <el-dialog v-model="dialogExportVisible" title="导出数据">
     <vue-json-pretty :data="exportData" virtual :deep="2" />
-    <el-button @click="copyExportString" ref="someRef">复制到剪贴板</el-button>
+    <el-button ref="someRef" @click="copyExportString">复制到剪贴板</el-button>
   </el-dialog>
 </template>
 

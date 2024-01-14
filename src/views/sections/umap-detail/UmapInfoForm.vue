@@ -25,7 +25,7 @@
         <sup>{{ item.pop }}</sup>
       </el-tag>
     </el-form-item>
-    <el-form-item label="随机 Boss" v-if="'random_boss' in mapDataObject">
+    <el-form-item v-if="'random_boss' in mapDataObject" label="随机 Boss">
       <el-tag
         v-for="(item, index) in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
         :key="index"
@@ -46,17 +46,15 @@
     <el-divider />
 
     <LevelPreview
-      :mapData="mapData2"
-      :mapMonsterData="mapMonsterData"
       v-model:wid="form.wid"
       v-model:diff="form.diff"
+      :map-data="mapData2"
+      :map-monster-data="mapMonsterData"
     />
   </el-form>
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
-
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";

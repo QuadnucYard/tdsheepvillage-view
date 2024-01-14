@@ -160,7 +160,7 @@ export class Tower extends BaseBuilding {
       _level = this.level;
     }
     if (this.skills[TowerSkillData.KIND_CHANGE_DAMAGE] instanceof ChangeDamageSkill) {
-      let _cds = this.skills[TowerSkillData.KIND_CHANGE_DAMAGE] as ChangeDamageSkill;
+      const _cds = this.skills[TowerSkillData.KIND_CHANGE_DAMAGE] as ChangeDamageSkill;
       if (_cds.isChangeBase()) {
         _damage = Math.round(
           (_cds.damageA + _cds.damageB * _level + _cds.damageC * _level * _level) * _cds.damageRate + _cds.damageAdd
@@ -184,7 +184,7 @@ export class Tower extends BaseBuilding {
   get range() {
     let _range = 0;
     if (this.skills[TowerSkillData.KIND_CHANGE_RANGE] instanceof ChangeRangeSkill) {
-      let _crs = this.skills[TowerSkillData.KIND_CHANGE_RANGE] as ChangeRangeSkill;
+      const _crs = this.skills[TowerSkillData.KIND_CHANGE_RANGE] as ChangeRangeSkill;
       if (_crs.isChangeBase()) {
         _range = _crs.range * _crs.rangeRate + _crs.rangeAdd;
       } else {
@@ -204,7 +204,7 @@ export class Tower extends BaseBuilding {
   get rate() {
     let _rate = 0;
     if (this.skills[TowerSkillData.KIND_CHANGE_RATE] instanceof ChangeRateSkill) {
-      let _crs = this.skills[TowerSkillData.KIND_CHANGE_RATE] as ChangeRateSkill;
+      const _crs = this.skills[TowerSkillData.KIND_CHANGE_RATE] as ChangeRateSkill;
       if (_crs.isChangeBase()) {
         _rate = Math.round(_crs.rate * _crs.rateRate);
       } else {

@@ -22,7 +22,7 @@ import { CanvasRenderer } from "echarts/renderers";
 import _ from "lodash-es";
 
 import { GameMapData } from "@/tdsheep/command/map";
-import { accumulate, toString } from "@/utils";
+import { accumulate } from "@/utils";
 import { strHSl } from "@/utils/colorful";
 import { toApprecision } from "@/utils/format";
 import { calcWaveComposition } from "@/utils/game-utils";
@@ -54,7 +54,7 @@ const freqs = computed(() => calcWaveComposition(props.mapData));
 const names = computed<string[]>(() => [props.mapData.name, ...tr(props.mapData.monsterList)]);
 const xData = computed(() => _.range(freqs.value.all.length));
 const subfigures = computed<Subfigure[]>(() =>
-  _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t, i) => ({
+  _.zip(names.value, [freqs.value.all, ...freqs.value.each]).map((t) => ({
     title: t[0]!,
     pdf: t[1]!,
     cdf: [...accumulate(t[1]!)],

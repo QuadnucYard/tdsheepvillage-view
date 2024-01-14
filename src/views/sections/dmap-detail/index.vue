@@ -36,7 +36,6 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { calcDreamExp, calcPKGold } from "@/utils/game-utils";
-
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
 
 const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();
@@ -63,7 +62,7 @@ const waveWolfs = computed(() => getWaveWolfs(form.score).map((t) => MonsterMana
 
 const getWavePopu = (mid: DreamMapId, score: int) => {
   const key = getWaveKey(score).toString();
-  const waves = GlobalData.dream_waves[form.mid];
+  const waves = GlobalData.dream_waves[mid];
   return waves.popu[key as keyof typeof waves.popu];
 };
 const wavePopu = computed(() => getWavePopu(form.mid, form.score));

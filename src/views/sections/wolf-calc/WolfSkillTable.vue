@@ -10,14 +10,14 @@
       <el-table-column type="selection" reverse-selection :width="30" />
       <el-table-column label="KindId" :width="160" header-align="center">
         <template #default="scope">
-          <el-select v-model="scope.row.kindId" @change="updateSkillInfo0(scope.row)" style="font-size: small">
+          <el-select v-model="scope.row.kindId" style="font-size: small" @change="updateSkillInfo0(scope.row)">
             <el-option v-for="item in skillKindList" :key="item" :label="item" :value="item" />
           </el-select>
         </template>
       </el-table-column>
       <el-table-column label="Id" :width="200" header-align="center">
         <template #default="scope">
-          <el-select v-model="scope.row.id" @change="updateSkillInfo(scope.row)" style="font-size: small">
+          <el-select v-model="scope.row.id" style="font-size: small" @change="updateSkillInfo(scope.row)">
             <el-option v-for="item in skillDict[scope.row.kindId]" :key="item.id" :label="item.id" :value="item.id" />
           </el-select>
         </template>
@@ -56,7 +56,7 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { MonsterSkill } from "@/tdsheep/module/skill";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 
-const props = defineProps<{ wolf: Monster }>();
+const wolf = defineModel<Monster>({ required: true });
 
 const emits = defineEmits<{ change: [] }>();
 
@@ -81,11 +81,11 @@ type SkillItem = {
 let skills = reactive<SkillItem[]>([]);
 
 watch(
-  () => props.wolf.data.id,
+  () => wolf.value.data.id,
   () => {
-    props.wolf.initSkills();
+    wolf.value.initSkills();
     skills.length = 0;
-    skills.push(...props.wolf.skillList.map((sk, i) => formatItem(sk, i))); // 此处不能直接对skills赋值
+    skills.push(...wolf.value.skillList.map((sk, i) => formatItem(sk, i))); // 此处不能直接对skills赋值
     skillTableRef.value?.clearSelection();
     skillTableRef.value?.toggleAllSelection();
   }
@@ -112,20 +112,20 @@ function updateSkillInfo0(row: SkillItem) {
 }
 const updateSkillInfo = (item: SkillItem) => {
   const i = skills.indexOf(item);
-  const skill = new MonsterSkill(item.id, item.level, props.wolf).getSubClasses();
-  props.wolf.skillList[i] = skill;
+  const skill = new MonsterSkill(item.id, item.level, wolf.value).getSubClasses();
+  wolf.value.skillList[i] = skill;
   Object.assign(item, formatItem(skill, i));
   emits("change");
 };
 
 const addRow = () => {
-  const item = formatItem(new MonsterSkill("WeakFire_X1", 1, props.wolf).getSubClasses(), skills.length);
+  const item = formatItem(new MonsterSkill("WeakFire_X1", 1, wolf.value).getSubClasses(), skills.length);
   skills.push(item);
   skillTableRef.value?.toggleRowSelection(item, true);
   emits("change");
 };
 const handleSelectionChange = (val: SkillItem[]) => {
-  props.wolf.skillList.forEach((t) => (t.enabled = val.find((v) => v.skill == t) !== undefined));
+  wolf.value.skillList.forEach((t) => (t.enabled = val.find((v) => v.skill == t) !== undefined));
 };
 </script>
 

@@ -73,7 +73,7 @@ export class GameMapData extends BaseDisplayData {
     let gold = 0;
     let exp = 0;
     for (let i = 0; i <= this.scoreMax; i += 2) {
-      let _level = this.getDifficultyLevel(i);
+      const _level = this.getDifficultyLevel(i);
       gold += this.calcPKGold(_level);
       exp += this.calcPKExp(_level);
     }
@@ -169,7 +169,7 @@ export class WaveData {
   }
 
   get difficultyScore() {
-    let _num = Math.floor((this.difficulty - 0.75) / 0.2);
+    const _num = Math.floor((this.difficulty - 0.75) / 0.2);
     return 1 + _num;
   }
 

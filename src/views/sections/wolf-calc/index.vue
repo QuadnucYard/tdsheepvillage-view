@@ -2,9 +2,9 @@
   <div>
     <h2>狼相关计算</h2>
     <div>总实力：{{ allPower }}</div>
-    <el-tabs v-model="editableTabsValue" type="border-card" editable @edit="handleTabsEdit" class="m-4">
-      <el-tab-pane v-for="(wolf, i) in wolfs" :key="wolf.index" :label="wolf.monsterData.name" :name="wolf.index">
-        <wolf-calc-one :wolf="wolf" />
+    <el-tabs v-model="editableTabsValue" type="border-card" editable class="m-4" @edit="handleTabsEdit">
+      <el-tab-pane v-for="(wolf, index) in wolfs" :key="wolf.index" :label="wolf.monsterData.name" :name="wolf.index">
+        <wolf-calc-one v-model="wolfs[index]" />
       </el-tab-pane>
     </el-tabs>
   </div>

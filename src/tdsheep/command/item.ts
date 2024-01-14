@@ -30,7 +30,7 @@ export class BaseItemData extends BaseDisplayData {
   }
 
   initPrice() {
-    let _price = this.price;
+    const _price = this.price;
     if (!_price) {
       return;
     }
@@ -98,9 +98,9 @@ export class GemData extends BaseItemData {
     if (this.towerSkillPackage == null) {
       return null;
     }
-    let _regExp = /\D/gi;
+    const _regExp = /\D/gi;
     _towerDataId = _towerDataId.match(_regExp)!.join("");
-    let _spObj = this.towerSkillPackage[_towerDataId];
+    const _spObj = this.towerSkillPackage[_towerDataId];
     if (_spObj == null) {
       return null;
     }

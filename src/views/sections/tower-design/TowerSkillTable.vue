@@ -3,7 +3,7 @@
     <el-table ref="skillTableRef" :data="tableData" stripe border table-layout="auto" style="font-size: small">
       <el-table-column label="Skill" header-align="center">
         <template #default="scope: { row: SkillItem }">
-          <tower-skill-item :tower="tower" v-model="scope.row.data" />
+          <tower-skill-item v-model="scope.row.data" v-model:tower="tower" />
         </template>
       </el-table-column>
       <el-table-column label="Level" header-align="center" :width="130">
@@ -22,7 +22,7 @@
       </el-table-column>
       <el-table-column label="操作" :width="100" align="center">
         <template #default="scope">
-          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)"> 删除 </el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index)"> 删除 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -37,7 +37,7 @@ import { Tower } from "@/tdsheep/module/unit/Tower";
 
 import TowerSkillItem from "./TowerSkillItem.vue";
 
-const props = defineProps<{ tower: Tower }>();
+const tower = defineModel<Tower>("tower", { required: true });
 
 type SkillItem = { data: { kindId: string; params: (number | string)[] } };
 
@@ -49,7 +49,7 @@ const addRow = () => {
   tableData.push({ data: { kindId: "", params: [] } });
 };
 
-const handleDelete = (index: number, row: SkillItem) => {
+const handleDelete = (index: number) => {
   tableData.splice(index, 1);
 };
 </script>

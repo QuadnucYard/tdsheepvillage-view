@@ -26,7 +26,7 @@ const route = useRoute();
 
 const activeName = ref("");
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
+const handleClick = (tab: TabsPaneContext) => {
   router.push({ name: tab.paneName as string });
 };
 

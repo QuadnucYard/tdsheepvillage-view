@@ -7,7 +7,7 @@
       <th>难度系数</th>
     </thead>
     <tbody>
-      <tr v-for="(m, i) in bosses">
+      <tr v-for="(m, i) in bosses" :key="i">
         <td>
           <el-select-v2
             :key="m.index"
@@ -15,9 +15,9 @@
             :options="allBossMonsterOptions"
             filterable
             clearable
-            @clear="bosses.removeAt(i)"
             size="small"
             style="width: 200px"
+            @clear="bosses.removeAt(i)"
           />
         </td>
         <td>
@@ -34,8 +34,8 @@
             v-model="bossAdd"
             :options="allBossMonsterOptions"
             filterable
-            @change="handleAddMonster"
             size="small"
+            @change="handleAddMonster"
           />
         </td>
       </tr>

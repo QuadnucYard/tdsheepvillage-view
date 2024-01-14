@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="20">
     <el-col :span="12">
-      <tower-data-form :tower="tower" />
+      <tower-data-form v-model="tower" />
     </el-col>
     <el-col :span="12">
       <tower-info :tower="tower" />

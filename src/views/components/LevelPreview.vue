@@ -41,7 +41,7 @@
 
   <WolfHpChart :hp-data="hpData" :height="100 * Math.sqrt(mapMonsterData.length)" />
 
-  <wave-tool :map-data="mapData" :mapMonsterData="mapMonsterData" :level="monsterLevel" :diff="diff" />
+  <wave-tool :map-data="mapData" :map-monster-data="mapMonsterData" :level="monsterLevel" :diff="diff" />
 </template>
 
 <script setup lang="ts">

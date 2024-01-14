@@ -187,7 +187,7 @@ export class AoeAttackSkill extends TowerSkill {
 
   get radiiInfo() {
     let _info = null;
-    let _radii = this.radii;
+    const _radii = this.radii;
     return _radii.toString();
     if (_radii <= 400) {
       _info = GlobalDataGetValue.getLanguageStr(3510);
@@ -209,8 +209,8 @@ export class AttackRateSkill extends TowerSkill {
     super(_id, _level, _tower);
     this.index = 1040;
     this.m_updateFunction = () => {
-      let _floorRate = this.floorRate;
-      let _airRate = this.airRate;
+      const _floorRate = this.floorRate;
+      const _airRate = this.airRate;
       if (_floorRate <= 0 && _airRate > 0) {
         this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3029);
       } else if (_airRate <= 0 && _floorRate > 0) {
@@ -286,7 +286,7 @@ export class BeatBackSkill extends TowerSkill {
 
   get distanceInfo() {
     let _info = null;
-    let _distance = this.beatBackDistance;
+    const _distance = this.beatBackDistance;
     return _distance.toString();
     if (_distance < 100) {
       _info = GlobalDataGetValue.getLanguageStr(3505);
@@ -349,7 +349,7 @@ export class BurnColdSkill extends TowerSkill {
     super(_id, _level, _tower);
     this.index = 1080;
     this.m_updateFunction = () => {
-      let _value = this.burnColdValue;
+      const _value = this.burnColdValue;
       if (_value > 0) {
         this.m_skillInfo = GlobalDataGetValue.getLanguageStr(3005, this.burn);
       } else {
@@ -379,7 +379,7 @@ export class BurnColdSkill extends TowerSkill {
     if (this.tower) {
       _buffEffect = this.tower.buffEffect();
     }
-    let _value = Math.pow(this.data.getLevelParam(this.level, 0) * this.level * _buffEffect, 2);
+    const _value = Math.pow(this.data.getLevelParam(this.level, 0) * this.level * _buffEffect, 2);
     return Math.pow(_value, 0.25) * 0.03;
   }
 }
@@ -630,7 +630,7 @@ export class GuidedBulletSkill extends TowerSkill {
 
   get guideInfo() {
     let _info = null;
-    let _guideRatio = this.guideRatio;
+    const _guideRatio = this.guideRatio;
     if (_guideRatio < 0.1) {
       _info = GlobalDataGetValue.getLanguageStr(3500);
     } else if (_guideRatio < 0.2) {
@@ -973,7 +973,7 @@ export class MonsterSkill extends BaseSkill {
   }
 
   get name() {
-    let _hasLevel = this.canLevelUp(1);
+    const _hasLevel = this.canLevelUp(1);
     if (_hasLevel) {
       return GlobalDataGetValue.getLanguageStr(2416, this.data.name, this.level);
     }
@@ -1027,7 +1027,7 @@ export class MonsterSkill extends BaseSkill {
     let _conflictList = null;
     let i = 0;
     let j = 0;
-    let _conflict = GlobalData.$_conflict_skill_kind;
+    const _conflict = GlobalData.$_conflict_skill_kind;
     let _str = "";
     for (i = 0; i < _conflict.length; i++) {
       _conflictList = _conflict[i];
@@ -1075,8 +1075,8 @@ export class MonsterSkill extends BaseSkill {
     if (_level < 0) {
       _level = this.level;
     }
-    let _spendObj = GlobalData.$_skill_lvup_spend;
-    let _grade = this.grade as keyof typeof _spendObj;
+    const _spendObj = GlobalData.$_skill_lvup_spend;
+    const _grade = this.grade as keyof typeof _spendObj;
     if (_spendObj[_grade]) {
       if (_spendObj[_grade][String(_level) as keyof (typeof _spendObj)["A"]]) {
         return _spendObj[_grade][String(_level) as keyof (typeof _spendObj)["A"]];
@@ -1086,8 +1086,8 @@ export class MonsterSkill extends BaseSkill {
   }
 
   get skillScore() {
-    let _powerObj = GlobalData.$_skill_grade_score;
-    let _grade = this.grade as keyof typeof _powerObj;
+    const _powerObj = GlobalData.$_skill_grade_score;
+    const _grade = this.grade as keyof typeof _powerObj;
     if (_powerObj[_grade]) {
       if (_powerObj[_grade][String(this.level) as keyof (typeof _powerObj)["Z1"]]) {
         return _powerObj[_grade][String(this.level) as keyof (typeof _powerObj)["Z1"]];
@@ -1097,8 +1097,8 @@ export class MonsterSkill extends BaseSkill {
   }
 
   get grade() {
-    let _id = this.data.id;
-    let _index = _id.indexOf("_");
+    const _id = this.data.id;
+    const _index = _id.indexOf("_");
     if (_index == -1) {
       return MonsterSkill.RES_FG_X;
     }
@@ -1236,7 +1236,7 @@ export class MonsterEventSkill extends MonsterSkill {
       _level = this.level;
     }
     let _tag = "";
-    let _eventType = this.eventType(_level);
+    const _eventType = this.eventType(_level);
     if (_eventType.length != 4) {
       for (i = 0; i < _eventType.length; i++) {
         if (_eventType[i] == MonsterSkillData.EVENT_RED) {
@@ -1259,7 +1259,7 @@ export class MonsterEventSkill extends MonsterSkill {
     if (_level < 0) {
       _level = this.level;
     }
-    let _tag = "";
+    const _tag = "";
     return _tag + GlobalDataGetValue.getLanguageStr(2401, this.cooldown(_level));
   }
 
@@ -1267,7 +1267,7 @@ export class MonsterEventSkill extends MonsterSkill {
     if (_level < 0) {
       _level = this.level;
     }
-    let _tag = "";
+    const _tag = "";
     return _tag + GlobalDataGetValue.getLanguageStr(2407, this.duration(_level));
   }
 }
@@ -1523,7 +1523,7 @@ export class ReincarnateSkill extends MonsterSkill {
 
   monsterName(_level = -1) {
     let i = 0;
-    let _list = this.monsterIdList(_level);
+    const _list = this.monsterIdList(_level);
     let _str = "";
     for (i = 0; i < _list.length; i++) {
       _str += MonsterManager.getOnlyExample().getData(_list[i]).name;
@@ -1610,9 +1610,9 @@ export class ResistanceSkill extends MonsterSkill {
   }
 
   resistInfo(_level = -1) {
-    let _resist = this.getResist(_level);
+    const _resist = this.getResist(_level);
     let _resistInfo = "";
-    let _numInfo = Position.toPercentage(Math.abs(_resist));
+    const _numInfo = Position.toPercentage(Math.abs(_resist));
     if (_resist == 0) {
       return _resistInfo;
     }

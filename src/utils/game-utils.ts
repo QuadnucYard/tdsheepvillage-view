@@ -59,7 +59,7 @@ export function generateWave(
   }
 
   return {
-    mlist: reservation ? _.shuffle(mlist) : mlist,
+    mlist: _.shuffle(mlist),
     clist: _.zip(candidates, clist).map((t) => ({ data: t[0]!.data, num: t[1]! })),
   };
 }

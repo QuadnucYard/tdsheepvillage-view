@@ -22,21 +22,19 @@
     </el-form-item>
 
     <el-form-item label="该地图的狼">
-      <UmapWolfTable :mapData="mapData" style="width: 100%" />
+      <UmapWolfTable :map-data="mapData" style="width: 100%" />
     </el-form-item>
     <el-form-item label="随机 Boss">
-      <UmapRandomBossTable :mapData="mapData" style="width: 100%" />
+      <UmapRandomBossTable :map-data="mapData" style="width: 100%" />
     </el-form-item>
 
     <el-divider />
 
-    <LevelPreview :mapData="mapData" :mapMonsterData="mapMonsterData" />
+    <LevelPreview :map-data="mapData" :map-monster-data="mapMonsterData" />
   </el-form>
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
-
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
@@ -49,7 +47,7 @@ import UmapWolfTable from "./UmapWolfTable.vue";
 defineEmits<{ export: [mapData: GameMapData] }>();
 
 const proto = ref<ValueOf<typeof GlobalData.$_map_Obj>>(GlobalData.$_map_Obj.m0B);
-const mapData = defineModel("mapData", { default: new GameMapData(GlobalData.$_map_Obj.m0B) });
+const mapData = defineModel<GameMapData>("mapData", { default: new GameMapData(GlobalData.$_map_Obj.m0B) });
 
 const form = reactive({
   mid: "m0B" as MapId,

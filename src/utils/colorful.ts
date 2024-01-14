@@ -9,3 +9,7 @@ export function strHue(a: string) {
 export function strHSl(a: string, s: number, l: number) {
   return Color.hsl(strHue(a), s, l).string();
 }
+
+export function colorFromUint(c: int) {
+  return "#" + c.toString(16).padStart(6, "0");
+}

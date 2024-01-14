@@ -22,14 +22,14 @@
   </el-form>
   <div class="ml-8">
     <p>技能</p>
-    <wolf-skill-table :wolf="wolf" />
+    <wolf-skill-table v-model="wolf" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Monster } from "@/tdsheep/module/unit/Monster";
-
 import WolfSelect from "@/views/components/WolfSelect.vue";
+
 import WolfSkillTable from "./WolfSkillTable.vue";
 
 const form = reactive({
@@ -38,22 +38,20 @@ const form = reactive({
   expMax: 0,
 });
 
-// const wolf = defineModel<Monster>({ required: true});
-const props = defineProps<{ wolf: Monster }>();
+const wolf = defineModel<Monster>({ required: true });
+
 refresh();
 
 const onWolfChanged = (id: string) => {
-  // const index = wolf.value.index;
-  // wolf.value = new Monster(id);
-  props.wolf.updateData(id);
+  wolf.value.updateData(id);
   refresh();
 };
 
-watch(() => props.wolf.level, refresh);
+watch(() => wolf.value.level, refresh);
 
 function refresh() {
-  props.wolf.refreshLevel();
-  form.expMax = props.wolf.expMax;
+  wolf.value.refreshLevel();
+  form.expMax = wolf.value.expMax;
 }
 </script>
 

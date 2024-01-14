@@ -90,7 +90,7 @@ const initData = () => {
   Object.assign(form, {
     count: 0,
     avgHp: 0,
-    resetReservation: props.mapData.monsterProportion.map((t) => 0),
+    resetReservation: props.mapData.monsterProportion.map(() => 0),
     extra: "",
     result: "",
     resultRaw: "",

@@ -1,7 +1,7 @@
-export {}
+export {};
 
-declare module 'vue' {
+declare module "vue" {
 	export interface GlobalComponents {
-		VChart: typeof import ('vue-echarts')['_default']
+		VChart: typeof import ("vue-echarts")["_default"]
   }
 }

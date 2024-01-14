@@ -42,7 +42,7 @@
                     <el-tag type="success">{{ v[0] }}</el-tag>
                     <el-tag type="warning">{{ v[1] }}</el-tag>
                     <el-tag>
-                      <el-tag v-for="s in v[2]" :title="s" type="info" :key="s">
+                      <el-tag v-for="s in v[2]" :key="s" :title="s" type="info">
                         {{ tr(s) }}
                       </el-tag>
                     </el-tag>
@@ -68,14 +68,6 @@ const baoxiangList = _.chain(GlobalData.$_global_properties.card)
   .filter((t) => t.id.startsWith("baoxiang"))
   .sortBy((t) => Math.abs(t.index))
   .value();
-
-/*
- _.chain(scope.row.data)
-                .unzip()
-                .map((u, i) => (i == 0 ? adjacentDifference(u) : u))
-                .unzip()
-                .value()
-  */
 </script>
 
 <style lang="scss"></style>

@@ -11,7 +11,7 @@ export class GameMap extends BaseModule {
   isDream: boolean = false;
   isDefendMap: boolean = false;
 
-  constructor(_dataId: string, _initMap = true) {
+  constructor(_dataId: string) {
     super();
     this.m_data = GameMapManager.getOnlyExample().getData(_dataId);
   }

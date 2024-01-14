@@ -6,16 +6,11 @@
       </template>
     </el-select>
     <span v-if="template" class="ml-2 space-x-2">
-      <template v-for="(p, i) in template.params">
-        <el-input
-          v-if="typeof p === 'string'"
-          v-model="modelValue.params[i] as string"
-          size="small"
-          style="width: 100px"
-        />
+      <template v-for="(p, i) in template.params" :key="i">
+        <el-input v-if="typeof p === 'string'" v-model="modelValue.params[i]" size="small" style="width: 100px" />
         <el-input-number
-          v-else
-          v-model="modelValue.params[i] as number"
+          v-if="typeof p === 'number'"
+          v-model="modelValue.params[i]"
           size="small"
           controls-position="right"
           :step="getStep(p)"
@@ -27,19 +22,18 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { TowerSkillData } from "@/tdsheep/command/skill";
 import { TowerSkill } from "@/tdsheep/module/skill";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 import { getStep } from "@/utils";
 import { skillTemplates } from "@/utils/ui-data";
 
-const props = defineProps<{ tower: Tower }>();
+const tower = defineModel<Tower>("tower", { required: true });
 const modelValue = defineModel<{ kindId: string; params: (number | string)[] }>({
   required: true,
 });
 
-const emits = defineEmits<{
+defineEmits<{
   "update:model-value": [];
 }>();
 
@@ -55,29 +49,29 @@ watch(
   () => modelValue.value.kindId,
   (newValue, oldValue) => {
     if (oldValue != newValue) {
-      delete props.tower.skills[oldValue];
+      delete tower.value.skills[oldValue];
       const skill = new TowerSkill(
         template.value!.id,
-        props.tower.skills[newValue]?.level ?? 50,
-        props.tower
+        tower.value.skills[newValue]?.level ?? 50,
+        tower.value
       ).getSubClasses();
       skill.m_data = new TowerSkillData(modelValue.value);
-      props.tower.skills[newValue] = skill;
+      tower.value.skills[newValue] = skill;
     }
   }
 );
 
 watch(
   modelValue,
-  (newValue, oldValue) => {
-    props.tower.skills[newValue.kindId].m_data = new TowerSkillData(newValue);
+  (newValue) => {
+    tower.value.skills[newValue.kindId].m_data = new TowerSkillData(newValue);
   },
   { deep: true }
 );
 
 onUnmounted(() => {
   if (modelValue.value.kindId) {
-    delete props.tower.skills[modelValue.value.kindId];
+    delete tower.value.skills[modelValue.value.kindId];
   }
 });
 </script>

@@ -55,7 +55,7 @@
       </el-col>
     </el-row>
     <el-form-item label="简介">
-      <div v-html="tower.getInfoHtml()" style="line-height: 1.5em"></div>
+      <tower-skill-info :tower="tower" />
     </el-form-item>
     <el-row>
       <el-col :span="8">
@@ -136,6 +136,7 @@ import { GemItem } from "@/tdsheep/module/item";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 import { formatTimeSpan } from "@/utils/format";
+import TowerSkillInfo from "@/views/components/TowerSkillInfo.vue";
 
 const form = reactive({
   isDefendMap: false,

@@ -62,13 +62,11 @@ import { TowerData } from "@/tdsheep/command/unit";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 import { getStep } from "@/utils";
 
-const props = defineProps<{ tower: Tower }>();
-
-const form = reactive({});
+const tower = defineModel<Tower>({ required: true });
 
 const proto = ref<ValueOf<typeof GlobalData.$_towerAtt_Obj>>(GlobalData.$_towerAtt_Obj.shaota);
 const onProtoChanged = (val: ValueOf<typeof GlobalData.$_towerAtt_Obj>) => {
-  props.tower.m_data = new TowerData(val);
+  tower.value.m_data = new TowerData(val);
 };
 </script>
 

@@ -8,7 +8,7 @@ import { GameMap } from "./GameMap";
 export class Wave {
   waveData: WaveData;
 
-  constructor(data: WaveData, _isCurrent = true) {
+  constructor(data: WaveData) {
     this.waveData = data;
   }
 
@@ -32,7 +32,7 @@ export class Wave {
   }
 
   get difficultyLevel() {
-    let _gameMap = GameMap.currentMap;
+    const _gameMap = GameMap.currentMap;
     return Math.sqrt(_gameMap.gameMapData.hardA + _gameMap.gameMapData.hardB * _gameMap.score);
   }
 

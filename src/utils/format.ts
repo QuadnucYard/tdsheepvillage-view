@@ -1,6 +1,6 @@
 export function toApprecision(num: number, digits: number) {
-  let s1 = num.toFixed(8);
-  let i = s1.indexOf(".");
+  const s1 = num.toFixed(8);
+  const i = s1.indexOf(".");
   return i == -1 || s1.length - i - 1 <= digits ? s1 : num.toFixed(digits).replace(/\.?0+$/, "");
 }
 

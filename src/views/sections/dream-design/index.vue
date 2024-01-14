@@ -7,7 +7,7 @@
       <el-table-column prop="key" label="Key" :width="80" align="center" />
       <el-table-column label="Wolf">
         <template #default="scope">
-          <DreamWaveEditor :wolf-list="wolfList" v-model="scope.row.wolf" @change="refreshPopu(scope.row)" />
+          <DreamWaveEditor v-model="scope.row.wolf" :wolf-list="wolfList" @change="refreshPopu(scope.row)" />
         </template>
       </el-table-column>
       <el-table-column label="Population" :width="160" align="center">
@@ -16,9 +16,9 @@
             v-model="scope.row.popu"
             size="small"
             :min="0"
-            @change="onPopuChanged(scope.row)"
             style="width: 90px"
             :class="{ primary: scope.row.popFixed }"
+            @change="onPopuChanged(scope.row)"
           />
           <el-button
             :icon="scope.row.popFixed ? Unlock : Lock"
@@ -32,7 +32,7 @@
     </el-table>
 
     <el-dialog v-model="dialogImportVisible" title="导出数据">
-      <el-input type="textarea" :rows="10" v-model="importString" :spellcheck="false" />
+      <el-input v-model="importString" type="textarea" :rows="10" :spellcheck="false" />
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogImportVisible = false">取消</el-button>
@@ -44,7 +44,7 @@
     <el-dialog v-model="dialogExportVisible" title="导出数据">
       <!-- <el-input type="textarea" :rows="10" v-model="exportString" :spellcheck="false" /> -->
       <vue-json-pretty :data="exportData" virtual :deep="2" />
-      <el-button @click="copyExportString" ref="someRef">复制到剪贴板</el-button>
+      <el-button ref="someRef" @click="copyExportString">复制到剪贴板</el-button>
     </el-dialog>
   </div>
 </template>

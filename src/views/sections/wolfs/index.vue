@@ -54,12 +54,6 @@ import _ from "lodash-es";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 
-interface RowData {
-  id: string;
-  data: any;
-  skills: any;
-}
-console.log("init wolfs");
 const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
   .sort()
   .map((t) => {
@@ -72,7 +66,6 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
       skills: Object.values(_wolf.skills),
     };
   });
-console.log(allMonsters);
 </script>
 
 <style lang="scss" scoped>
