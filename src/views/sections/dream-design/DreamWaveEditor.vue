@@ -39,6 +39,7 @@
           class="inline-block m-0.5"
           placeholder="Select"
           size="small"
+          style="max-width: 160px"
           @change="handleSelect"
         >
           <el-option v-for="item in options" :key="item.id" :value="item">

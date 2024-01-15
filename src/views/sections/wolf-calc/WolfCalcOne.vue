@@ -1,7 +1,7 @@
 <template>
   <el-form :label-width="80">
     <el-form-item label="狼">
-      <wolf-select v-model="form.wid" @change="onWolfChanged" />
+      <wolf-select v-model="form.wid" style="max-width: 200px" @change="onWolfChanged" />
     </el-form-item>
     <el-form-item label="等级">
       <el-input-number v-model="wolf.m_level" :min="1" />

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <el-select v-model="modelValue.kindId" @update:model-value="onSelect">
-      <template v-for="a in Object.keys(skillTemplates)" :key="a">
-        <el-option v-if="!(a in tower.skills)" :label="a" :value="a" />
-      </template>
-    </el-select>
+    <el-select-v2
+      v-model="modelValue.kindId"
+      :options="options"
+      style="max-width: 160px"
+      @update:model-value="onSelect"
+    />
     <span v-if="template" class="ml-2 space-x-2">
       <template v-for="(p, i) in template.params" :key="i">
         <el-input v-if="typeof p === 'string'" v-model="modelValue.params[i]" size="small" style="width: 100px" />
@@ -33,12 +34,17 @@ const modelValue = defineModel<{ kindId: string; params: (number | string)[] }>(
   required: true,
 });
 
-defineEmits<{
-  "update:model-value": [];
-}>();
-
 type TemplateType = typeof skillTemplates;
 const template = ref<TemplateType[keyof TemplateType]>();
+
+const options = computed(() =>
+  Object.keys(skillTemplates)
+    .filter((k) => !(k in tower.value.skills))
+    .map((a) => ({
+      label: a,
+      value: a,
+    }))
+);
 
 const onSelect = () => {
   template.value = skillTemplates[modelValue.value.kindId];

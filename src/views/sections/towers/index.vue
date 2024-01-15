@@ -6,14 +6,12 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="塔">
-          <el-select v-model="form.towerId">
-            <el-option v-for="[t, k] in allTowers" :key="k" :label="t" :value="k" />
-          </el-select>
+          <el-select-v2 v-model="form.towerId" :options="allTowerOptions" style="max-width: 150px" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="宝石">
-          <el-select v-model="form.gemId">
+          <el-select v-model="form.gemId" style="max-width: 200px">
             <el-option label="无" value=""></el-option>
             <el-option v-for="[t, k] in allGems" :key="k" :label="t" :value="k" />
           </el-select>
@@ -136,6 +134,7 @@ import { GemItem } from "@/tdsheep/module/item";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 import { formatTimeSpan } from "@/utils/format";
+import { allTowerOptions } from "@/utils/ui-data";
 import TowerSkillInfo from "@/views/components/TowerSkillInfo.vue";
 
 const form = reactive({
@@ -148,7 +147,6 @@ const form = reactive({
   buildPower: 50,
 });
 
-const allTowers = _.map(GlobalData.$_towerAtt_Obj, (t, k) => [t.name, k]);
 const allGems = _.chain(GlobalData.$_global_properties.gem)
   .toPairs()
   .sortBy((t) => Number(Math.abs(t[1].index)))

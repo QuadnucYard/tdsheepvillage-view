@@ -23,7 +23,16 @@ export const allGameMaps = _.chain(GlobalData.$_map_Obj)
   .sortBy("index")
   .value();
 
+export const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();
+
 export const allGameMapOptions = allGameMaps.map((t) => ({ label: `${t.id} ${t.name}`, value: t.id }));
+
+export const allDreamMapOptions = allDreamMaps.map((t) => ({ label: `${t.id} ${t.name}`, value: t.id }));
+
+export const allTowerOptions = _.chain(GlobalData.$_towerAtt_Obj)
+  .sortBy((t) => Math.abs(t.index))
+  .map((t) => ({ label: t.name, value: t.id }))
+  .value();
 
 export const allMonsterOptions = _.chain(GlobalData.$_wolfAtt_Obj)
   .map((t) => ({ value: t.id, label: `${tr(t.id)} [${t.id}]` }))

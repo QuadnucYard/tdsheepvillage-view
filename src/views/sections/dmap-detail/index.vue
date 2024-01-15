@@ -1,9 +1,7 @@
 <template>
   <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
-      <el-select v-model="form.mid">
-        <el-option v-for="t in allDreamMaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
-      </el-select>
+      <el-select-v2 v-model="form.mid" :options="allDreamMapOptions" style="max-width: 250px" />
       <el-tag effect="light" class="mx-1"> 难度系数：{{ mapData.hard_ness }}, {{ mapData.yield_val }} </el-tag>
     </el-form-item>
     <el-form-item label="进度">
@@ -36,6 +34,7 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { calcDreamExp, calcPKGold } from "@/utils/game-utils";
+import { allDreamMapOptions } from "@/utils/ui-data";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
 
 const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();

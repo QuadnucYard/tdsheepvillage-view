@@ -1,12 +1,12 @@
 <template>
   <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
-      <el-select-v2 v-model="form.mid" :options="allGameMapOptions" filterable />
-      <el-tag effect="light"> 难度系数：{{ mapData.hardA }},{{ mapData.hardB }} </el-tag>
+      <el-select-v2 v-model="form.mid" :options="allGameMapOptions" filterable style="max-width: 200px" />
+      <el-tag effect="light" class="mx-2"> 难度系数：{{ mapData.hardA }},{{ mapData.hardB }} </el-tag>
       <el-tag effect="light"> Population：{{ mapData.populationMax }} </el-tag>
     </el-form-item>
     <el-form-item label="引狼到">
-      <el-select v-model="form.mid2" filterable clearable>
+      <el-select v-model="form.mid2" filterable clearable style="max-width: 200px">
         <el-option label="无" value="" />
         <el-option v-for="t in allGameMaps" :key="t.id" :label="`${t.id} ${t.name}`" :value="t.id" />
       </el-select>

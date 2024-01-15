@@ -1,18 +1,18 @@
 <template>
   <el-form-item label="狼">
-    <el-select-v2 v-model="wid" :options="allMonsterOptions" filterable />
-    <el-tag effect="light">
+    <el-select-v2 v-model="wid" :options="allMonsterOptions" filterable style="max-width: 200px" />
+    <el-tag effect="light" class="mx-2">
       血量系数：{{ monsterData.hpMaxA }},{{ monsterData.hpMaxB }},{{ monsterData.hpMaxC }}
     </el-tag>
   </el-form-item>
   <el-form-item label="进度">
     <el-input-number v-model="score" :min="0" />
-    <el-tag effect="light" class="tag-button" @click="score = mapData.scoreMax">
+    <el-tag effect="light" class="tag-button mx-2" @click="score = mapData.scoreMax">
       通关进度：{{ mapData.scoreMax }}
     </el-tag>
   </el-form-item>
   <el-form-item label="难度">
-    <DifficultySelect v-model="diff" />
+    <DifficultySelect v-model="diff" style="max-width: 200px" />
   </el-form-item>
   <el-form-item>
     <div class="space-x-8">

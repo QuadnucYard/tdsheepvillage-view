@@ -2,9 +2,7 @@
   <el-card>
     <el-form label-width="100px">
       <el-form-item label="原型">
-        <el-select v-model="proto" value-key="id" @change="onProtoChanged">
-          <el-option v-for="(v, k) in GlobalData.$_towerAtt_Obj" :key="k" :label="v.name" :value="v" />
-        </el-select>
+        <el-select-v2 v-model="protoId" :options="allTowerOptions" value-key="id" style="max-width: 150px" />
       </el-form-item>
       <el-form-item label="等级">
         <el-input-number v-model="tower.m_level" />
@@ -57,17 +55,19 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalData } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, TowerId } from "@/tdsheep/ado/GlobalData";
 import { TowerData } from "@/tdsheep/command/unit";
 import { Tower } from "@/tdsheep/module/unit/Tower";
 import { getStep } from "@/utils";
+import { allTowerOptions } from "@/utils/ui-data";
 
 const tower = defineModel<Tower>({ required: true });
 
-const proto = ref<ValueOf<typeof GlobalData.$_towerAtt_Obj>>(GlobalData.$_towerAtt_Obj.shaota);
-const onProtoChanged = (val: ValueOf<typeof GlobalData.$_towerAtt_Obj>) => {
+const protoId = ref<TowerId>("shaota");
+const proto = computed(() => GlobalData.$_towerAtt_Obj[protoId.value]);
+watch(proto, (val) => {
   tower.value.m_data = new TowerData(val);
-};
+});
 </script>
 
 <style scoped></style>
