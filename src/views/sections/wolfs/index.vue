@@ -13,21 +13,29 @@
     :cell-style="{ 'text-align': 'center' }"
     row-key="id"
     max-height="600"
-    style="width: 100%; max-width: 1200px"
+    style="width: 100%; max-width: 1280px"
   >
     <el-table-column prop="id" label="id" sortable :width="150" />
+    <el-table-column
+      prop="group"
+      label="group"
+      sortable
+      :filters="groupFilters"
+      :filter-method="(val, row) => row.group === val"
+      :width="100"
+    />
     <el-table-column prop="data.name" label="name" sortable />
     <el-table-column prop="data.speedBase" label="speedBase" sortable />
     <el-table-column prop="data.population" label="population" sortable />
-    <el-table-column prop="data.charm" label="charm" sortable :width="100" />
+    <el-table-column prop="data.charm" label="charm" sortable :width="80" />
     <el-table-column label="size">
       <el-table-column prop="data.width" label="width" sortable :width="100" />
       <el-table-column prop="data.height" label="height" sortable :width="100" />
     </el-table-column>
     <el-table-column label="hpFactor">
-      <el-table-column prop="data.hpMaxA" label="a" sortable :width="100" />
-      <el-table-column prop="data.hpMaxB" label="b" sortable :width="100" />
-      <el-table-column prop="data.hpMaxC" label="c" sortable :width="100" />
+      <el-table-column prop="data.hpMaxA" label="a" sortable :width="90" />
+      <el-table-column prop="data.hpMaxB" label="b" sortable :width="80" />
+      <el-table-column prop="data.hpMaxC" label="c" sortable :width="80" />
     </el-table-column>
     <el-table-column label="skills" type="expand" width="60">
       <template #default="props">
@@ -54,6 +62,8 @@ import _ from "lodash-es";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 
+const groupFilters = ["前线", "随机Boss", "Boss", "噩梦Boss", "大本营"].map((t) => ({ text: t, value: t }));
+
 const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
   .sort()
   .map((t) => {
@@ -64,6 +74,15 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
       id: t,
       data: _md,
       skills: Object.values(_wolf.skills),
+      group: _md.rawName.startsWith("camp_")
+        ? "大本营"
+        : _md.id.startsWith("D_")
+          ? "噩梦Boss"
+          : _md.population === 99
+            ? "随机Boss"
+            : _md.population === 100
+              ? "Boss"
+              : "前线",
     };
   });
 </script>

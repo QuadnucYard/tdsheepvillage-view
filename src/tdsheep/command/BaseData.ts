@@ -7,17 +7,20 @@ export class BaseData {
   public static readonly DATA_NAME: string = "name";
   public static readonly DATA_INFO: string = "info";
   public static readonly DATA_HELP: string = "help";
+
   public typeId: string;
   public kindId: string;
   public id: string;
   public name: string;
   public info: string;
   public help: string;
+  public rawName: string;
 
   constructor(_data: any) {
     this.typeId = _data[BaseData.DATA_TYPE_ID];
     this.kindId = _data[BaseData.DATA_KIND_ID];
     this.id = _data[BaseData.DATA_ID];
+    this.rawName = _data[BaseData.DATA_NAME];
     this.name = GlobalDataGetValue.getDataProfileTxt(_data[BaseData.DATA_NAME]);
     this.info = GlobalDataGetValue.getDataProfileTxt(_data[BaseData.DATA_INFO]);
     this.help = _data[BaseData.DATA_HELP] ? GlobalDataGetValue.getDataProfileTxt(_data[BaseData.DATA_HELP]) : "";
