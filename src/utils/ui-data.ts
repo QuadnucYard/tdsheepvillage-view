@@ -17,6 +17,8 @@ export const skillTemplates = _.chain(Object.values(GlobalData.$_skillAtt_Obj.to
   .mapValues((t) => ({ id: t[0].id, params: t[0].params }))
   .value();
 
+export const dreamWaveKeys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
 export const allGameMaps = _.chain(GlobalData.$_map_Obj)
   .map((t, id) => _.extend(t, { id }))
   .toArray()

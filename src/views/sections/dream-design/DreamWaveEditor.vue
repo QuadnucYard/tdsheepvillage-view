@@ -2,8 +2,8 @@
   <div>
     <div>
       <el-tag
-        v-for="tag in modelValue"
-        :key="tag.id"
+        v-for="(tag, i) in modelValue"
+        :key="i"
         type="info"
         effect="plain"
         class="m-0.5"

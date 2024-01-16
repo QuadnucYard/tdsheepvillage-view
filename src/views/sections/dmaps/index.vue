@@ -17,8 +17,8 @@
                 </td>
                 <td class="space-x-0.5">
                   <el-tag
-                    v-for="x in v"
-                    :key="x"
+                    v-for="(x, i) in v"
+                    :key="i"
                     :style="{
                       color: strHSl(x, 40, 40),
                       'background-color': strHSl(x, 80, 90),
