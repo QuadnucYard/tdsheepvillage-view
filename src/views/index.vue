@@ -14,12 +14,16 @@
       <!-- <keep-alive><router-view /></keep-alive> -->
     </div>
   </main>
+  <dialog-export />
+  <dialog-import />
 </template>
 
 <script setup lang="ts">
 import type { TabsPaneContext } from "element-plus";
 
 import { sections } from "@/router/sections";
+import DialogExport from "@/views/components/DialogExport.vue";
+import DialogImport from "@/views/components/DialogImport.vue";
 
 const router = useRouter();
 const route = useRoute();

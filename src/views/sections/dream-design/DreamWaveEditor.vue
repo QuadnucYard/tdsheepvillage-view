@@ -16,21 +16,6 @@
         </ruby>
       </el-tag>
       <template v-if="inputVisible">
-        <!-- <el-autocomplete
-          ref="InputRef"
-          v-model="inputValue"
-          :fetch-suggestions="querySearch"
-          clearable
-          class="inline-input w-50"
-          size="small"
-          placeholder="Please Input"
-          @select="handleSelect"
-        >
-          <template #default="{ item }">
-            {{ item.value }}
-            <el-text class="mx-1" type="primary">[{{item.id}}]</el-text>
-          </template>
-        </el-autocomplete> -->
         <el-select
           ref="InputRef"
           v-model="inputValue"
@@ -58,7 +43,6 @@
 
 <script setup lang="ts">
 import { ElSelect } from "element-plus";
-import "element-plus/es/components/autocomplete/style/css";
 
 import { MonsterId } from "@/tdsheep/ado/GlobalData";
 

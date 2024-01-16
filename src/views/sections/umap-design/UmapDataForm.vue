@@ -1,6 +1,4 @@
 <template>
-  <el-button @click="$emit('export', mapData)">导出</el-button>
-
   <el-form :model="form" label-width="120px">
     <el-form-item label="原型">
       <el-select-v2 v-model="form.mid" :options="allGameMapOptions" filterable style="max-width: 200px" />
@@ -43,8 +41,6 @@ import LevelPreview from "@/views/components/LevelPreview.vue";
 
 import UmapRandomBossTable from "./UmapRandomBossTable.vue";
 import UmapWolfTable from "./UmapWolfTable.vue";
-
-defineEmits<{ export: [mapData: GameMapData] }>();
 
 const proto = ref<ValueOf<typeof GlobalData.$_map_Obj>>(GlobalData.$_map_Obj.m0B);
 const mapData = defineModel<GameMapData>("mapData", { default: new GameMapData(GlobalData.$_map_Obj.m0B) });
