@@ -40,7 +40,7 @@ jobs:
         run: pnpm install
 
       - name: Build 🔧
-        run: pnpm build
+        run: pnpm build-only
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
