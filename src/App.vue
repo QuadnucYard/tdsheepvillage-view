@@ -1,21 +1,20 @@
 <template>
-  <!-- <keep-alive><router-view /></keep-alive> -->
-  <router-view v-slot="{ Component }">
-    <keep-alive>
-      <component :is="Component" />
-    </keep-alive>
-  </router-view>
+  <el-config-provider :locale="zhCn">
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+  </el-config-provider>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+</script>
 
 <style lang="scss">
 #app {
-  //font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  //text-align: center;
-  //color: #2c3e50;
-  //margin-top: 60px;
 }
 </style>
