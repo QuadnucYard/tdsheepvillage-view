@@ -3,6 +3,7 @@ export const sections = [
   { name: "user", label: "User" },
   { name: "towers", label: "Towers" },
   { name: "monsters", label: "Wolfs" },
+  { name: "monster-skills", label: "Monster Skills" },
   { name: "monster-calc", label: "Wolf Calculation" },
   { name: "umaps", label: "Umaps" },
   { name: "umap-detail", label: "Umap Detail" },

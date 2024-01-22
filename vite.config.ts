@@ -1,4 +1,5 @@
 import Vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import * as path from "path";
 import AutoImport from "unplugin-auto-import/vite";
 import ElementPlus from "unplugin-element-plus/vite";
@@ -36,6 +37,8 @@ export default defineConfig({
     Vue({
       include: [/\.vue$/, /\.md$/], // <-- allows Vue to compile Markdown files
     }),
+
+    vueJsx(),
 
     ElementPlus({
       useSource: true,
