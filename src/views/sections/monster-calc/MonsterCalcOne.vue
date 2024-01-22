@@ -22,7 +22,7 @@
   </el-form>
   <div class="ml-8">
     <p>技能</p>
-    <wolf-skill-table v-model="wolf" />
+    <monster-skill-table v-model="wolf" />
   </div>
 </template>
 
@@ -30,7 +30,7 @@
 import { Monster } from "@/tdsheep/module/unit/Monster";
 import WolfSelect from "@/views/components/WolfSelect.vue";
 
-import WolfSkillTable from "./WolfSkillTable.vue";
+import MonsterSkillTable from "./MonsterSkillTable.vue";
 
 const form = reactive({
   wid: "al",

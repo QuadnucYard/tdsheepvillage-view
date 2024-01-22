@@ -4,7 +4,7 @@
     <div>总实力：{{ allPower }}</div>
     <el-tabs v-model="editableTabsValue" type="border-card" editable class="m-4" @edit="handleTabsEdit">
       <el-tab-pane v-for="(wolf, index) in wolfs" :key="wolf.index" :label="wolf.monsterData.name" :name="wolf.index">
-        <wolf-calc-one v-model="wolfs[index]" />
+        <monster-calc-one v-model="wolfs[index]" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -17,7 +17,7 @@ import _ from "lodash-es";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { Monster } from "@/tdsheep/module/unit/Monster";
 
-import WolfCalcOne from "./WolfCalcOne.vue";
+import MonsterCalcOne from "./MonsterCalcOne.vue";
 
 const wolfs = reactive([new Monster("dahuil")]);
 const editableTabsValue = ref(wolfs[0].index);
