@@ -2,16 +2,7 @@
 @tailwind utilities;
 
 body {
-  font-family:
-    /*"Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",*/ "Microsoft YaHei", "微软雅黑",
-    Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 20px;
-  //background: #1e1e1e;
-  p {
-    margin: 8px 0;
-  }
+  margin: 0px;
 }
 
 a {
@@ -24,17 +15,6 @@ code {
   background-color: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
 }
-
-/* .el-form {
-  background-color: #f7d9ac;
-  padding: 20px;
-  border-radius: 16px;
-}
-
-.el-form-item__content {
-  background-color: #fdf0e3;
-  border-radius: 16px;
-} */
 
 .el-table__cell p {
   margin: 0;
@@ -56,4 +36,12 @@ table.markup-table {
   th {
     background: var(--el-fill-color-light);
   }
+}
+
+.el-form-item {
+  margin-bottom: 8px !important;
+}
+
+.content .el-form {
+  max-width: 800px;
 }

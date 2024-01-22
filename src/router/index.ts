@@ -9,10 +9,10 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/index.vue"),
     children: sections.map((sec) => {
       return {
-        path: "/" + sec.name,
-        name: sec.name,
+        path: "/" + sec,
+        name: sec,
         meta: { keepAlive: true },
-        component: () => import(`@/views/sections/${sec.name}/index.vue`),
+        component: () => import(`@/views/sections/${sec}/index.vue`),
       };
     }),
     redirect: "notice",

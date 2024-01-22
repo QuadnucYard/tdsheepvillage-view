@@ -11,6 +11,9 @@ dependencies:
   '@kangc/v-md-editor':
     specifier: ^2.3.18
     version: 2.3.18(@vue/compiler-sfc@3.4.15)(vue@3.4.13)
+  '@vueuse/core':
+    specifier: ^10.7.2
+    version: 10.7.2(vue@3.4.13)
   color:
     specifier: ^4.2.3
     version: 4.2.3
@@ -61,6 +64,9 @@ dependencies:
     version: 3.4.4
 
 devDependencies:
+  '@iconify-json/ep':
+    specifier: ^1.1.14
+    version: 1.1.14
   '@trivago/prettier-plugin-sort-imports':
     specifier: ^4.3.0
     version: 4.3.0(@vue/compiler-sfc@3.4.15)(prettier@3.2.2)
@@ -126,7 +132,7 @@ devDependencies:
     version: 5.2.2
   unplugin-auto-import:
     specifier: ^0.16.7
-    version: 0.16.7
+    version: 0.16.7(@vueuse/core@10.7.2)
   unplugin-element-plus:
     specifier: ^0.8.0
     version: 0.8.0
@@ -812,6 +818,12 @@ packages:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==, tarball: https://registry.npmmirror.com/@humanwhocodes/object-schema/-/object-schema-2.0.2.tgz}
     dev: true
 
+  /@iconify-json/ep@1.1.14:
+    resolution: {integrity: sha512-F5tuycil4mEYNLtKcHRcPVOFOiN9nT+9wjTSUm27aIH/ylrKEoZWmB6sBXSLa1IUvsqPOlWXgz3ohISzknSQ5A==, tarball: https://registry.npmmirror.com/@iconify-json/ep/-/ep-1.1.14.tgz}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==, tarball: https://registry.npmmirror.com/@iconify/types/-/types-2.0.0.tgz}
     dev: true
@@ -1236,6 +1248,9 @@ packages:
   /@types/web-bluetooth@0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==, tarball: https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz}
     dev: false
+
+  /@types/web-bluetooth@0.0.20:
+    resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==, tarball: https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.20.tgz}
 
   /@typescript-eslint/eslint-plugin@6.18.1(@typescript-eslint/parser@6.18.1)(eslint@8.56.0)(typescript@5.2.2):
     resolution: {integrity: sha512-nISDRYnnIpk7VCFrGcu1rnZfM1Dh9LRHnfgdkjcbi/l7g16VYRri3TjXi9Ir4lOZSw5N/gnV/3H7jIPQ8Q4daA==, tarball: https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-6.18.1.tgz}
@@ -1666,6 +1681,17 @@ packages:
       - supports-color
     dev: false
 
+  /@vueuse/core@10.7.2(vue@3.4.13):
+    resolution: {integrity: sha512-AOyAL2rK0By62Hm+iqQn6Rbu8bfmbgaIMXcE3TSr7BdQ42wnSFlwIdPjInO62onYsEMK/yDMU8C6oGfDAtZ2qQ==, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-10.7.2.tgz}
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.7.2
+      '@vueuse/shared': 10.7.2(vue@3.4.13)
+      vue-demi: 0.14.6(vue@3.4.13)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
   /@vueuse/core@9.13.0(vue@3.4.13):
     resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-9.13.0.tgz}
     dependencies:
@@ -1678,9 +1704,20 @@ packages:
       - vue
     dev: false
 
+  /@vueuse/metadata@10.7.2:
+    resolution: {integrity: sha512-kCWPb4J2KGrwLtn1eJwaJD742u1k5h6v/St5wFe8Quih90+k2a0JP8BS4Zp34XUuJqS2AxFYMb1wjUL8HfhWsQ==, tarball: https://registry.npmmirror.com/@vueuse/metadata/-/metadata-10.7.2.tgz}
+
   /@vueuse/metadata@9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==, tarball: https://registry.npmmirror.com/@vueuse/metadata/-/metadata-9.13.0.tgz}
     dev: false
+
+  /@vueuse/shared@10.7.2(vue@3.4.13):
+    resolution: {integrity: sha512-qFbXoxS44pi2FkgFjPvF4h7c9oMDutpyBdcJdMYIMg9XyXli2meFMuaKn+UMgsClo//Th6+beeCgqweT/79BVA==, tarball: https://registry.npmmirror.com/@vueuse/shared/-/shared-10.7.2.tgz}
+    dependencies:
+      vue-demi: 0.14.6(vue@3.4.13)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
 
   /@vueuse/shared@9.13.0(vue@3.4.13):
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==, tarball: https://registry.npmmirror.com/@vueuse/shared/-/shared-9.13.0.tgz}
@@ -5278,7 +5315,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unplugin-auto-import@0.16.7:
+  /unplugin-auto-import@0.16.7(@vueuse/core@10.7.2):
     resolution: {integrity: sha512-w7XmnRlchq6YUFJVFGSvG1T/6j8GrdYN6Em9Wf0Ye+HXgD/22kont+WnuCAA0UaUoxtuvRR1u/mXKy63g/hfqQ==, tarball: https://registry.npmmirror.com/unplugin-auto-import/-/unplugin-auto-import-0.16.7.tgz}
     engines: {node: '>=14'}
     peerDependencies:
@@ -5292,6 +5329,7 @@ packages:
     dependencies:
       '@antfu/utils': 0.7.7
       '@rollup/pluginutils': 5.1.0
+      '@vueuse/core': 10.7.2(vue@3.4.13)
       fast-glob: 3.3.2
       local-pkg: 0.5.0
       magic-string: 0.30.5
@@ -5580,7 +5618,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.4.13(typescript@5.2.2)
-    dev: false
 
   /vue-echarts@6.6.8(echarts@5.4.3)(vue@3.4.13):
     resolution: {integrity: sha512-3EGrxKGCGjHnkhudRQQ4fkK5iJxxXNQ1fXvSWA/7mzR/oV7BBSHYvC3gDbG/WIW0A/Fcx2H8k5H3NDyWgjyi8g==, tarball: https://registry.npmmirror.com/vue-echarts/-/vue-echarts-6.6.8.tgz}
