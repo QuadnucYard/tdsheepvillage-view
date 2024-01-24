@@ -1,3 +1,5 @@
+import { alert } from "@mdit/plugin-alert";
+import { katex } from "@mdit/plugin-katex";
 import Vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import * as path from "path";
@@ -45,7 +47,15 @@ export default defineConfig({
     }),
 
     Markdown({
-      /* options */
+      markdownItOptions: {
+        html: true,
+        linkify: true,
+        typographer: true,
+      },
+      markdownItSetup(mdit) {
+        mdit.use(alert, { alertNames: ["important", "note", "tip", "warning", "caution", "example"] });
+        mdit.use(katex);
+      },
     }),
 
     AutoImport({

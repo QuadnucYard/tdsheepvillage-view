@@ -14,5 +14,6 @@ export default {
     umap_detail: "前线关卡详情",
     umaps: "前线关卡",
     user: "用户",
+    wiki: "百科",
   },
 };

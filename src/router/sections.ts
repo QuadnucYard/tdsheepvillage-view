@@ -13,4 +13,5 @@ export const sections = [
   "baoxiang",
   "dream-design",
   "tower-design",
+  "wiki",
 ];

@@ -14,5 +14,6 @@ export default {
     umap_detail: "Umap Detail",
     umaps: "Umaps",
     user: "User",
+    wiki: "Wiki",
   },
 };
