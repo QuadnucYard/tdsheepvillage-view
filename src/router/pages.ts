@@ -1,5 +1,6 @@
+export const pages = ["home", "notice", "section", "wiki"];
+
 export const sections = [
-  "notice",
   "user",
   "towers",
   "monsters",
@@ -13,5 +14,4 @@ export const sections = [
   "baoxiang",
   "dream-design",
   "tower-design",
-  "wiki",
 ];

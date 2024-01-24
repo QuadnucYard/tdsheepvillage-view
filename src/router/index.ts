@@ -1,23 +1,6 @@
-import { RouteRecordRaw, Router, createRouter, createWebHistory } from "vue-router";
+import { type Router, createRouter, createWebHistory } from "vue-router";
 
-import { sections } from "./sections";
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: "index",
-    component: () => import("@/views/index.vue"),
-    children: sections.map((sec) => {
-      return {
-        path: "/" + sec,
-        name: sec,
-        meta: { keepAlive: true },
-        component: () => import(`@/views/sections/${sec}/index.vue`),
-      };
-    }),
-    redirect: "notice",
-  },
-];
+import routes from "./routes";
 
 const router: Router = createRouter({
   history: createWebHistory("/tdsheepvillage-view/"),
