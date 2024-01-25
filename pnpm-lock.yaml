@@ -64,6 +64,9 @@ devDependencies:
   '@iconify-json/ep':
     specifier: ^1.1.14
     version: 1.1.14
+  '@iconify-json/mdi':
+    specifier: ^1.1.64
+    version: 1.1.64
   '@mdit/plugin-alert':
     specifier: ^0.8.0
     version: 0.8.0
@@ -819,6 +822,12 @@ packages:
 
   /@iconify-json/ep@1.1.14:
     resolution: {integrity: sha512-F5tuycil4mEYNLtKcHRcPVOFOiN9nT+9wjTSUm27aIH/ylrKEoZWmB6sBXSLa1IUvsqPOlWXgz3ohISzknSQ5A==, tarball: https://registry.npmmirror.com/@iconify-json/ep/-/ep-1.1.14.tgz}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/mdi@1.1.64:
+    resolution: {integrity: sha512-zGeo5TjhNFAY6FmSDBLAzDO811t77r6v/mDi7CAL9w5eXqKez6bIjk8R9AL/RHIeq44ALP4Ozr4lMqFTkHr7ug==, tarball: https://registry.npmmirror.com/@iconify-json/mdi/-/mdi-1.1.64.tgz}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true

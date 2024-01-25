@@ -43,7 +43,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
-    IEpHelpFilled: typeof import('~icons/ep/help-filled')['default']
+    IMdiTranslate: typeof import('~icons/mdi/translate')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

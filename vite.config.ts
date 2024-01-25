@@ -82,7 +82,7 @@ export default defineConfig({
       extensions: ["vue", "md"],
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      resolvers: [IconsResolver({ enabledCollections: ["ep"] }), ElementPlusResolver({ importStyle: "sass" })],
+      resolvers: [IconsResolver({ enabledCollections: ["ep", "mdi"] }), ElementPlusResolver({ importStyle: "sass" })],
       dts: "src/components.d.ts",
     }),
 

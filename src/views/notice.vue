@@ -9,8 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import "github-markdown-css/github-markdown.css";
-
 import DesignContest from "@/assets/docs/design-contest.md";
 </script>
 

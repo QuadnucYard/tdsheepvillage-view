@@ -1,13 +1,22 @@
 <template>
-  <el-menu router :default-active="activeIndex" mode="horizontal" class="inline-block">
+  <el-menu
+    router
+    :default-active="activeIndex"
+    mode="horizontal"
+    background-color="#ff9900"
+    text-color="#fefefe"
+    active-text-color="#ffd9a1"
+    :ellipsis="false"
+    class="inline-block"
+  >
     <el-menu-item v-for="(it, i) in menuItems" :key="it" :index="i.toString()" :route="{ name: it }">
       {{ $t(`page.${it}`) }}
     </el-menu-item>
-    <!-- <div class="flex-grow" /> -->
-    <el-switch v-model="isDark" :active-action-icon="Sunny" :inactive-action-icon="Sunny" />
-    <div class="inline-block h-full">
+    <div class="flex-grow" />
+    <el-switch v-model="isDark" :active-action-icon="Sunny" :inactive-action-icon="Sunny" class="no-menu-item" />
+    <div class="no-menu-item">
       <el-dropdown class="align-middle" @command="changeLocale">
-        <el-icon :size="24"><i-ep-HelpFilled /></el-icon>
+        <el-icon :size="24"><i-mdi-Translate /></el-icon>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
@@ -41,4 +50,24 @@ const changeLocale = (locale: Locale) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.no-menu-item {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0 10px;
+}
+
+@media (prefers-color-scheme: light) {
+  .text {
+    color: red;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .text {
+    color: blue;
+  }
+}
+</style>

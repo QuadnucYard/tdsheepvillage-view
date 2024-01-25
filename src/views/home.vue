@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-orange-50 p-4">
+  <div class="p-4">
     <el-carousel :interval="4000" type="card" height="600px">
       <el-carousel-item v-for="i in 8" :key="i">
         <el-image fit="cover" :src="`/img/carousel/${i}.png`" style="width: 628px; height: 540px" />
