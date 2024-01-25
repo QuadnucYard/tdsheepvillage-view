@@ -4,7 +4,7 @@
       <app-header />
     </el-header>
 
-    <el-main class="content sm:mx-8">
+    <el-main>
       <router-view v-slot="{ Component }">
         <!-- <transition name="fade-transform" mode="out-in"> -->
         <keep-alive>

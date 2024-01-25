@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
       <el-tab-pane v-for="sec in sections" :key="sec" :label="$t(`section.${sec.replaceAll('-', '_')}`)" :name="sec" />
     </el-tabs>
-    <div class="content">
+    <div class="content sm:mx-8">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />
