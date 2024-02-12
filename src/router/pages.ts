@@ -3,6 +3,7 @@ export const pages = ["home", "notice", "section", "wiki"];
 export const sections = [
   "user",
   "towers",
+  "bullets",
   "monsters",
   "monster-skills",
   "monster-calc",

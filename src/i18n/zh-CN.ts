@@ -7,6 +7,7 @@ export default {
   },
   section: {
     baoxiang: "宝箱物品",
+    bullets: "子弹",
     dmap_detail: "噩梦关卡详情",
     dmaps: "噩梦关卡",
     dream_design: "噩梦设计",

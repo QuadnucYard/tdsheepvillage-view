@@ -7,6 +7,7 @@ export default {
   },
   section: {
     baoxiang: "Baoxiang Properties",
+    bullets: "Bullets",
     dmap_detail: "Dream Map Detail",
     dmaps: "Dream Maps",
     dream_design: "Dream Design",
