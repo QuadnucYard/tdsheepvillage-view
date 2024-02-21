@@ -69,26 +69,21 @@ const hasRandomBoss = computed(() => Boolean((GlobalData.$_map_Obj[props.mid] as
 watchEffect(() => {
   const boss: any[] = (GlobalData.$_map_Obj[props.mid] as any).random_boss;
   if (!boss) return;
-  const a = boss.map((t, i) => [
-    Object.keys(t[3].properties.card)[0],
-    t[1],
-    Math.round((t[0] - (boss[i - 1]?.[0] ?? 0)) * 1000) / 10,
-  ]);
-  // console.log(a);
+  const a = boss.map(
+    (t, i) =>
+      [
+        Object.keys(t[3].properties.card)[0],
+        t[1] as string,
+        Math.round((t[0] - (boss[i - 1]?.[0] ?? 0)) * 1000) / 10,
+      ] as const
+  );
   const top = _.uniq(a.map((t) => t[0])).sort(); // baoxiang
   const left = _.uniq(a.map((t) => t[1])).sort(); // boss
-  const b = [["boss", ...top]].concat(left.map((x) => [x].concat(new Array<number>(top.length).fill(0))));
-  // console.log(b);
+  const b: any[][] = [["boss", ...tr(top)], ...left.map((x) => [tr(x), ...new Array<number>(top.length)])];
   for (const it of a) {
-    b[left.indexOf(it[1]) + 1][top.indexOf(it[0]) + 1] = it[2];
+    b[left.indexOf(it[1]) + 1][top.indexOf(it[0]) + 1] = it[2]; // fill the table
   }
-  for (let i = 0; i < top.length; i++) {
-    b[0][i + 1] = tr(top[i]);
-  }
-  for (let i = 0; i < left.length; i++) {
-    b[i + 1][0] = tr(left[i]);
-  }
-  (option.dataset! as any).source = b;
+  (option.dataset as DatasetComponentOption).source = b;
   option.series = [
     ...new Array(top.length).fill({
       type: "bar",
