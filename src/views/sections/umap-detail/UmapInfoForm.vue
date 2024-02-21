@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { useRouteQuery } from "@/hooks/route-query";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { MapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { GameMapData } from "@/tdsheep/command/map";
@@ -66,12 +67,12 @@ import LevelPreview from "@/views/components/LevelPreview.vue";
 
 const midModel = defineModel<MapId>("mid");
 
-const form = reactive({
+const form = useRouteQuery({
   mid: "m1" as MapId,
   mid2: "" as MapId | "",
   wid: "dahuil",
   diff: 1.0,
-});
+})
 
 const mapDataObject = computed(() => GlobalData.$_map_Obj[form.mid]);
 const mapData = defineModel<GameMapData>("mapData", { default: GameMap.getMapData("m1") });

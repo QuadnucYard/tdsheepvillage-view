@@ -28,18 +28,15 @@
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
-
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { calcDreamExp, calcPKGold } from "@/utils/game-utils";
 import { allDreamMapOptions } from "@/utils/ui-data";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
+import { useRouteQuery } from "@/hooks/route-query";
 
-const allDreamMaps = _.chain(GlobalData.dream_maps).toArray().sortBy("index").value();
-
-const form = reactive({
+const form = useRouteQuery({
   mid: "m2A" as DreamMapId,
   score: 1,
 });

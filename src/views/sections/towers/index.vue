@@ -136,8 +136,9 @@ import { Tower } from "@/tdsheep/module/unit/Tower";
 import { formatTimeSpan } from "@/utils/format";
 import { allTowerOptions } from "@/utils/ui-data";
 import TowerSkillInfo from "@/views/components/TowerSkillInfo.vue";
+import { useRouteQuery } from "@/hooks/route-query";
 
-const form = reactive({
+const form = useRouteQuery({
   isDefendMap: false,
   towerId: "shaota",
   gemId: "",

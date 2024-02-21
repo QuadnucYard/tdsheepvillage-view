@@ -19,7 +19,9 @@
 </template>
 
 <script setup lang="ts">
-const form = reactive({
+import { useRouteQuery } from '@/hooks/route-query';
+
+const form = useRouteQuery({
   level: 1,
 });
 
