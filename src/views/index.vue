@@ -17,6 +17,14 @@
   </el-container>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useDark } from "@vueuse/core";
+import { THEME_KEY } from "vue-echarts";
+
+const isDark = useDark();
+const theme = computed(() => (isDark.value ? "dark" : "light"));
+
+provide(THEME_KEY, theme);
+</script>
 
 <style scoped></style>
