@@ -13,10 +13,12 @@
       <el-input-number v-model="mapData.populationMax" />
     </el-form-item>
     <el-form-item label="难度系数">
-      <span>A</span>
+      <div class="space-x-2">
+        <span>A</span>
       <el-input-number v-model="mapData.hardA" size="small" />
       <span>B</span>
       <el-input-number v-model="mapData.hardB" size="small" />
+      </div>
     </el-form-item>
 
     <el-form-item label="该地图的狼">

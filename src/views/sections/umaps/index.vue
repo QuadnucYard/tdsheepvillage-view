@@ -34,7 +34,7 @@
     </el-table-column>
     <el-table-column prop="wolf_proportion" label="monsterList" :cell-style="{ 'text-align': 'left' }">
       <template #default="props">
-        <div class="space-x-1">
+        <div class="flex flex-wrap gap-0.5">
           <el-tag v-for="w in formatWolfProp(props.row.wolf_proportion)" :key="w.prob">
             <sub>{{ w.prob }}</sub>
             {{ w.name }}

@@ -122,4 +122,24 @@ const allMonsters = _.map(GlobalData.$_wolfAtt_Obj, (t, k) => k)
     font-size: smaller;
   }
 }
+
+html.dark {
+  .sk-list {
+    .sk-debuff {
+      color: #ddd;
+    }
+    .sk-name {
+      color: #ddddff;
+    }
+    .sk-id {
+      color: #888;
+    }
+    .sk-info {
+      color: #ccc;
+    }
+    .sk-tag {
+      color: #7777ff;
+    }
+  }
+}
 </style>

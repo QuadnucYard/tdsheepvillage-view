@@ -11,10 +11,13 @@ a {
   color: var(--el-color-primary);
 }
 
-.el-table__cell p {
-  margin: 0;
-  font-size: 90%;
-  line-height: 1.2em;
+.el-table__cell,
+.el-table-v2__row-cell {
+  p {
+    margin: 0.1em 0;
+    // font-size: 90%;
+    line-height: 1.2em;
+  }
 }
 
 table.markup-table {

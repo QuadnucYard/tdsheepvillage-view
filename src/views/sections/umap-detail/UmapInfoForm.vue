@@ -12,35 +12,39 @@
       </el-select>
     </el-form-item>
     <el-form-item label="该地图的狼">
-      <el-tag
-        v-for="item in formatWolfTag(mapDataObject.wolf_proportion as [number, MonsterId][])"
-        :key="item.id"
-        type="success"
-        class="mx-1 tag-button"
-        effect="light"
-        @click="form.wid = item.id"
-      >
-        <sub>{{ item.prob }}</sub>
-        {{ item.name }}
-        <sup>{{ item.pop }}</sup>
-      </el-tag>
+      <div class="flex flex-wrap gap-1">
+        <el-tag
+          v-for="item in formatWolfTag(mapDataObject.wolf_proportion as [number, MonsterId][])"
+          :key="item.id"
+          type="success"
+          class="tag-button"
+          effect="light"
+          @click="form.wid = item.id"
+        >
+          <sub>{{ item.prob }}</sub>
+          {{ item.name }}
+          <sup>{{ item.pop }}</sup>
+        </el-tag>
+      </div>
     </el-form-item>
     <el-form-item v-if="'random_boss' in mapDataObject" label="随机 Boss">
-      <el-tag
-        v-for="(item, index) in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
-        :key="index"
-        type="success"
-        class="mx-1 tag-button"
-        effect="light"
-        @click="
-          form.wid = item.id;
-          form.diff = item.diff;
-        "
-      >
-        <sub>{{ item.prob }}</sub>
-        {{ item.name }}
-        <sub>{{ item.diff }}</sub>
-      </el-tag>
+      <div class="flex flex-wrap gap-1">
+        <el-tag
+          v-for="(item, index) in formatRndBossTag(mapDataObject.random_boss as [number, MonsterId, string][])"
+          :key="index"
+          type="success"
+          class="tag-button"
+          effect="light"
+          @click="
+            form.wid = item.id;
+            form.diff = item.diff;
+          "
+        >
+          <sub>{{ item.prob }}</sub>
+          {{ item.name }}
+          <sub>{{ item.diff }}</sub>
+        </el-tag>
+      </div>
     </el-form-item>
 
     <el-divider />
@@ -72,7 +76,7 @@ const form = useRouteQuery({
   mid2: "" as MapId | "",
   wid: "dahuil",
   diff: 1.0,
-})
+});
 
 const mapDataObject = computed(() => GlobalData.$_map_Obj[form.mid]);
 const mapData = defineModel<GameMapData>("mapData", { default: GameMap.getMapData("m1") });

@@ -41,7 +41,7 @@ const columns: Column[] = [
         {levels.map((t, i) => (
           <p>
             {" "}
-            {i + 1}: [{t.map((u) => JSON.stringify(u)).join(", ")}]
+            {i + 1}: <code>[{t.map((u) => JSON.stringify(u)).join(", ")}]</code>
           </p>
         ))}
       </div>
@@ -53,7 +53,7 @@ const columns: Column[] = [
     title: "owners",
     width: 550,
     cellRenderer: ({ cellData: owners }: { cellData: ValueOf<UnwrapRef<typeof ownersDict>> }) => (
-      <div>
+      <div class="flex flex-wrap gap-0.5">
         {owners?.map((t) => (
           <ElTag>
             <ruby>
