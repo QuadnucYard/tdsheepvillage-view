@@ -3,6 +3,7 @@ import { BaseDisplayData } from "./BaseData";
 import { BaseManager } from "./BaseData";
 import { BaseData } from "./BaseData";
 
+
 export class GameMapData extends BaseDisplayData {
   public static readonly DEFAULT_SCORE_MAX = 100;
   public static readonly DEFAULT_POPULATION_MAX = 10;
@@ -69,14 +70,16 @@ export class GameMapData extends BaseDisplayData {
     return Math.round((3.5 + 0.14 * p) * Math.pow(_level / 0.39, 2 / 3));
   }
 
-  public calcAccumulative() {
+  public calcAccumulative(_score: int = this.scoreMax) {
     let gold = 0;
     let exp = 0;
-    for (let i = 0; i <= this.scoreMax; i += 2) {
+    for (let i = 0; i < _score; i++) {
       const _level = this.getDifficultyLevel(i);
       gold += this.calcPKGold(_level);
       exp += this.calcPKExp(_level);
     }
+    gold = Math.floor(gold / 2);
+    exp = Math.floor(exp / 2);
     return { gold, exp };
   }
 }

@@ -10,6 +10,13 @@
     <el-tag effect="light" class="tag-button mx-2" @click="score = mapData.scoreMax">
       通关进度：{{ mapData.scoreMax }}
     </el-tag>
+    <el-progress
+      text-inside
+      :stroke-width="24"
+      :percentage="(score / mapData.scoreMax) * 100"
+      :format="(val) => val.toFixed(0) + '%'"
+      style="width: 100px"
+    />
   </el-form-item>
   <el-form-item label="难度">
     <DifficultySelect v-model="diff" style="max-width: 200px" />
@@ -32,10 +39,28 @@
     <vue-latex :expression="`E(x) = (3.5+0.14p)(\\frac{L(x)}{0.39})^{2/3} = ${mapData.calcPKExp(monsterLevel)}`" />
   </el-form-item>
   <el-form-item>
-    <div class="space-x-4">
-      <span>总银币：{{ mapData.calcAccumulative().gold }}</span>
-      <span>总经验：{{ mapData.calcAccumulative().exp }}</span>
-      <span>（假设每波+2且不引狼）</span>
+    <div>
+      <div>
+        总银币：
+        <el-progress
+          :percentage="(income.gold / income.goldMax) * 100"
+          :show-text="false"
+          :stroke-width="10"
+          style="display: inline-flex; width: 100px"
+        />
+        {{ income.gold }} / {{ income.goldMax }}
+      </div>
+      <div>
+        总经验：
+        <el-progress
+          :percentage="(income.exp / income.expMax) * 100"
+          :show-text="false"
+          :stroke-width="10"
+          style="display: inline-flex; width: 100px"
+        />
+        {{ income.exp }} / {{ income.expMax }}
+      </div>
+      <div>（假设每波+2且不引狼）</div>
     </div>
   </el-form-item>
 
@@ -63,6 +88,13 @@ const monsterData = computed(() => MonsterManager.getOnlyExample().getData(wid.v
 
 const monsterLevel = computed(() => props.mapData.getDifficultyLevel(score.value));
 const monsterHpMax = computed(() => monsterData.value.getHpMax(monsterLevel.value, diff.value));
+
+const income = computed(() => ({
+  gold: props.mapData.calcAccumulative(score.value).gold,
+  goldMax: props.mapData.calcAccumulative().gold,
+  exp: props.mapData.calcAccumulative(score.value).exp,
+  expMax: props.mapData.calcAccumulative().exp,
+}));
 
 const hpData = computed(() =>
   props.mapMonsterData.map((t) => ({
