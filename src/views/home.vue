@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <el-carousel :interval="4000" type="card" height="600px">
-      <el-carousel-item v-for="i in 8" :key="i">
-        <el-image fit="cover" :src="`/img/carousel/${i}.png`" style="width: 628px; height: 540px" />
+      <el-carousel-item v-for="img in images" :key="img">
+        <el-image fit="cover" :src="img" style="width: 628px; height: 540px" />
       </el-carousel-item>
     </el-carousel>
     <div class="absolute text-center mt-20 top-32 z-10 p-8 left-0 right-0 space-y-8 bg-black bg-opacity-50">
@@ -26,6 +26,12 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import _ from "lodash-es";
+
+const images = _.range(1, 9).map((i) => import.meta.env.VITE_BASE_URL + `img/carousel/${i}.png`);
+
+console.log(images);
+</script>
 
 <style scoped></style>

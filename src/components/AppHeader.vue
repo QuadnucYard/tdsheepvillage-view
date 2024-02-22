@@ -7,7 +7,6 @@
     text-color="#fefefe"
     active-text-color="#ffd9a1"
     :ellipsis="false"
-    class="inline-block"
   >
     <el-menu-item v-for="(it, i) in menuItems" :key="it" :index="i.toString()" :route="{ name: it }">
       {{ $t(`page.${it}`) }}
