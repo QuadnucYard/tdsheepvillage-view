@@ -81,7 +81,9 @@ watchEffect(() => {
   const left = _.uniq(a.map((t) => t[1])).sort(); // boss
   const b: any[][] = [["boss", ...tr(top)], ...left.map((x) => [tr(x), ...new Array<number>(top.length)])];
   for (const it of a) {
-    b[left.indexOf(it[1]) + 1][top.indexOf(it[0]) + 1] = it[2]; // fill the table
+    const i = left.indexOf(it[1]) + 1,
+      j = top.indexOf(it[0]) + 1;
+    b[i][j] = (b[i][j] ?? 0) + it[2]; // fill the table
   }
   (option.dataset as DatasetComponentOption).source = b;
   option.series = [
