@@ -2,7 +2,7 @@
   <el-form :model="form" label-width="120px">
     <el-form-item label="地图">
       <el-select-v2 v-model="form.mid" :options="allDreamMapOptions" style="max-width: 250px" />
-      <el-tag effect="light" class="mx-1"> 难度系数：{{ mapData.hard_ness }}, {{ mapData.yield_val }} </el-tag>
+      <el-tag effect="light" class="mx-1"> 难度系数：{{ mapData.hardA }}, {{ mapData.hardB }} </el-tag>
     </el-form-item>
     <el-form-item label="进度">
       <el-input-number v-model="form.score" :min="0" />
@@ -25,23 +25,26 @@
     </el-form-item>
     <wolf-hp-chart :hp-data="hpData" :height="300" />
   </el-form>
+  <LevelPreview :map-data="mapData" :map-monster-data="waveWolfs" />
 </template>
 
 <script setup lang="ts">
+import { useRouteQuery } from "@/hooks/route-query";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import type { DreamMapId, MonsterId } from "@/tdsheep/ado/GlobalData";
+import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
 import { calcDreamExp, calcPKGold } from "@/utils/game-utils";
 import { allDreamMapOptions } from "@/utils/ui-data";
+import LevelPreview from "@/views/components/LevelPreview.vue";
 import WolfHpChart from "@/views/components/WolfHpChart.vue";
-import { useRouteQuery } from "@/hooks/route-query";
 
 const form = useRouteQuery({
   mid: "m2A" as DreamMapId,
   score: 1,
 });
 
-const mapData = computed(() => GlobalData.dream_maps[form.mid]);
+const mapData = computed(() => new GameMapData(GlobalData.dream_maps[form.mid]));
 
 const getWaveKey = (score: int) => {
   if (score % 10 === 0) return ((score - 10) % 100) + 10;
@@ -67,7 +70,7 @@ const getWaveExp = (score: int) =>
   calcDreamExp(score, getWavePopu(form.mid, score == 0 ? 1 : score == 9 ? 10 : getWaveKey(score)));
 const waveExp = computed(() => getWaveExp(form.score));
 
-const monsterLevel = computed(() => Math.sqrt(mapData.value.hard_ness * form.score + mapData.value.yield_val));
+const monsterLevel = computed(() => Math.sqrt(mapData.value.hardA * form.score + mapData.value.hardB));
 const monsterHpRate = computed(() => {
   for (const [k, v] of Object.entries(GlobalData.dream_data.dm_wolf_hard_ness)) {
     const [x, y] = k.split("_");
@@ -87,7 +90,7 @@ const calcAccumulative = computed(() => {
   let gold = 0;
   let exp = 0;
   for (let i = 1; i <= form.score; i++) {
-    let level = Math.sqrt(mapData.value.yield_val + mapData.value.hard_ness * i);
+    let level = Math.sqrt(mapData.value.hardA + mapData.value.hardB * i);
     gold += calcPKGold(level, getWavePopu(form.mid, i));
     exp += getWaveExp(i);
   }
