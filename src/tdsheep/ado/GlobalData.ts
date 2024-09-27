@@ -7,6 +7,8 @@ import lang from "@/assets/string_cn.xml?raw";
 import data from "@/assets/sys_config.json";
 import { compareNumber, isAlpha } from "@/utils";
 
+type SysConfig = typeof data;
+
 interface IEntity {
   type: string;
   id: string;
@@ -28,7 +30,7 @@ function add_type_id<T>(_obj: T, _type: string, _id: string): T & IEntity {
   return { ..._obj, type: _type, id: _id };
 }
 
-export const GlobalData = (function () {
+function parseSysConfig(data: SysConfig) {
   const x2js = new X2JS();
   const _pvp = data["camp_system_simple"];
 
@@ -89,12 +91,21 @@ export const GlobalData = (function () {
     dream_waves: dwaves,
   };
 
-  console.log("init", globalData.umapsById);
-
   return globalData;
-})();
+}
+
+export let GlobalData = parseSysConfig(data);
 
 export type MapId = keyof typeof GlobalData.$_map_Obj;
 export type DreamMapId = keyof typeof GlobalData.dream_maps;
 export type TowerId = keyof typeof GlobalData.$_towerAtt_Obj;
 export type MonsterId = keyof typeof GlobalData.$_wolfAtt_Obj;
+
+export function updateSysConfig(newData: any) {
+  console.log("update data", newData);
+  GlobalData = parseSysConfig(newData);
+}
+
+export function updateSysConfigMerged(newData: any) {
+  updateSysConfig(_.merge(data, newData));
+}

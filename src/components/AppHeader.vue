@@ -11,7 +11,10 @@
     <el-menu-item v-for="(it, i) in menuItems" :key="it" :index="i.toString()" :route="{ name: it }">
       {{ $t(`page.${it}`) }}
     </el-menu-item>
+
     <div class="flex-grow" />
+
+    <el-button circle :icon="UploadFilled" @click="configUploadDialogRef?.show()"></el-button>
     <el-switch v-model="isDark" :active-action-icon="Sunny" :inactive-action-icon="Sunny" class="no-menu-item" />
     <div class="no-menu-item">
       <el-dropdown class="align-middle" @command="changeLocale">
@@ -25,20 +28,26 @@
       </el-dropdown>
     </div>
   </el-menu>
+
+  <ConfigUploadDialog ref="configUploadDialogRef" />
 </template>
 
 <script setup lang="ts">
-import { Sunny } from "@element-plus/icons-vue";
+import { Sunny, UploadFilled } from "@element-plus/icons-vue";
 import { useDark } from "@vueuse/core";
 
 import i18n, { type Locale } from "@/i18n";
 import { pages } from "@/router/pages";
+
+import ConfigUploadDialog from "./ConfigUploadDialog.vue";
 
 const route = useRoute();
 const isDark = useDark();
 
 const activeIndex = ref("0");
 const menuItems = pages;
+
+let configUploadDialogRef = ref<InstanceType<typeof ConfigUploadDialog>>();
 
 onMounted(() => {
   activeIndex.value = menuItems.indexOf(route.name as string).toString();
