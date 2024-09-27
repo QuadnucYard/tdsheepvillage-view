@@ -31,6 +31,8 @@ function add_type_id<T>(_obj: T, _type: string, _id: string): T & IEntity {
 }
 
 function parseSysConfig(data: SysConfig) {
+  console.log("parse sys_config", data);
+
   const x2js = new X2JS();
   const _pvp = data["camp_system_simple"];
 
@@ -94,7 +96,9 @@ function parseSysConfig(data: SysConfig) {
   return globalData;
 }
 
-export let GlobalData = parseSysConfig(data);
+export let GlobalData = parseSysConfig(
+  localStorage.getItem("sys_config") ? JSON.parse(localStorage.getItem("sys_config")!) : data
+);
 
 export type MapId = keyof typeof GlobalData.$_map_Obj;
 export type DreamMapId = keyof typeof GlobalData.dream_maps;
@@ -104,8 +108,14 @@ export type MonsterId = keyof typeof GlobalData.$_wolfAtt_Obj;
 export function updateSysConfig(newData: any) {
   console.log("update data", newData);
   GlobalData = parseSysConfig(newData);
+  localStorage.setItem("sys_config", JSON.stringify(newData));
 }
 
 export function updateSysConfigMerged(newData: any) {
   updateSysConfig(_.merge(data, newData));
+}
+
+export function clearDataCache() {
+  console.log("clear data cache");
+  localStorage.removeItem("sys_config");
 }

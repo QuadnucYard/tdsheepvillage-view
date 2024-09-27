@@ -1,5 +1,8 @@
 <template>
   <el-dialog title="上传文件" v-model="dialogVisible" width="30%" @close="resetDialog">
+    <div>
+      <el-button @click="clearDataCache()">清除缓存</el-button>
+    </div>
     <el-upload
       ref="upload"
       v-model:file-list="fileList"
@@ -28,8 +31,7 @@
 import { ElMessage, genFileId } from "element-plus";
 import type { UploadInstance, UploadProps, UploadRawFile, UploadUserFile } from "element-plus";
 
-
-import { GlobalData, updateSysConfig, updateSysConfigMerged } from "@/tdsheep/ado/GlobalData";
+import { GlobalData, clearDataCache, updateSysConfig, updateSysConfigMerged } from "@/tdsheep/ado/GlobalData";
 
 const dialogVisible = ref(false);
 
