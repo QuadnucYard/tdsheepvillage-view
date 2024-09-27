@@ -1,4 +1,4 @@
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 import X2JS from "x2js";
 
 import ddata from "@/assets/dream_config.json";

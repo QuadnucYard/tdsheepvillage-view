@@ -26,7 +26,7 @@ import {
 } from "echarts/components";
 import * as echarts from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 import VChart from "vue-echarts";
 
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";

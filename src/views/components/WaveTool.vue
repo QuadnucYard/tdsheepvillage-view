@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { DocumentCopy } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 import useClipboard from "vue-clipboard3";
 
 import { GameMapData } from "@/tdsheep/command/map";

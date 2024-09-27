@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 const images = _.range(1, 9).map((i) => import.meta.env.VITE_BASE_URL + `img/carousel/${i}.png`);
 

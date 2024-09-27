@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 import { GlobalData, MapId } from "@/tdsheep/ado/GlobalData";
 import { MonsterManager } from "@/tdsheep/command/unit";

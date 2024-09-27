@@ -19,7 +19,7 @@ import {
 import * as echarts from "echarts/core";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 import { GameMapData } from "@/tdsheep/command/map";
 import { accumulate } from "@/utils";

@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { ElTable } from "element-plus";
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { MonsterSkill } from "@/tdsheep/module/skill";

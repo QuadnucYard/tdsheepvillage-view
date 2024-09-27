@@ -1,4 +1,4 @@
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 export const useRouteQuery = <T extends object>(defaults: T) => {
   const router = useRouter();

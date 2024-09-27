@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 

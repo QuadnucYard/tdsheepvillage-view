@@ -5,7 +5,7 @@
 <script setup lang="tsx">
 import { ElTag } from "element-plus";
 import type { Column } from "element-plus";
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 import { UnwrapRef } from "vue";
 
 import { GlobalData } from "@/tdsheep/ado/GlobalData";

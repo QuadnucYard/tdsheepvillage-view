@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import _ from "lodash-es";
+import * as _ from "lodash-es";
 
 import { GameMapData } from "@/tdsheep/command/map";
 import { MonsterManager } from "@/tdsheep/command/unit";
