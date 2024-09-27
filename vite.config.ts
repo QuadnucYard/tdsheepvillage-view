@@ -2,7 +2,9 @@ import { alert } from "@mdit/plugin-alert";
 import { katex } from "@mdit/plugin-katex";
 import Vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
+import autoprefixer from "autoprefixer";
 import * as path from "path";
+import tailwindcss from "tailwindcss";
 import AutoImport from "unplugin-auto-import/vite";
 import ElementPlus from "unplugin-element-plus/vite";
 import IconsResolver from "unplugin-icons/resolver";
@@ -13,7 +15,6 @@ import Markdown from "unplugin-vue-markdown/vite";
 import { type ConfigEnv, defineConfig, loadEnv } from "vite";
 import circleDependency from "vite-plugin-circular-dependency";
 import viteCompression from "vite-plugin-compression";
-
 
 const pathSrc = path.resolve(__dirname, "src");
 
@@ -32,7 +33,7 @@ export default ({ mode }: ConfigEnv) =>
         scss: { additionalData: "@use '~/styles/element/index.scss' as *;" },
       },
       postcss: {
-        plugins: [require("tailwindcss"), require("autoprefixer")],
+        plugins: [tailwindcss, autoprefixer],
       },
     },
     plugins: [
