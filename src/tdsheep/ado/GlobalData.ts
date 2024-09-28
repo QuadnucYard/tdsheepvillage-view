@@ -9,7 +9,7 @@ import { compareNumber, isAlpha } from "@/utils";
 
 type SysConfig = typeof data;
 
-interface IEntity {
+export interface IEntity {
   type: string;
   id: string;
 }

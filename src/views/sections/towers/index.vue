@@ -148,11 +148,9 @@ const form = useRouteQuery({
   buildPower: 50,
 });
 
-const allGems = _.chain(GlobalData.$_global_properties.gem)
-  .toPairs()
-  .sortBy((t) => Number(Math.abs(t[1].index)))
-  .map((t) => [`${t[1].name} [${t[1].index}]`, t[0]])
-  .value();
+const allGems = _.sortBy(Object.entries(GlobalData.$_global_properties.gem), (t) => Number(Math.abs(t[1].index))).map(
+  (t) => [`${t[1].name} [${t[1].index}]`, t[0]]
+);
 
 const tower = computed(() => {
   const _tower = new Tower(form.towerId);

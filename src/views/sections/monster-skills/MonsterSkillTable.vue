@@ -12,19 +12,21 @@ import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { tr } from "@/utils/translate";
 
 const ownersDict = computed(() =>
-  _.chain(GlobalData.$_wolfAtt_Obj)
-    .flatMap((t) => t.skills.map((u) => ({ skid: u.skid, lev: u.lev, owner_name: tr(t.id), owner_id: t.id })))
-    .groupBy("skid")
-    .value()
+  _.groupBy(
+    _.flatMap(GlobalData.$_wolfAtt_Obj, (t) =>
+      t.skills.map((u) => ({ skid: u.skid, lev: u.lev, owner_name: tr(t.id), owner_id: t.id }))
+    ),
+    "skid"
+  )
 );
 
 const data = computed(() =>
-  _.chain(GlobalData.$_skillAtt_Obj.monsterSkill)
-    .groupBy((t) => t.kindId)
-    .map((t) => _.sortBy(t, "id"))
-    .flatten()
-    .map((t) => Object.assign({}, t, { owners: ownersDict.value[t.id] }))
-    .value()
+  _.flatten(
+    _.map(
+      _.groupBy(GlobalData.$_skillAtt_Obj.monsterSkill, (t) => t.kindId),
+      (t) => _.sortBy(t, "id")
+    )
+  ).map((t) => Object.assign({}, t, { owners: ownersDict.value[t.id] }))
 );
 
 const columns: Column[] = [
