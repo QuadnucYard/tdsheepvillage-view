@@ -1,9 +1,7 @@
 <template>
-  <el-tabs>
-  </el-tabs>
+  <el-tabs> </el-tabs>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

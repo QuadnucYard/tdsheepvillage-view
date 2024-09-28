@@ -9,7 +9,7 @@ import { zeros } from ".";
 
 export function getPop(wid: MonsterId, bossAs?: int): int {
   const pop = GlobalData.$_wolfAtt_Obj[wid].pop;
-  return pop < 99 ? pop : bossAs ?? pop;
+  return pop < 99 ? pop : (bossAs ?? pop);
 }
 
 export function getTotalPop(wolfs: MonsterId[], bossAs: int = 1): int {

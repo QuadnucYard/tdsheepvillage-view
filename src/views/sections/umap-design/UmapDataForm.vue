@@ -15,9 +15,9 @@
     <el-form-item label="难度系数">
       <div class="space-x-2">
         <span>A</span>
-      <el-input-number v-model="mapData.hardA" size="small" />
-      <span>B</span>
-      <el-input-number v-model="mapData.hardB" size="small" />
+        <el-input-number v-model="mapData.hardA" size="small" />
+        <span>B</span>
+        <el-input-number v-model="mapData.hardB" size="small" />
       </div>
     </el-form-item>
 

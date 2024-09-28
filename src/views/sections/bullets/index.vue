@@ -5,9 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import BulletTable from "./BulletTable.vue"
+import BulletTable from "./BulletTable.vue";
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

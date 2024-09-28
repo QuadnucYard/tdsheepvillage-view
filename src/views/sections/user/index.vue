@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRouteQuery } from '@/hooks/route-query';
+import { useRouteQuery } from "@/hooks/route-query";
 
 const form = useRouteQuery({
   level: 1,

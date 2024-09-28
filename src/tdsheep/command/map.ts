@@ -3,7 +3,6 @@ import { BaseDisplayData } from "./BaseData";
 import { BaseManager } from "./BaseData";
 import { BaseData } from "./BaseData";
 
-
 export class GameMapData extends BaseDisplayData {
   public static readonly DEFAULT_SCORE_MAX = 100;
   public static readonly DEFAULT_POPULATION_MAX = 10;

@@ -129,6 +129,7 @@
 <script setup lang="ts">
 import * as _ from "lodash-es";
 
+import { useRouteQuery } from "@/hooks/route-query";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { GemItem } from "@/tdsheep/module/item";
 import { GameMap } from "@/tdsheep/module/map/GameMap";
@@ -136,7 +137,6 @@ import { Tower } from "@/tdsheep/module/unit/Tower";
 import { formatTimeSpan } from "@/utils/format";
 import { allTowerOptions } from "@/utils/ui-data";
 import TowerSkillInfo from "@/views/components/TowerSkillInfo.vue";
-import { useRouteQuery } from "@/hooks/route-query";
 
 const form = useRouteQuery({
   isDefendMap: false,
