@@ -63,11 +63,10 @@ import * as _ from "lodash-es";
 import { GlobalData } from "@/tdsheep/ado/GlobalData";
 import { tr } from "@/utils/translate";
 
-const baoxiangList = _.chain(GlobalData.$_global_properties.card)
-  .values()
-  .filter((t) => t.id.startsWith("baoxiang"))
-  .sortBy((t) => Math.abs(t.index))
-  .value();
+const baoxiangList = _.sortBy(
+  Object.values(GlobalData.$_global_properties.card).filter((t) => t.id.startsWith("baoxiang")),
+  (t) => Math.abs(t.index)
+);
 </script>
 
 <style lang="scss"></style>
