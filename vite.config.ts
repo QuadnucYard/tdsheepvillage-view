@@ -1,10 +1,9 @@
 import { alert } from "@mdit/plugin-alert";
 import { katex } from "@mdit/plugin-katex";
+import tailwindcss from "@tailwindcss/vite";
 import Vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import autoprefixer from "autoprefixer";
 import * as path from "path";
-import tailwindcss from "tailwindcss";
 import AutoImport from "unplugin-auto-import/vite";
 import ElementPlus from "unplugin-element-plus/vite";
 import IconsResolver from "unplugin-icons/resolver";
@@ -15,6 +14,7 @@ import Markdown from "unplugin-vue-markdown/vite";
 import { type ConfigEnv, defineConfig, loadEnv } from "vite";
 import circleDependency from "vite-plugin-circular-dependency";
 import viteCompression from "vite-plugin-compression";
+
 
 const pathSrc = path.resolve(__dirname, "src");
 
@@ -32,9 +32,6 @@ export default ({ mode }: ConfigEnv) =>
       preprocessorOptions: {
         scss: { additionalData: "@use '~/styles/element/index.scss' as *;" },
       },
-      postcss: {
-        plugins: [tailwindcss, autoprefixer],
-      },
     },
     plugins: [
       viteCompression(),
@@ -44,6 +41,8 @@ export default ({ mode }: ConfigEnv) =>
       }),
 
       vueJsx(),
+
+      tailwindcss(),
 
       ElementPlus({
         useSource: true,
@@ -63,16 +62,13 @@ export default ({ mode }: ConfigEnv) =>
 
       AutoImport({
         // Auto import functions from Vue, e.g. ref, reactive, toRef...
-        // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
         imports: ["vue", "vue-router"],
 
         // Auto import functions from Element Plus, e.g. ElMessage, ElMessageBox... (with style)
-        // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
         resolvers: [
           ElementPlusResolver(),
 
           // Auto import icon components
-          // 自动导入图标组件
           IconsResolver({ prefix: "Icon" }),
         ],
 

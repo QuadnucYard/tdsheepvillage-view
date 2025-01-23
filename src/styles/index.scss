@@ -1,7 +1,8 @@
-@tailwind components;
-@tailwind utilities;
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
-@import "./github-markdown.scss";
+@import "github-markdown-css/github-markdown.css";
 
 body {
   margin: 0px;
