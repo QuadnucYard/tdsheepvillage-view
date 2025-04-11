@@ -5,7 +5,7 @@
         <el-image fit="cover" :src="img" style="width: 628px; height: 540px" />
       </el-carousel-item>
     </el-carousel>
-    <div class="absolute text-center mt-20 top-32 z-10 p-8 left-0 right-0 space-y-8 bg-black bg-opacity-50">
+    <div class="absolute text-center mt-20 top-32 z-10 p-8 left-0 right-0 space-y-8 bg-black/50">
       <div class="text-4xl text-orange-200">欢迎来到保卫羊村小工具！</div>
       <div>
         <router-link :to="{ name: 'notice' }">
